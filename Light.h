@@ -18,6 +18,26 @@ class Light {
 	int transitionTime;
 
 public:
+	// Function Name: Light() 
+	// Parameters: name, type, status, brightness, hue, saturation, transition time
+	// Return: none
+	// Description: constructor 
+	Light(std::string nName, std::string nType, std::string nStatus, int nBri, int nHue, int nSat, int nTrans) {
+		name = nName;
+		type = nType;
+		status = nStatus;
+		bri = nBri;
+		hue = nHue;
+		sat = nSat;
+		transitionTime = nTrans;
+	}
+
+	// Function Name: ~Light() 
+	// Parameters: 
+	// Return: none
+	// Description: destructor
+	~Light() {}
+
 	// Function Name: getName()
 	// Parameters: None
 	// Return: string of the name
