@@ -49,7 +49,7 @@ public:
   int getBridge();
 
   Light* getLight(std::string name);
-  void updateLight(Light& newLight);
+  void updateLight(Light* newLight);
   void addLight(Light* newLight);
   //-------------------------
 
