@@ -45,8 +45,8 @@ builddir = .
 
 all: $(builddir)/test
 
-$(builddir)/test: $(builddir)/test_Light.o $(builddir)/test_Dictionary.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_HangmanWidget.o $(builddir)/test_HighScoresWidget.o $(builddir)/test_ImagesWidget.o $(builddir)/test_LettersWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o $(builddir)/test_WordWidget.o
-	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_Light.o $(builddir)/test_Dictionary.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_HangmanWidget.o $(builddir)/test_HighScoresWidget.o $(builddir)/test_ImagesWidget.o $(builddir)/test_LettersWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o $(builddir)/test_WordWidget.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
+$(builddir)/test: $(builddir)/test_Dictionary.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_HangmanWidget.o $(builddir)/test_HighScoresWidget.o $(builddir)/test_ImagesWidget.o $(builddir)/test_LettersWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o $(builddir)/test_WordWidget.o
+	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_Dictionary.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_HangmanWidget.o $(builddir)/test_HighScoresWidget.o $(builddir)/test_ImagesWidget.o $(builddir)/test_LettersWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o $(builddir)/test_WordWidget.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
 
 $(builddir)/test_Dictionary.o: Dictionary.c
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread Dictionary.c
@@ -62,9 +62,6 @@ $(builddir)/test_HangmanWidget.o: HangmanWidget.c
 
 $(builddir)/test_HighScoresWidget.o: HighScoresWidget.c
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread HighScoresWidget.c
-
-$(builddir)/test_Light.o: Light.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread Light.c
 
 $(builddir)/test_ImagesWidget.o: ImagesWidget.c
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread ImagesWidget.c

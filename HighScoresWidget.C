@@ -90,19 +90,19 @@ void HighScoresWidget::update()
 
   Light *x;
   x = session_->getLight("name1");
-  WText *testing = new WText(boost::lexical_cast<std::string>(x->getBri()), this);
+  WText *testing = new WText(boost::lexical_cast<std::string>(x->getBrightness()), this);
 
 
 
 
   x = session_->getLight("name1");
-  Light *temp = new Light("name1","wtf","wtf2",1,2,3,4);
+  Light *temp = new Light("name1","wtf",1,2,3,true,4);
   session_->updateLight(temp);
-  WText *testing2 = new WText(boost::lexical_cast<std::string>(x->getBri()), this);
-  Light *temp2 = new Light("name2","wtf","wtf2",8,2,3,4);
+  WText *testing2 = new WText(boost::lexical_cast<std::string>(x->getBrightness()), this);
+  Light *temp2 = new Light("name2","wtf2",8,9,3,true,4);
   session_->addLight(temp2);
   x = session_->getLight("name2");
-  WText *testing3 = new WText(boost::lexical_cast<std::string>(x->getBri()), this);
+  WText *testing3 = new WText(boost::lexical_cast<std::string>(x->getBrightness()), this);
 
   WText *fineprint = new WText(tr("highscore.info"), this);
   fineprint->addStyleClass("fineprint");

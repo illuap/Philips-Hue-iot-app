@@ -3,7 +3,7 @@
  *
  * See the LICENSE file for terms of use.
  */
-
+/*
 #include "Light.h"
 
 
@@ -31,3 +31,4 @@ using namespace Wt::Dbo;
 	int Light::getBri(){
 		return bri;
 	}
+	*/
