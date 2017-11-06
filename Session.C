@@ -118,7 +118,7 @@ Session::Session()
     guestUser.addIdentity(Auth::Identity::LoginName, "guest");
     myPasswordService.updatePassword(guestUser, "guest");
 
-    Light *light1 = new Light("name1","type1","status1",200,201,202,203);
+    Light *light1 = new Light("name1","type1",200,201,202,true,203);
     dbo::ptr<Light> light1ptr = session_.add(light1);
 
     Wt::log("info") << "Database created";
@@ -207,9 +207,9 @@ Light* Session::getLight(std::string name){
 void Session::updateLight(Light* newLight){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(newLight->name);
+  dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(newLight->getName());
   
-  lightObj.modify()->bri = newLight->bri;
+  lightObj.modify()->setBrightness(newLight->getBrightness());
 
   transaction.commit();
 }
