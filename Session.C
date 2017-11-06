@@ -204,12 +204,12 @@ Light* Session::getLight(std::string name){
   return lightObj.modify();
 }
 
-void Session::updateLight(Light& newLight){
+void Session::updateLight(Light* newLight){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(newLight.name);
+  dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(newLight->name);
   
-  lightObj.modify()->bri = newLight.bri;
+  lightObj.modify()->bri = newLight->bri;
 
   transaction.commit();
 }
