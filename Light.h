@@ -10,15 +10,16 @@
 
 class Light {
 	//Light data members (name, type, status (on/off), brightness, hue, saturation, transition time)
-	std::string name;
 	std::string type;
 	std::string status;
-	int bri;
+	
 	int hue;
 	int sat;
 	int transitionTime;
 
 public:
+	std::string name;
+	int bri;
 	// Function Name: Light() 
 	// Parameters: name, type, status, brightness, hue, saturation, transition time
 	// Return: none

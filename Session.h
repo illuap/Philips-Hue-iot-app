@@ -9,6 +9,7 @@
 #define SESSION_H_
 
 #include <vector>
+#include <string>
 
 #include <Wt/Auth/Login>
 
@@ -41,11 +42,16 @@ public:
   int findRanking();
   void addToScore(int s);
 
-  void addBridge(int s);
+  //-------------------------
+  //    dawg
+  //-------------------------
+  void updateBridge(int s);
   int getBridge();
 
-  Light getLight();
+  Light* getLight(std::string name);
   void updateLight(Light& newLight);
+  void addLight(Light* newLight);
+  //-------------------------
 
   static const Wt::Auth::AuthService& auth();
   static const Wt::Auth::AbstractPasswordService& passwordAuth();

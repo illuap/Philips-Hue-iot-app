@@ -172,7 +172,7 @@ void Session::addToScore(int s)
   transaction.commit();
 }
 
-void Session::addBridge(int s)
+void Session::updateBridge(int s)
 {
   dbo::Transaction transaction(session_);
 
@@ -194,9 +194,37 @@ int Session::getBridge()
   
   return bri;
 }
+//---------------------
+Light* Session::getLight(std::string name){
+  dbo::Transaction transaction(session_);
 
-std::vector<User> Session::topUsers(int limit)
-{
+  dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(name);
+  
+  transaction.commit();
+  return lightObj.modify();
+}
+
+void Session::updateLight(Light& newLight){
+  dbo::Transaction transaction(session_);
+
+  dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(newLight.name);
+  
+  lightObj.modify()->bri = newLight.bri;
+
+  transaction.commit();
+}
+
+void Session::addLight(Light* newLight){
+  
+  dbo::Transaction transaction(session_);
+
+  dbo::ptr<Light> lightObj = session_.add(newLight);
+
+  transaction.commit();
+}
+//---------------------
+
+std::vector<User> Session::topUsers(int limit){
   dbo::Transaction transaction(session_);
 
   Users top = session_.find<User>().orderBy("score desc").limit(limit);
