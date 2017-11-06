@@ -97,7 +97,7 @@ void HighScoresWidget::update()
 
   x = session_->getLight("name1");
   Light *temp = new Light("name1","wtf","wtf2",1,2,3,4);
-  session_->updateLight(*temp);
+  session_->updateLight(temp);
   WText *testing2 = new WText(boost::lexical_cast<std::string>(x->getBri()), this);
   Light *temp2 = new Light("name2","wtf","wtf2",8,2,3,4);
   session_->addLight(temp2);
