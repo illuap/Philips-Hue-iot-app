@@ -13,10 +13,7 @@
 #include <boost/lexical_cast.hpp>
 
 #include "Session.h"
-#include "Dictionary.h"
-#include "WordWidget.h"
 #include "ImagesWidget.h"
-#include "LettersWidget.h"
 
 using namespace Wt;
 
@@ -33,24 +30,16 @@ HangmanWidget::HangmanWidget(const std::string &name, WContainerWidget *parent)
   
   title_ = new WText(tr("hangman.readyToPlay"), this);
 
-  word_ = new WordWidget(this);
   statusText_ = new WText(this);
   images_ = new ImagesWidget(MaxGuesses, this);
 
-  letters_ = new LettersWidget(this);
-  letters_->letterPushed().connect(this, &HangmanWidget::registerGuess);
-
   language_ = new WComboBox(this);
   language_->addItem(tr("hangman.englishWords").arg(18957));
-  language_->addItem(tr("hangman.dutchWords").arg(1688));
 
   new WBreak(this);
 
   newGameButton_ = new WPushButton(tr("hangman.newGame"), this);
   newGameButton_->clicked().connect(this, &HangmanWidget::newGame);
-
-
-  letters_->hide();
 }
 
 void HangmanWidget::newGame()
@@ -64,9 +53,6 @@ void HangmanWidget::newGame()
   /*
    * Choose a new secret word and reset the game
    */
-  Dictionary dictionary = (Dictionary) language_->currentIndex();
-  word_->init(RandomWord(dictionary));
-  letters_->reset();
   badGuesses_ = 0;
   images_->showImage(badGuesses_);
   statusText_->setText("");
@@ -75,19 +61,18 @@ void HangmanWidget::newGame()
 void HangmanWidget::registerGuess(char c)
 {
   if (badGuesses_ < MaxGuesses) {
-    bool correct = word_->guess(c);
+    //bool correct = word_->guess(c);
 
     if (!correct) {
       ++badGuesses_;
       images_->showImage(badGuesses_);
     }
   }
-
+/*
   if (badGuesses_ == MaxGuesses) {
     WString status(tr("hangman.youHang"));
-    statusText_->setText(status.arg(word_->word()));
+    //statusText_->setText(status.arg(word_->word()));
 
-    letters_->hide();
     language_->show();
     newGameButton_->show();
 
@@ -96,10 +81,10 @@ void HangmanWidget::registerGuess(char c)
     statusText_->setText(tr("hangman.youWin"));
     images_->showImage(ImagesWidget::HURRAY);
 
-    letters_->hide();
     language_->show();
     newGameButton_->show();
 
     scoreUpdated_.emit(20 - badGuesses_);
   }
+  */
 }

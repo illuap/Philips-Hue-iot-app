@@ -33,7 +33,7 @@ HangmanGame::HangmanGame(WContainerWidget *parent):
   authWidget->setModel(authModel);
   authWidget->setRegistrationEnabled(true);
 
-  WText *title = new WText("<h1>A Witty game: Hangman</h1>");
+  WText *title = new WText("<h1>NWPD Light App</h1>");
   addWidget(title);
 
   addWidget(authWidget);

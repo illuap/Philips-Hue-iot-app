@@ -13,9 +13,7 @@
 #include <Wt/WContainerWidget>
 
 class Session;
-class WordWidget;
 class ImagesWidget;
-class LettersWidget;
 
 class HangmanWidget: public Wt::WContainerWidget
 {
@@ -27,9 +25,7 @@ public:
 private:
   Wt::WText                     *title_;
 
-  WordWidget                    *word_;
   ImagesWidget                  *images_;
-  LettersWidget                 *letters_;
 
   Wt::WText                     *statusText_;
   Wt::WComboBox                 *language_;
