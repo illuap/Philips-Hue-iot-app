@@ -27,7 +27,7 @@ CFLAGS ?= -g -O0
 CXXFLAGS ?= -g -O0
 LDFLAGS ?= -g
 else ifeq ($(config),Release)
-CPPFLAGS ?= -DNDEBUG
+CPPFLAGS ?= -DNDEBUG 
 CFLAGS ?= -O2
 CXXFLAGS ?= -O2
 else ifneq (,$(config))
@@ -45,8 +45,8 @@ builddir = .
 
 all: $(builddir)/test
 
-$(builddir)/test: $(builddir)/test_Dictionary.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_HangmanWidget.o $(builddir)/test_HighScoresWidget.o $(builddir)/test_ImagesWidget.o $(builddir)/test_LettersWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o $(builddir)/test_WordWidget.o
-	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_Dictionary.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_HangmanWidget.o $(builddir)/test_HighScoresWidget.o $(builddir)/test_ImagesWidget.o $(builddir)/test_LettersWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o $(builddir)/test_WordWidget.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
+$(builddir)/test: $(builddir)/test_LightsControl.o $(builddir)/test_Dictionary.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_HangmanWidget.o $(builddir)/test_HighScoresWidget.o $(builddir)/test_ImagesWidget.o $(builddir)/test_LettersWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o $(builddir)/test_WordWidget.o
+	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_LightsControl.o $(builddir)/test_Dictionary.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_HangmanWidget.o $(builddir)/test_HighScoresWidget.o $(builddir)/test_ImagesWidget.o $(builddir)/test_LettersWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o $(builddir)/test_WordWidget.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
 
 $(builddir)/test_Dictionary.o: Dictionary.c
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread Dictionary.c
@@ -77,6 +77,9 @@ $(builddir)/test_User.o: User.c
 
 $(builddir)/test_WordWidget.o: WordWidget.c
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread WordWidget.c
+
+$(builddir)/test_LightsControl.o: LightsControl.c
+	$(CC) -c  -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread LightsControl.c 
 
 clean:
 	rm -f *.o

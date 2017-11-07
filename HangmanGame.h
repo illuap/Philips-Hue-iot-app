@@ -5,12 +5,16 @@
  * See the LICENSE file for terms of use.
  */
 
-#ifndef HANGMANGAME_H_
-#define HANGMANGAME_H_
-
 #include <Wt/WContainerWidget>
 
 #include "Session.h"
+#include "LightsControl.h"
+
+#ifndef HANGMANGAME_H_
+#define HANGMANGAME_H_
+
+
+
 
 namespace Wt {
   class WStackedWidget;
@@ -20,6 +24,7 @@ namespace Wt {
 class HangmanWidget;
 class HighScoresWidget;
 class Session;
+class LightsControlWidget; 
 
 class HangmanGame : public Wt::WContainerWidget
 {
@@ -31,16 +36,20 @@ public:
 private:
   Wt::WStackedWidget *mainStack_;
   HangmanWidget *game_;
-  HighScoresWidget *scores_;
+  LightsControlWidget *the_Lights; 
   Wt::WContainerWidget *links_;
   Wt::WAnchor *backToGameAnchor_;
   Wt::WAnchor *scoresAnchor_;
+  Wt::WAnchor *hueLights_;
+
 
   Session session_;
 
   void onAuthEvent();
   void showGame();
   void showHighScores();
+  void showLights();
+
 };
 
 #endif //HANGMANGAME_H_

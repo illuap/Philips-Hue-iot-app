@@ -14,19 +14,18 @@
 
 #include "HangmanGame.h"
 #include "HangmanWidget.h"
-#include "HighScoresWidget.h"
 
 using namespace Wt;
 
 HangmanGame::HangmanGame(WContainerWidget *parent):
   WContainerWidget(parent),
   game_(0),
-  scores_(0)
+  the_Lights(0)
 {
   session_.login().changed().connect(this, &HangmanGame::onAuthEvent);
 
   Auth::AuthModel *authModel = new Auth::AuthModel(Session::auth(),
-						   session_.users(), this);
+               session_.users(), this);
   authModel->addPasswordAuth(&Session::passwordAuth());
   authModel->addOAuth(Session::oAuth());
 
@@ -37,7 +36,7 @@ HangmanGame::HangmanGame(WContainerWidget *parent):
   WText *title = new WText("<h1>A Witty game: Hangman</h1>");
   addWidget(title);
 
-  addWidget(authWidget); // login
+  addWidget(authWidget);
 
   mainStack_ = new WStackedWidget();
   mainStack_->setStyleClass("gamestack");
@@ -48,16 +47,20 @@ HangmanGame::HangmanGame(WContainerWidget *parent):
   links_->hide();
   addWidget(links_);
 
-  backToGameAnchor_ = new WAnchor("/play", "Gaming Grounds", links_);
-  backToGameAnchor_->setLink(WLink(WLink::InternalPath, "/play"));
+  backToGameAnchor_ = new WAnchor("/lights", "Lights1", links_);
+  backToGameAnchor_->setLink(WLink(WLink::InternalPath, "/lights"));
 
-  scoresAnchor_ = new WAnchor("/highscores", "Highscores", links_);
-  scoresAnchor_->setLink(WLink(WLink::InternalPath, "/highscores"));
+  scoresAnchor_ = new WAnchor("/lights", "Lights2", links_);
+  scoresAnchor_->setLink(WLink(WLink::InternalPath, "/lights"));
+
+  hueLights_ = new WAnchor("/lights", "Lights", links_);
+  hueLights_->setLink(WLink(WLink::InternalPath, "/lights"));
 
   WApplication::instance()->internalPathChanged()
     .connect(this, &HangmanGame::handleInternalPath);
 
   authWidget->processEnvironment();
+  
 }
 
 void HangmanGame::onAuthEvent()
@@ -68,7 +71,7 @@ void HangmanGame::onAuthEvent()
   } else {
     mainStack_->clear();
     game_ = 0;
-    scores_ = 0;
+    the_Lights = 0;
     links_->hide();
   }
 }
@@ -76,22 +79,20 @@ void HangmanGame::onAuthEvent()
 void HangmanGame::handleInternalPath(const std::string &internalPath)
 {
   if (session_.login().loggedIn()) {
-    if (internalPath == "/play")
-      showGame();
-    else if (internalPath == "/highscores")
-      showHighScores();
+    if (internalPath == "/lights")
+      showLights();
     else
-      WApplication::instance()->setInternalPath("/play",  true);
+      WApplication::instance()->setInternalPath("/lights",  true);
   }
 }
 
-void HangmanGame::showHighScores()
+void HangmanGame::showLights()
 {
-  if (!scores_)
-    scores_ = new HighScoresWidget(&session_, mainStack_);
+  if (!the_Lights)
+    the_Lights = new LightsControlWidget(&session_, mainStack_);
 
-  mainStack_->setCurrentWidget(scores_);
-  scores_->update();
+  mainStack_->setCurrentWidget(the_Lights);
+  the_Lights->update();
 
   backToGameAnchor_->removeStyleClass("selected-link");
   scoresAnchor_->addStyleClass("selected-link");
