@@ -60,6 +60,7 @@ void HangmanWidget::newGame()
 
 void HangmanWidget::registerGuess(char c)
 {
+  /*
   if (badGuesses_ < MaxGuesses) {
     //bool correct = word_->guess(c);
 
@@ -68,7 +69,7 @@ void HangmanWidget::registerGuess(char c)
       images_->showImage(badGuesses_);
     }
   }
-/*
+
   if (badGuesses_ == MaxGuesses) {
     WString status(tr("hangman.youHang"));
     //statusText_->setText(status.arg(word_->word()));
