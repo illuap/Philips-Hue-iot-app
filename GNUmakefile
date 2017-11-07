@@ -37,8 +37,10 @@ endif
 # Use "make RANLIB=''" for platforms without ranlib.
 RANLIB ?= ranlib
 
-CC := cc
-CXX := c++
+CC := g++
+CXX := g++
+
+CPPFLAGS = -std=c++14
 
 # The directory for the build files, may be overridden on make command line.
 builddir = .
@@ -70,7 +72,7 @@ $(builddir)/test_User.o: User.c
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread User.c
 
 $(builddir)/test_LightsControl.o: LightsControl.c
-	$(CC) -c  -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread LightsControl.c 
+	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread LightsControl.c 
 
 clean:
 	rm -f *.o
