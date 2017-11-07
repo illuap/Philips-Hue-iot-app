@@ -175,15 +175,9 @@ void LightsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 			lightOn = true;
 		}
 
-		/* ADD LIGHT TO THE DATABASE
-
+		//Create light instance and add to database
 		Light *x = new Light(name, type, stoi(bri), stoi(hue), stoi(sat), lightOn, 0);
 		session_->addLight(x);
-
-		*/
-
-
-
 	}
 }
 
@@ -238,14 +232,16 @@ void LightsControlWidget::hue() {
 			client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 			change_->setText("Hue has been changed");
 
-			/* CHANGE DB ENTRY
-
+			// CHANGE DB ENTRY
 			Light *x;
 			x = session_->getLight("Hue Lamp " + currentLight);
-			x_->setHue(stoi(input));
+			x->setHue(stoi(input));
 			session_->updateLight(x);
 
-			*/
+			//test db changes
+			x = session_->getLight("Hue Lamp " + currentLight);
+			change_->setText("new Hue: " + to_string(x->getHue()));
+
 		}
 	}
 }
@@ -265,15 +261,20 @@ void LightsControlWidget::on() {
 		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 		change_->setText("Light has been turned on");
 
-
-		/* CHANGE DB ENTRY
-
+		//CHANGE DB ENTRY
 		Light *x;
 		x = session_->getLight("Hue Lamp " + currentLight);
-		x_->setOn(true);
+		x->setOn(true);
 		session_->updateLight(x);
+		
 
-		*/
+		//test db changes
+		x = session_->getLight("Hue Lamp " + currentLight);
+		if (x->getOn()) {
+			change_->setText("Light: ON");
+		} else {
+			change_->setText("Light: OFF");
+		}
 	}
 }
 
@@ -291,14 +292,20 @@ void LightsControlWidget::off() {
 		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 		change_->setText("Light has been turned off");
 
-		/* CHANGE DB ENTRY
-
+		//CHANGE DB ENTRY
 		Light *x;
 		x = session_->getLight("Hue Lamp " + currentLight);
-		x_->setOn(false);
+		x->setOn(false);
 		session_->updateLight(x);
 
-		*/
+		//test db changes
+		x = session_->getLight("Hue Lamp " + currentLight);
+		if (x->getOn()) {
+			change_->setText("Light: ON");
+		} else {
+			change_->setText("Light: OFF");
+		}
+
 	}
 }
 
@@ -331,14 +338,15 @@ void LightsControlWidget::bright() {
 			client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 			change_->setText("Brightness has been changed");
 
-			/* CHANGE DB ENTRY
-
+			//CHANGE DB ENTRY
 			Light *x;
 			x = session_->getLight("Hue Lamp " + currentLight);
-			x_->setBrightness(stoi(input));
+			x->setBrightness(stoi(input));
 			session_->updateLight(x);
 
-			*/
+			//test db changes
+			x = session_->getLight("Hue Lamp " + currentLight);
+			change_->setText("new Brightness: " + to_string(x->getBrightness()));
 		}
 	}
 }
@@ -373,14 +381,15 @@ void LightsControlWidget::sat() {
 			client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 			change_->setText("Saturation has been changed");
 
-			/* CHANGE DB ENTRY
-
+			// CHANGE DB ENTRY
 			Light *x;
 			x = session_->getLight("Hue Lamp " + currentLight);
-			x_->setSaturation(stoi(input));
+			x->setSaturation(stoi(input));
 			session_->updateLight(x);
 
-			*/
+			//test db changes
+			x = session_->getLight("Hue Lamp " + currentLight);
+			change_->setText("new Saturation: " + to_string(x->getSaturation()));
 		}
 	}
 }
