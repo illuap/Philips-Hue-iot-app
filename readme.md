@@ -4,3 +4,12 @@ g++ -std=c++14 -o a.out QRAuth.c QRAuthWidget.c ./model/QRAuthService.c ./model/
 ./test.out --docroot ./ --http-address 127.0.0.1 --http-port 8080
 
 java -jar HueEmulator-v0.7.jar
+
+
+PAUL:
+TODO:
+- Fix register
+- incoorperate user elements such as adding email first name to registration
+- add bridge widget/control
+- demonstrate presistence.
+- bridge many-to-one

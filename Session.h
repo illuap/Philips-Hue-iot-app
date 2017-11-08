@@ -19,6 +19,7 @@
 
 #include "User.h"
 #include "Light.h"
+#include "Bridge.h"
 
 typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
 
@@ -39,18 +40,16 @@ public:
    * These methods deal with the currently logged in user
    */
   std::string userName() const;
-  int findRanking();
-  void addToScore(int s);
 
   //-------------------------
-  //    dawg
   //-------------------------
-  void updateBridge(int s);
-  int getBridge();
-
+  Bridge* getBridge(std::string name);
+  void updateBridge(Bridge* newBridge);
+  bool addBridge(Bridge* newBridge);
+  //-------------------------
   Light* getLight(std::string name);
   void updateLight(Light* newLight);
-  void addLight(Light* newLight);
+  bool addLight(Light* newLight);
   //-------------------------
 
   static const Wt::Auth::AuthService& auth();

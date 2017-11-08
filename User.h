@@ -25,19 +25,18 @@ public:
   User();
 
   std::string name; /* a copy of auth info's user name */
-  int gamesPlayed;
-  long long score;
-  int bridgeTest;
-  Wt::WDateTime lastGame;
+  std::string firstName;
+  std::string lastName;
+  std::string email;
+//  Bridge *bridgeID;
   Wt::Dbo::collection< Wt::Dbo::ptr<AuthInfo> > authInfos;
 
   template<class Action>
   void persist(Action& a)
   {
-    Wt::Dbo::field(a, gamesPlayed, "gamesPlayed");
-    Wt::Dbo::field(a, score, "score");
-    Wt::Dbo::field(a, lastGame, "lastGame");
-    Wt::Dbo::field(a, bridgeTest, "bridgeTest");
+    Wt::Dbo::field(a, firstName, "firstName");
+    Wt::Dbo::field(a, lastName, "lastName");
+    Wt::Dbo::field(a, email, "email");
 
     Wt::Dbo::hasMany(a, authInfos, Wt::Dbo::ManyToOne, "user");
   }
