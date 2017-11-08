@@ -228,7 +228,13 @@ void Session::updateLight(Light* newLight){
 
   dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(newLight->getName());
   
+  lightObj.modify()->setName(newLight->getName());
+  lightObj.modify()->setType(newLight->getType());
   lightObj.modify()->setBrightness(newLight->getBrightness());
+  lightObj.modify()->setHue(newLight->getHue());
+  lightObj.modify()->setSaturation(newLight->getSaturation());
+  lightObj.modify()->setOn(newLight->getOn());
+  lightObj.modify()->setTransition(newLight->getTransition());
 
   transaction.commit();
 }

@@ -24,7 +24,7 @@ private:
 	int portNumber;
 //	std::vector<Group> groupList;
 //	std::vector<Light> lightList;
-	//Wt::Dbo::collection<Wt::Dbo::ptr<Light> > lights;
+	Wt::Dbo::collection<Wt::Dbo::ptr<Light> > lights;
 
 public:
 	Bridge() {
@@ -114,7 +114,7 @@ public:
 		Wt::Dbo::field(a, userId, "userId");
 		Wt::Dbo::field(a, registered, "registered");
 		Wt::Dbo::field(a, portNumber, "portNumber");
-		//Wt::Dbo::hasMany(a, lights, Wt::Dbo::ManyToOne, "bridgeLights");
+		Wt::Dbo::hasMany(a, lights, Wt::Dbo::ManyToOne, "bridge");
 	}
 };
 #endif	/* BRIDGE_H */
