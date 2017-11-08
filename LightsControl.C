@@ -96,7 +96,7 @@ void LightsControlWidget::update()
   this->addWidget(new WText("Saturation: "));
   satScaleSlider_ = new WSlider(this);
   satScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
-  satScaleSlider_->setMinimum(1);
+  satScaleSlider_->setMinimum(0);
   satScaleSlider_->setMaximum(254);
   satScaleSlider_->setValue(100);
   satScaleSlider_->setTickInterval(50);
