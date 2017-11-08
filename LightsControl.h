@@ -23,10 +23,10 @@ public:
   void update();
 
 private:
-  Session *session_;
-  Wt::WLineEdit *hueEdit_;
-	Wt::WLineEdit *satEdit_;
-	Wt::WLineEdit *briEdit_;
+	Session *session_;
+	Wt::WLineEdit *hueEdit_;
+	Wt::WSlider *satScaleSlider_;
+	Wt::WSlider *briScaleSlider_;
 	Wt::WText *change_;
 	Wt::WText *light_;
 	std::string currentLight = "0";
