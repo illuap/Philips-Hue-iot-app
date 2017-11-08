@@ -36,7 +36,7 @@ public:
 		registered= false;
 		portNumber= 0;
 	}
-	~Light() {}
+	~Bridge() {}
 
 	std::string getBridgeName() {
 		return bridgeName;
