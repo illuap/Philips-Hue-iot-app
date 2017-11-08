@@ -15,6 +15,4 @@ using namespace Wt;
 using namespace Wt::Dbo;
 
 User::User()
-  : gamesPlayed(0),
-    score(0)
 { }

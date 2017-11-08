@@ -101,9 +101,11 @@ Session::Session()
 
   session_.mapClass<User>("user");
   session_.mapClass<Light>("light");
+  session_.mapClass<Bridge>("bridge");
   session_.mapClass<AuthInfo>("auth_info");
   session_.mapClass<AuthInfo::AuthIdentityType>("auth_identity");
   session_.mapClass<AuthInfo::AuthTokenType>("auth_token");
+  
 
   users_ = new UserDatabase(session_);
 
@@ -120,6 +122,9 @@ Session::Session()
 
     Light *light1 = new Light("name1","type1",200,201,202,true,203);
     dbo::ptr<Light> light1ptr = session_.add(light1);
+
+    Bridge *bridge1 = new Bridge();
+    dbo::ptr<Bridge> bridge1ptr = session_.add(bridge1);
 
     Wt::log("info") << "Database created";
   } catch (...) {
@@ -157,7 +162,7 @@ std::string Session::userName() const
   else
     return std::string();
 }
-
+/*
 void Session::addToScore(int s)
 {
   dbo::Transaction transaction(session_);
@@ -171,29 +176,43 @@ void Session::addToScore(int s)
 
   transaction.commit();
 }
+*/
+//---------------------
 
-void Session::updateBridge(int s)
-{
+Bridge* Session::getBridge(std::string name){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<User> u = user();
-  if (u) {
-    u.modify()->bridgeTest += s;
-  }
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("bridgeName = ?").bind(name);
+  
+  transaction.commit();
+  return bridgeObj.modify();
+}
+
+void Session::updateBridge(Bridge* newBridge){
+  dbo::Transaction transaction(session_);
+
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("bridgeName = ?").bind(newBridge->getBridgeName());
 
   transaction.commit();
 }
 
-int Session::getBridge()
-{
+bool Session::addBridge(Bridge* newBridge){
+  
   dbo::Transaction transaction(session_);
-  
-    int bri = session_.query<int>("select bri from light").where("name = ?").bind("name1");
-    Wt::log("info") << bri;
+
+  dbo::ptr<Bridge> bridgeObj;
+    bridgeObj = session_.find<Bridge>().where("bridgeName = ?").bind(newBridge->getBridgeName());
+    if(!bridgeObj){
+      bridgeObj = session_.add(newBridge);
+      return true;
+    }else{
+      return false;
+    }
+
   transaction.commit();
-  
-  return bri;
 }
+
+//---------------------
 //---------------------
 Light* Session::getLight(std::string name){
   dbo::Transaction transaction(session_);
@@ -229,8 +248,9 @@ bool Session::addLight(Light* newLight){
 
   transaction.commit();
 }
-//---------------------
 
+//---------------------
+/*
 std::vector<User> Session::topUsers(int limit){
   dbo::Transaction transaction(session_);
 
@@ -267,7 +287,7 @@ int Session::findRanking()
   
   return ranking + 1;
 }
-
+*/
 Auth::AbstractUserDatabase& Session::users()
 {
   return *users_;

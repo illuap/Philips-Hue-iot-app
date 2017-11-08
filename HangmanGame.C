@@ -13,13 +13,11 @@
 #include <Wt/Auth/AuthWidget>
 
 #include "HangmanGame.h"
-#include "HangmanWidget.h"
 
 using namespace Wt;
 
 HangmanGame::HangmanGame(WContainerWidget *parent):
   WContainerWidget(parent),
-  game_(0),
   the_Lights(0)
 {
   session_.login().changed().connect(this, &HangmanGame::onAuthEvent);
@@ -70,7 +68,6 @@ void HangmanGame::onAuthEvent()
     handleInternalPath(WApplication::instance()->internalPath());
   } else {
     mainStack_->clear();
-    game_ = 0;
     the_Lights = 0;
     links_->hide();
   }
@@ -96,17 +93,4 @@ void HangmanGame::showLights()
 
   backToGameAnchor_->removeStyleClass("selected-link");
   scoresAnchor_->addStyleClass("selected-link");
-}
-
-void HangmanGame::showGame()
-{
-  if (!game_) {
-    game_ = new HangmanWidget(session_.userName(), mainStack_);
-    game_->scoreUpdated().connect(&session_, &Session::addToScore);
-  }
-
-  mainStack_->setCurrentWidget(game_);
-
-  backToGameAnchor_->addStyleClass("selected-link");
-  scoresAnchor_->removeStyleClass("selected-link");
 }
