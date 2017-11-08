@@ -6,6 +6,8 @@ private:
 	std::string location;
 	std::string ipAddress;
 	std::string hostName;
+	std::string userId;
+	bool registered;
 	int portNumber;
 	std::vector<Group> groupList;
 	std::vector<Light> lightList;
@@ -25,6 +27,13 @@ public:
 
 	std::string getHostName() {
 		return hostName;
+	}
+	std::string getUserId() {
+		return userId;
+	}
+
+	bool getRegistered() {
+		return registered;
 	}
 
 	int getPortNumber() {
@@ -47,6 +56,13 @@ public:
 		hostName = newHostName;
 	}
 
+	void setUserId(std::string newUserId) {
+		userId = newUserId;
+	}
+
+	void setRegistered(bool newRegistered) {
+		register = newRegistered;
+	}
 	void setPortNumber(int newPortNumber) {
 		portNumber = newPortNumber;
 	}
