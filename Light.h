@@ -8,6 +8,9 @@
 #include <Wt/Dbo/Types>
 #include <Wt/Dbo/WtSqlTraits>
 
+#include "Bridge.h"
+
+class Bridge;
 
 class Light {
 	//Light data members (name, type, status (on/off), brightness, hue, saturation, transition time)
@@ -18,6 +21,7 @@ class Light {
 	int hue;
 	int sat;
 	int transitionTime;
+	Wt::Dbo::ptr<Bridge> bridge;
 
 public:
 	// Function Name: Light() 
@@ -149,6 +153,7 @@ public:
 		Wt::Dbo::field(a, hue, "hue");
 		Wt::Dbo::field(a, sat, "sat");
 		Wt::Dbo::field(a, transitionTime, "transitionTime");
+		Wt::Dbo::belongsTo(a, bridge, "bridge");
 	}
 };
 
