@@ -214,11 +214,18 @@ void Session::updateLight(Light* newLight){
   transaction.commit();
 }
 
-void Session::addLight(Light* newLight){
+bool Session::addLight(Light* newLight){
   
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<Light> lightObj = session_.add(newLight);
+  dbo::ptr<Light> lightObj;
+    lightObj = session_.find<Light>().where("name = ?").bind(newLight->getName());
+    if(!lightObj){
+      lightObj = session_.add(newLight);
+      return true;
+    }else{
+      return false;
+    }
 
   transaction.commit();
 }

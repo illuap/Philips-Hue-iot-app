@@ -50,7 +50,7 @@ public:
 
   Light* getLight(std::string name);
   void updateLight(Light* newLight);
-  void addLight(Light* newLight);
+  bool addLight(Light* newLight);
   //-------------------------
 
   static const Wt::Auth::AuthService& auth();
