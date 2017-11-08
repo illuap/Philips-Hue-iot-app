@@ -1,4 +1,4 @@
-test_hangman.o: hangman.c /usr/include/stdc-predef.h \
+test_hangman.o: hangman.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/WApplication /usr/include/c++/5/vector \
  /usr/include/c++/5/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/5/bits/c++config.h \

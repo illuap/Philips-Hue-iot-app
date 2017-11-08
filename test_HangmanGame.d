@@ -1,4 +1,4 @@
-test_HangmanGame.o: HangmanGame.c /usr/include/stdc-predef.h \
+test_HangmanGame.o: HangmanGame.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/WAnchor /usr/local/include/Wt/WContainerWidget \
  /usr/local/include/Wt/WInteractWidget /usr/local/include/Wt/WWebWidget \
  /usr/include/c++/5/set /usr/include/c++/5/bits/stl_tree.h \

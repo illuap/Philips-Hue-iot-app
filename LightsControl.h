@@ -36,6 +36,7 @@ private:
 	void bright();
 	void sat();
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
+	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
 	Wt::Http::Client * connect();
 	void lightOne();
 	void lightTwo();

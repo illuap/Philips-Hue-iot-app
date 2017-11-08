@@ -128,6 +128,7 @@ void LightsControlWidget::update()
   (boost::bind(&LightsControlWidget::on, this));
   (boost::bind(&LightsControlWidget::off, this));
   (boost::bind(&LightsControlWidget::handleHttpResponse, this));
+  (boost::bind(&LightsControlWidget::handleHttpResponseVOID, this));
   (boost::bind(&LightsControlWidget::connect, this));
   (boost::bind(&LightsControlWidget::lightOne, this));
   (boost::bind(&LightsControlWidget::lightTwo, this));
@@ -142,6 +143,11 @@ Http::Client * LightsControlWidget::connect() {
 	client->setTimeout(15);
 	client->setMaximumResponseSize(10 * 1024);
 }
+
+//handle request that does nothing - for changing the light state
+void LightsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
+}
+
 
 //handles get lights request - creates lights and puts them into database
 void LightsControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
@@ -237,7 +243,7 @@ void LightsControlWidget::hue() {
 			Http::Client *client = LightsControlWidget::connect();
 			Http::Message *msg = new Http::Message();
 			msg->addBodyText("{\"hue\" : \"" + input + "\"}");
-			client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
+			client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 			client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 			change_->setText("Hue has been changed");
 
@@ -259,14 +265,14 @@ void LightsControlWidget::hue() {
 //turns light on
 void LightsControlWidget::on() {
 	change_->setText("");
-	Http::Client *client = LightsControlWidget::connect();
-	Http::Message *msg = new Http::Message();
-	msg->addBodyText("{\"on\" : true}");
-	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 	}
 	else {
+		Http::Client *client = LightsControlWidget::connect();
+		Http::Message *msg = new Http::Message();
+		msg->addBodyText("{\"on\" : true}");
+		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 		change_->setText("Light has been turned on");
 
@@ -290,16 +296,15 @@ void LightsControlWidget::on() {
 //turns light off
 void LightsControlWidget::off() {
 	change_->setText("");
-	Http::Client *client = LightsControlWidget::connect();
-	Http::Message *msg = new Http::Message();
-	msg->addBodyText("{\"on\" : false}");
-	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 	}
 	else {
+		Http::Client *client = LightsControlWidget::connect();
+		Http::Message *msg = new Http::Message();
+		msg->addBodyText("{\"on\" : false}");
+		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
-		change_->setText("Light has been turned off");
 
 		//CHANGE DB ENTRY
 		Light *x;
@@ -329,7 +334,7 @@ void LightsControlWidget::bright() {
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"bri\" : \"" + to_string(input) + "\"}");
-		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
+		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 
 		//CHANGE DB ENTRY
@@ -356,7 +361,7 @@ void LightsControlWidget::sat() {
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"sat\" : \"" + to_string(input) + "\"}");
-		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
+		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 
 		//CHANGE DB ENTRY

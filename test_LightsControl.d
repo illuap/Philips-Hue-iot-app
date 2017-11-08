@@ -1,4 +1,4 @@
-test_LightsControl.o: LightsControl.c /usr/include/stdc-predef.h \
+test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/lexical_cast.hpp \
  /usr/local/include/boost/config.hpp \
  /usr/local/include/boost/config/user.hpp \
