@@ -86,7 +86,11 @@ public:
 	}
 
 	void setRegistered(bool newRegistered) {
+<<<<<<< HEAD
 		registered = newRegistered;
+=======
+		register = newRegistered;
+>>>>>>> 0174b99633680a53936e8dc2eff092871dc65ce6
 	}
 	void setPortNumber(int newPortNumber) {
 		portNumber = newPortNumber;
