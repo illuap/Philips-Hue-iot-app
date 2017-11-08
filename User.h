@@ -29,12 +29,14 @@ public:
   std::string lastName;
   std::string email;
 //  Bridge *bridgeID;
-  Wt::Dbo::collection<Wt::Dbo::ptr<AuthInfo> > authInfos;
+  Wt::Dbo::collection< Wt::Dbo::ptr<AuthInfo> > authInfos;
 
   template<class Action>
   void persist(Action& a)
   {
-    //Wt::Dbo::field(a, bridge, "bridge");
+    Wt::Dbo::field(a, firstName, "firstName");
+    Wt::Dbo::field(a, lastName, "lastName");
+    Wt::Dbo::field(a, email, "email");
 
     Wt::Dbo::hasMany(a, authInfos, Wt::Dbo::ManyToOne, "user");
   }

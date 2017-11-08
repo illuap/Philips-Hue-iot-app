@@ -19,6 +19,7 @@
 
 #include "User.h"
 #include "Light.h"
+#include "Bridge.h"
 
 typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
 
@@ -41,7 +42,10 @@ public:
   std::string userName() const;
 
   //-------------------------
-  //    dawg
+  //-------------------------
+  Bridge* getBridge(std::string name);
+  void updateBridge(Bridge* newBridge);
+  bool addBridge(Bridge* newBridge);
   //-------------------------
   Light* getLight(std::string name);
   void updateLight(Light* newLight);
