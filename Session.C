@@ -157,7 +157,7 @@ std::string Session::userName() const
   else
     return std::string();
 }
-
+/*
 void Session::addToScore(int s)
 {
   dbo::Transaction transaction(session_);
@@ -171,29 +171,7 @@ void Session::addToScore(int s)
 
   transaction.commit();
 }
-
-void Session::updateBridge(int s)
-{
-  dbo::Transaction transaction(session_);
-
-  dbo::ptr<User> u = user();
-  if (u) {
-    u.modify()->bridgeTest += s;
-  }
-
-  transaction.commit();
-}
-
-int Session::getBridge()
-{
-  dbo::Transaction transaction(session_);
-  
-    int bri = session_.query<int>("select bri from light").where("name = ?").bind("name1");
-    Wt::log("info") << bri;
-  transaction.commit();
-  
-  return bri;
-}
+*/
 //---------------------
 Light* Session::getLight(std::string name){
   dbo::Transaction transaction(session_);
@@ -230,7 +208,7 @@ bool Session::addLight(Light* newLight){
   transaction.commit();
 }
 //---------------------
-
+/*
 std::vector<User> Session::topUsers(int limit){
   dbo::Transaction transaction(session_);
 
@@ -267,7 +245,7 @@ int Session::findRanking()
   
   return ranking + 1;
 }
-
+*/
 Auth::AbstractUserDatabase& Session::users()
 {
   return *users_;

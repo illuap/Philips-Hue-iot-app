@@ -21,8 +21,6 @@ namespace Wt {
   class WAnchor;
 }
 
-class HangmanWidget;
-class HighScoresWidget;
 class Session;
 class LightsControlWidget; 
 
@@ -35,7 +33,6 @@ public:
 
 private:
   Wt::WStackedWidget *mainStack_;
-  HangmanWidget *game_;
   LightsControlWidget *the_Lights; 
   Wt::WContainerWidget *links_;
   Wt::WAnchor *backToGameAnchor_;
@@ -47,7 +44,7 @@ private:
 
   void onAuthEvent();
   void showLights();
-  void showBridge()
+  void showBridge();
 
 };
 

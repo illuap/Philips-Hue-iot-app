@@ -39,15 +39,10 @@ public:
    * These methods deal with the currently logged in user
    */
   std::string userName() const;
-  int findRanking();
-  void addToScore(int s);
 
   //-------------------------
   //    dawg
   //-------------------------
-  void updateBridge(int s);
-  int getBridge();
-
   Light* getLight(std::string name);
   void updateLight(Light* newLight);
   bool addLight(Light* newLight);
