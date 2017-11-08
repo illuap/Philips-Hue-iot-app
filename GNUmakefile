@@ -50,23 +50,23 @@ all: $(builddir)/test
 $(builddir)/test: $(builddir)/test_LightsControl.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_ImagesWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o
 	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_LightsControl.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o  $(builddir)/test_ImagesWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
 
-$(builddir)/test_hangman.o: hangman.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread hangman.c
+$(builddir)/test_hangman.o: hangman.C
+	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread hangman.C
 
-$(builddir)/test_HangmanGame.o: HangmanGame.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread HangmanGame.c
+$(builddir)/test_HangmanGame.o: HangmanGame.C
+	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread HangmanGame.C
 
-$(builddir)/test_ImagesWidget.o: ImagesWidget.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread ImagesWidget.c
+$(builddir)/test_ImagesWidget.o: ImagesWidget.C
+	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread ImagesWidget.C
 
-$(builddir)/test_Session.o: Session.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread Session.c
+$(builddir)/test_Session.o: Session.C
+	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread Session.C
 
-$(builddir)/test_User.o: User.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread User.c
+$(builddir)/test_User.o: User.C
+	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread User.C
 
-$(builddir)/test_LightsControl.o: LightsControl.c
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread LightsControl.c 
+$(builddir)/test_LightsControl.o: LightsControl.C
+	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread LightsControl.C 
 
 clean:
 	rm -f *.o
