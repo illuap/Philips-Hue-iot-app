@@ -14,6 +14,7 @@
 #include <Wt/WLineEdit>
 #include <Wt/Http/Message>
 #include <Wt/WApplication>
+#include <Wt/WSlider>
 
 #include <Wt/Http/Client>
 #include "LightsControl.h"
@@ -80,38 +81,46 @@ void LightsControlWidget::update()
 
   //change brightness
   this->addWidget(new WText("Brightness: "));
-  briEdit_ = new WLineEdit(this);                       // user text input
-  briEdit_->setFocus();                             // give focus
-  WPushButton *brightButton
-    = new WPushButton("Change", this);                    // submit button
-  brightButton->setMargin(5, Left);                       // add 5 pixels margin
-  this->addWidget(new WBreak());                        // insert a line break
+  briScaleSlider_ = new WSlider(this);
+  briScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
+  briScaleSlider_->setMinimum(1);
+  briScaleSlider_->setMaximum(254);
+  briScaleSlider_->setValue(100);
+  briScaleSlider_->setTickInterval(50);
+  briScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
+  briScaleSlider_->resize(300, 50);
+  this->addWidget(new WBreak());                       
   this->addWidget(new WBreak());
 
   //change saturation
   this->addWidget(new WText("Saturation: "));
-  satEdit_ = new WLineEdit(this);                       // user text input
-  satEdit_->setFocus();                             // give focus
-  WPushButton *satButton
-    = new WPushButton("Change", this);                    // submit button
-  satButton->setMargin(5, Left);                          // add 5 pixels margin
-  this->addWidget(new WBreak());                        // insert a line break
+  satScaleSlider_ = new WSlider(this);
+  satScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
+  satScaleSlider_->setMinimum(1);
+  satScaleSlider_->setMaximum(254);
+  satScaleSlider_->setValue(100);
+  satScaleSlider_->setTickInterval(50);
+  satScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
+  satScaleSlider_->resize(300, 50);
+
+
   this->addWidget(new WBreak());
-
-
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());                       
+  this->addWidget(new WBreak());
   light_ = new WText(this);                           // displays which light is being changed
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
 
 
   hueButton->clicked().connect(this, &LightsControlWidget::hue);
-  brightButton->clicked().connect(this, &LightsControlWidget::bright);
-  satButton->clicked().connect(this, &LightsControlWidget::sat);
   onButton->clicked().connect(this, &LightsControlWidget::on);
   offButton->clicked().connect(this, &LightsControlWidget::off);
   oneButton->clicked().connect(this, &LightsControlWidget::lightOne);
   twoButton->clicked().connect(this, &LightsControlWidget::lightTwo);
   threeButton->clicked().connect(this, &LightsControlWidget::lightThree);
+  briScaleSlider_->valueChanged().connect(this, &LightsControlWidget::bright);
+  satScaleSlider_->valueChanged().connect(this, &LightsControlWidget::sat);
 
   (boost::bind(&LightsControlWidget::hue, this));
   (boost::bind(&LightsControlWidget::bright, this));
@@ -311,85 +320,53 @@ void LightsControlWidget::off() {
 
 //changes the brightness
 void LightsControlWidget::bright() {
-	change_->setText("");
-	//get user input and check if it is a positive integer
-	std::string input = briEdit_->text().toUTF8();
-	bool num = true;
-	for (int i = 0; i < input.length(); i++) {
-		if (!(isdigit(input[i]))) {
-			num = false;
-		}
+	if (currentLight.compare("0") == 0) {
+		light_->setText("Please select a light to change");
+		change_->setText("");
+	} else {
+		int input = briScaleSlider_->value();
+
+		Http::Client *client = LightsControlWidget::connect();
+		Http::Message *msg = new Http::Message();
+		msg->addBodyText("{\"bri\" : \"" + to_string(input) + "\"}");
+		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
+		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
+
+		//CHANGE DB ENTRY
+		Light *x;
+		x = session_->getLight("Hue Lamp " + currentLight);
+		x->setBrightness(input);
+		session_->updateLight(x);
+
+		//test db changes
+		x = session_->getLight("Hue Lamp " + currentLight);
+		change_->setText("new Brightness: " + to_string(x->getBrightness()));
 	}
 
-	//change brightness if input is a valid brightness input
-	int value = atoi(input.c_str());
-	if ((!num) || (value < 1) || (value > 254)) {
-		change_->setText("Please input integer between 1 and 254 to change the brightness");
-	}
-	else {
-		if (currentLight.compare("0") == 0) {
-			light_->setText("Please select a light to change");
-		}
-		else {
-			Http::Client *client = LightsControlWidget::connect();
-			Http::Message *msg = new Http::Message();
-			msg->addBodyText("{\"bri\" : \"" + input + "\"}");
-			client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
-			client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
-			change_->setText("Brightness has been changed");
-
-			//CHANGE DB ENTRY
-			Light *x;
-			x = session_->getLight("Hue Lamp " + currentLight);
-			x->setBrightness(stoi(input));
-			session_->updateLight(x);
-
-			//test db changes
-			x = session_->getLight("Hue Lamp " + currentLight);
-			change_->setText("new Brightness: " + to_string(x->getBrightness()));
-		}
-	}
 }
 
 
 //changes the saturation
 void LightsControlWidget::sat() {
-	change_->setText("");
-	//get user input and check if it is a positive integer
-	std::string input = satEdit_->text().toUTF8();
-	bool num = true;
-	for (int i = 0; i < input.length(); i++) {
-		if (!(isdigit(input[i]))) {
-			num = false;
-		}
-	}
+	if (currentLight.compare("0") == 0) {
+		light_->setText("Please select a light to change");
+		change_->setText("");
+	} else {
+		int input = satScaleSlider_->value();
+		Http::Client *client = LightsControlWidget::connect();
+		Http::Message *msg = new Http::Message();
+		msg->addBodyText("{\"sat\" : \"" + to_string(input) + "\"}");
+		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
+		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
 
-	//change saturation if input is a valid saturation input
-	int value = atoi(input.c_str());
-	if ((!num) || (value < 0) || (value > 254)) {
-		change_->setText("Please input integer between 0 and 254 to change the saturation");
-	}
-	else {
-		if (currentLight.compare("0") == 0) {
-			light_->setText("Please select a light to change");
-		}
-		else {
-			Http::Client *client = LightsControlWidget::connect();
-			Http::Message *msg = new Http::Message();
-			msg->addBodyText("{\"sat\" : \"" + input + "\"}");
-			client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
-			client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
-			change_->setText("Saturation has been changed");
+		//CHANGE DB ENTRY
+		Light *x;
+		x = session_->getLight("Hue Lamp " + currentLight);
+		x->setSaturation(input);
+		session_->updateLight(x);
 
-			// CHANGE DB ENTRY
-			Light *x;
-			x = session_->getLight("Hue Lamp " + currentLight);
-			x->setSaturation(stoi(input));
-			session_->updateLight(x);
-
-			//test db changes
-			x = session_->getLight("Hue Lamp " + currentLight);
-			change_->setText("new Saturation: " + to_string(x->getSaturation()));
-		}
+		//test db changes
+		x = session_->getLight("Hue Lamp " + currentLight);
+		change_->setText("new Saturation: " + to_string(x->getSaturation()));
 	}
 }
