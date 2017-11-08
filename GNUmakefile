@@ -79,6 +79,9 @@ clean:
 	rm -f *.d
 	rm -f $(builddir)/test
 
+start:
+	./test --docroot ./ --http-address 127.0.0.1 --http-port 8080
+
 .PHONY: all clean
 
 # Dependencies tracking:
