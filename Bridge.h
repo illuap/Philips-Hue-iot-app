@@ -1,18 +1,5 @@
-#pragma once
-#ifndef BRIDGE_H
-#define BRIDGE_H
-
 #include <string>
 #include <vector>
-
-#include <Wt/Dbo/Types>
-#include <Wt/Dbo/WtSqlTraits>
-
-#include "Light.h"
-
-class Light;
-//typedef Wt::Dbo::collection< Wt::Dbo::ptr<Light> > Lights;
-
 class Bridge {
 private:
 	std::string bridgeName;
@@ -22,22 +9,10 @@ private:
 	std::string userId;
 	bool registered;
 	int portNumber;
-//	std::vector<Group> groupList;
-//	std::vector<Light> lightList;
-	//Wt::Dbo::collection<Wt::Dbo::ptr<Light> > lights;
+	std::vector<Group> groupList;
+	std::vector<Light> lightList;
 
 public:
-	Bridge() {
-		bridgeName = "";
-		location= "";
-		ipAddress= "";
-		hostName= "";
-		userId= "";
-		registered= false;
-		portNumber= 0;
-	}
-	~Light() {}
-
 	std::string getBridgeName() {
 		return bridgeName;
 	}
@@ -62,11 +37,11 @@ public:
 	}
 
 	int getPortNumber() {
-		return portNumber;
+		return portNumber
 	}
 
 	void setBridgeName(std::string newName) {
-		bridgeName = newName;
+		bridgeName = name;
 	}
 
 	void setLocation(std::string newLocation) {
@@ -86,16 +61,12 @@ public:
 	}
 
 	void setRegistered(bool newRegistered) {
-<<<<<<< HEAD
-		registered = newRegistered;
-=======
 		register = newRegistered;
->>>>>>> 0174b99633680a53936e8dc2eff092871dc65ce6
 	}
 	void setPortNumber(int newPortNumber) {
 		portNumber = newPortNumber;
 	}
-/*
+
 	void addGroup(Group newGroup) {
 		groupList.push_back(newGroup);
 	}
@@ -107,18 +78,4 @@ public:
 	void removeGroup(Group group) {
 
 	}
-*/
-	template<class Action>
-	void persist(Action& a)
-	{
-		Wt::Dbo::field(a, bridgeName, "bridgeName");
-		Wt::Dbo::field(a, location, "location");
-		Wt::Dbo::field(a, ipAddress, "ipAddress");
-		Wt::Dbo::field(a, hostName, "hostName");
-		Wt::Dbo::field(a, userId, "userId");
-		Wt::Dbo::field(a, registered, "registered");
-		Wt::Dbo::field(a, portNumber, "portNumber");
-		//Wt::Dbo::hasMany(a, lights, Wt::Dbo::ManyToOne, "bridgeLights");
-	}
 };
-#endif	/* BRIDGE_H */
