@@ -144,8 +144,10 @@ public:
 	{
 		Wt::Dbo::field(a, name, "name");
 		Wt::Dbo::field(a, type, "type");
+		Wt::Dbo::field(a, on, "on");
 		Wt::Dbo::field(a, bri, "bri");
 		Wt::Dbo::field(a, hue, "hue");
+		Wt::Dbo::field(a, sat, "sat");
 		Wt::Dbo::field(a, transitionTime, "transitionTime");
 	}
 };

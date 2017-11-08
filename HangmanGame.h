@@ -46,9 +46,8 @@ private:
   Session session_;
 
   void onAuthEvent();
-  void showGame();
-  void showHighScores();
   void showLights();
+  void showBridge()
 
 };
 

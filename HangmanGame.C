@@ -98,6 +98,8 @@ void HangmanGame::showLights()
   scoresAnchor_->addStyleClass("selected-link");
 }
 
+
+
 void HangmanGame::showGame()
 {
   if (!game_) {
