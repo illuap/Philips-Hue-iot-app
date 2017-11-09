@@ -18,7 +18,8 @@ using namespace Wt;
 
 HangmanGame::HangmanGame(WContainerWidget *parent):
   WContainerWidget(parent),
-  the_Lights(0)
+  the_Lights(0),
+  the_Bridge(0)
 {
   session_.login().changed().connect(this, &HangmanGame::onAuthEvent);
 
@@ -45,14 +46,16 @@ HangmanGame::HangmanGame(WContainerWidget *parent):
   links_->hide();
   addWidget(links_);
 
+/*
   backToGameAnchor_ = new WAnchor("/lights", "Lights1", links_);
   backToGameAnchor_->setLink(WLink(WLink::InternalPath, "/lights"));
-
-  scoresAnchor_ = new WAnchor("/lights", "Lights2", links_);
-  scoresAnchor_->setLink(WLink(WLink::InternalPath, "/lights"));
+*/
+  bridge_ = new WAnchor("/bridge", "Bridge", links_);
+  bridge_->setLink(WLink(WLink::InternalPath, "/bridge"));
 
   hueLights_ = new WAnchor("/lights", "Lights", links_);
   hueLights_->setLink(WLink(WLink::InternalPath, "/lights"));
+
 
   WApplication::instance()->internalPathChanged()
     .connect(this, &HangmanGame::handleInternalPath);
@@ -69,6 +72,7 @@ void HangmanGame::onAuthEvent()
   } else {
     mainStack_->clear();
     the_Lights = 0;
+    the_Bridge = 0;
     links_->hide();
   }
 }
@@ -78,6 +82,8 @@ void HangmanGame::handleInternalPath(const std::string &internalPath)
   if (session_.login().loggedIn()) {
     if (internalPath == "/lights")
       showLights();
+    else if(internalPath == "/bridge")
+      showBridge();
     else
       WApplication::instance()->setInternalPath("/lights",  true);
   }
@@ -91,6 +97,17 @@ void HangmanGame::showLights()
   mainStack_->setCurrentWidget(the_Lights);
   the_Lights->update();
 
-  backToGameAnchor_->removeStyleClass("selected-link");
-  scoresAnchor_->addStyleClass("selected-link");
+  bridge_->removeStyleClass("selected-link");
+  hueLights_->addStyleClass("selected-link");
+}
+
+void HangmanGame::showBridge(){
+  if (!the_Bridge)
+    the_Bridge = new BridgeControlWidget(&session_, mainStack_);
+
+  mainStack_->setCurrentWidget(the_Bridge);
+  the_Bridge->update();
+
+  hueLights_->removeStyleClass("selected-link");
+  bridge_->addStyleClass("selected-link");
 }

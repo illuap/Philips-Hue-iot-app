@@ -1,9 +1,3 @@
-// This may look like C code, but it's really -*- C++ -*-
-/* 
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium
- *
- * See the LICENSE file for terms of use.
- */
 #include <Wt/WContainerWidget>
 #include <boost/lexical_cast.hpp>
 #include <boost/system/system_error.hpp>
@@ -43,4 +37,4 @@ private:
 	void lightThree();
 };
 
-#endif //HIGH_SCORES_WIDGET_H_
+#endif
