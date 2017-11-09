@@ -19,6 +19,9 @@
 using namespace Wt;
 using namespace std;
 
+string ipAddress = "ip";
+string port = "port";
+
 BridgeControlWidget::BridgeControlWidget(Session *session, WContainerWidget *parent):
   WContainerWidget(parent),
   session_(session)
@@ -31,13 +34,33 @@ BridgeControlWidget::BridgeControlWidget(Session *session, WContainerWidget *par
 void BridgeControlWidget::update()
 {
 	clear();
-	WPushButton *button
-		= new WPushButton("Register", this);										// 1st light button
-	button->setMargin(5, Left);
+	
 	this ->addWidget(new WBreak());
-	user_ = new WText(this);
-	user_->setText("test");
-					
+	/*user_ = new WText(this);
+	user_->setText("test");*/
+
+	//Database function to get the list of bridge ip addresses
+
+	ipList_ = new WText(this);
+	//ipList_->setText(/*List of ip addresses*/);
+	ip_ = new WText(this);
+	ip_->setText("Enter the IP Address");
+	ipEdit_ = new WLineEdit(this);
+	ipEdit_->setMargin(5, Left);
+	this->addWidget(new WBreak());
+
+	port_ = new WText(this);
+	port_->setText("Enter the port number");
+	portEdit_ = new WLineEdit(this);
+	portEdit_->setMargin(5, Left);
+	this->addWidget(new WBreak());
+
+	WPushButton *button
+		= new WPushButton("Register", this);										
+	button->setMargin(5, Left);
+	this->addWidget(new WBreak());
+	testText_ = new WText(this);
+	testText_->setText("testing");
 	/*								
 	Bridge *temp = new Bridge();
 	temp->setIpAddress("911");
@@ -57,7 +80,7 @@ Http::Client * BridgeControlWidget::connect() {
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-//handles get lights request - creates lights and puts them into database
+//handles post register requests and sets the bridge's registered status and user id
 void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
@@ -66,28 +89,30 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		string substring = response.body().substr(pos+11);
 		size_t end = substring.find("\"");
 		string username = substring.substr(0,end);
-		//Test output. Remove later
-		user_->setText(username);
-		
 		
 		//Get Bridge from database
 		//Set registered status to true
 		//Set userId to userId received from response
 
-		/*Bridge* bridge = new Bridge();
+		string ip = ipEdit_->text().toUTF8();
+		string port = portEdit_->text().toUTF8();
+
+		/*Bridge* bridge = session_getBridge(ip+":"+port);
 		bridge.setRegistered(true);
-		bridge.setUserId(username);*/
+		bridge.setUserId(username);
+
+		testText_->setText(bridge.getUserId);*/
+		//clear();
+
 	}
 }
 
-
-
 void BridgeControlWidget::registerBridge(){
+	string ip = ipEdit_->text().toUTF8();
+	string port = portEdit_->text().toUTF8();
 	Http::Client *client = BridgeControlWidget::connect();
-		 Http::Message *msg = new Http::Message();
-		 msg->addBodyText("{\"devicetype\" : \"danny\"}");
-		 client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
-		 client->post("http://localhost:8000/api", *msg);
-		 
-
+	Http::Message *msg = new Http::Message();
+	msg->addBodyText("{\"devicetype\" : \"danny\"}");
+	client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
+	client->post("http://"+ip+":"+port+"/api", *msg);
 }
