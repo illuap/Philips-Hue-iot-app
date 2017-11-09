@@ -43,7 +43,7 @@ public:
 
   //-------------------------
   //-------------------------
-  Bridge* getBridge(std::string name);
+  Bridge* getBridge(std::string ip);
   void updateBridge(Bridge* newBridge);
   bool addBridge(Bridge* newBridge);
   //-------------------------

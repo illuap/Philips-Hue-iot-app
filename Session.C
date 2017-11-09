@@ -179,10 +179,10 @@ void Session::addToScore(int s)
 */
 //---------------------
 
-Bridge* Session::getBridge(std::string name){
+Bridge* Session::getBridge(std::string ip){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("bridgeName = ?").bind(name);
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(ip);
   
   transaction.commit();
   return bridgeObj.modify();
@@ -191,7 +191,15 @@ Bridge* Session::getBridge(std::string name){
 void Session::updateBridge(Bridge* newBridge){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("bridgeName = ?").bind(newBridge->getBridgeName());
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress());
+
+  lightObj.modify()->setBridgeName(newLight->getBridgeName());
+  lightObj.modify()->setLocation(newLight->getLocation());
+  lightObj.modify()->setIpAddress(newLight->getIpAddress());
+  lightObj.modify()->setHostName(newLight->getHostName());
+  lightObj.modify()->setUserId(newLight->getUserId());
+  lightObj.modify()->setRegistered(newLight->getRegistered());
+  lightObj.modify()->setPortNumber(newLight->getPortNumber());
 
   transaction.commit();
 }
@@ -201,7 +209,7 @@ bool Session::addBridge(Bridge* newBridge){
   dbo::Transaction transaction(session_);
 
   dbo::ptr<Bridge> bridgeObj;
-    bridgeObj = session_.find<Bridge>().where("bridgeName = ?").bind(newBridge->getBridgeName());
+    bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress());
     if(!bridgeObj){
       bridgeObj = session_.add(newBridge);
       return true;
