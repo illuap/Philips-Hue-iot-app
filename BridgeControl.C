@@ -37,8 +37,12 @@ void BridgeControlWidget::update()
 	this ->addWidget(new WBreak());
 	user_ = new WText(this);
 	user_->setText("test");
-													
-
+					
+	/*								
+	Bridge *temp = new Bridge();
+	temp->setIpAddress("911");
+	session_->addBridge(temp);
+	*/
 	button->clicked().connect(this, &BridgeControlWidget::registerBridge);
 
 	(boost::bind(&BridgeControlWidget::registerBridge, this));

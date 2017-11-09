@@ -106,6 +106,8 @@ void LightsControlWidget::update()
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
 
+ 
+
 
   hueButton->clicked().connect(this, &LightsControlWidget::hue);
   onButton->clicked().connect(this, &LightsControlWidget::on);

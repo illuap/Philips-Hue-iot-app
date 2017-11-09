@@ -211,7 +211,9 @@ bool Session::addBridge(Bridge* newBridge){
   dbo::ptr<Bridge> bridgeObj;
     bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress());
     if(!bridgeObj){
+      //Wt::Dbo::ptr<Light> temp = session_.add(new Light("name2","type2",200,201,202,true,203));
       bridgeObj = session_.add(newBridge);
+      //bridgeObj.modify()->lights.insert( temp );
       return true;
     }else{
       return false;
@@ -219,6 +221,27 @@ bool Session::addBridge(Bridge* newBridge){
 
   transaction.commit();
 }
+
+bool Session::setLightBelongsTo(std::string lightName,std::string bridgeIP){
+  
+  dbo::Transaction transaction(session_);
+
+  dbo::ptr<Bridge> bridgeObj;
+  bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(bridgeIP);
+
+  dbo::ptr<Light> lightObj;
+  lightObj = session_.find<Light>().where("name = ?").bind(lightName);
+    if(!bridgeObj && !lightObj){
+      bridgeObj.modify()->lights.insert(lightObj);
+      return true;
+    }else{
+      std::cerr << "Setting light belonging to bridge." << std::endl;
+      return false;
+    }
+
+  transaction.commit();
+}
+
 
 //---------------------
 //---------------------
@@ -262,6 +285,26 @@ bool Session::addLight(Light* newLight){
 
   transaction.commit();
 }
+/*
+bool Session::addLight(Light* newLight, std::string bridgeIP){
+  
+  dbo::Transaction transaction(session_);
+
+  dbo::ptr<Light> lightObj;
+  dbo::ptr<Bridge> bridgeObj;
+    lightObj = session_.find<Light>().where("name = ?").bind(newLight->getName());
+    bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(bridgeIP);
+    if(!lightObj && !bridgeObj ){
+      lightObj->
+      lightObj = session_.add(newLight);
+      return true;
+    }else{
+      std::cerr << "Error adding newLight to DB (might exist already)" << std::endl;
+      return false;
+    }
+
+  transaction.commit();
+}*/
 
 //---------------------
 /*

@@ -24,7 +24,7 @@ private:
 	int portNumber;
 //	std::vector<Group> groupList;
 //	std::vector<Light> lightList;
-	Wt::Dbo::collection<Wt::Dbo::ptr<Light> > lights;
+	
 
 public:
 	Bridge() {
@@ -37,6 +37,8 @@ public:
 		portNumber= 0;
 	}
 	~Bridge() {}
+
+	Wt::Dbo::collection<Wt::Dbo::ptr<Light> > lights;
 
 	std::string getBridgeName() {
 		return bridgeName;
@@ -64,7 +66,15 @@ public:
 	int getPortNumber() {
 		return portNumber;
 	}
-
+	/*
+	Light* getLight(std::string lightName){
+		Light *x;
+		return x;		
+	}
+	void addLight(Light* newLight){
+		lights
+	}
+	*/
 	void setBridgeName(std::string newName) {
 		bridgeName = newName;
 	}
@@ -91,6 +101,9 @@ public:
 	void setPortNumber(int newPortNumber) {
 		portNumber = newPortNumber;
 	}
+
+
+
 /*
 	void addGroup(Group newGroup) {
 		groupList.push_back(newGroup);

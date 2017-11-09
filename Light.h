@@ -118,7 +118,7 @@ public:
 	void setName(std::string newName) {
 		name = newName;
 	}
-
+	
 	void setType(std::string newType) {
 		type = newType;
 	}
