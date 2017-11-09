@@ -75,6 +75,8 @@ void LightsControlWidget::update()
 
   //change brightness
   this->addWidget(new WText("Brightness: "));
+  this->addWidget(new WBreak());
+  this->addWidget(new WText("1  "));
   briScaleSlider_ = new WSlider(this);
   briScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   briScaleSlider_->setMinimum(1);
@@ -83,11 +85,14 @@ void LightsControlWidget::update()
   briScaleSlider_->setTickInterval(50);
   briScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
   briScaleSlider_->resize(300, 50);
+  this->addWidget(new WText("  254"));
   this->addWidget(new WBreak());                       
   this->addWidget(new WBreak());
 
   //change saturation
   this->addWidget(new WText("Saturation: "));
+  this->addWidget(new WBreak());
+  this->addWidget(new WText("0  "));
   satScaleSlider_ = new WSlider(this);
   satScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   satScaleSlider_->setMinimum(0);
@@ -96,6 +101,7 @@ void LightsControlWidget::update()
   satScaleSlider_->setTickInterval(50);
   satScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
   satScaleSlider_->resize(300, 50);
+  this->addWidget(new WText("  254"));
 
 
   this->addWidget(new WBreak());
