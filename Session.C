@@ -193,13 +193,13 @@ void Session::updateBridge(Bridge* newBridge){
 
   dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress());
 
-  lightObj.modify()->setBridgeName(newLight->getBridgeName());
-  lightObj.modify()->setLocation(newLight->getLocation());
-  lightObj.modify()->setIpAddress(newLight->getIpAddress());
-  lightObj.modify()->setHostName(newLight->getHostName());
-  lightObj.modify()->setUserId(newLight->getUserId());
-  lightObj.modify()->setRegistered(newLight->getRegistered());
-  lightObj.modify()->setPortNumber(newLight->getPortNumber());
+  bridgeObj.modify()->setBridgeName(newBridge->getBridgeName());
+  bridgeObj.modify()->setLocation(newBridge->getLocation());
+  bridgeObj.modify()->setIpAddress(newBridge->getIpAddress());
+  bridgeObj.modify()->setHostName(newBridge->getHostName());
+  bridgeObj.modify()->setUserId(newBridge->getUserId());
+  bridgeObj.modify()->setRegistered(newBridge->getRegistered());
+  bridgeObj.modify()->setPortNumber(newBridge->getPortNumber());
 
   transaction.commit();
 }
