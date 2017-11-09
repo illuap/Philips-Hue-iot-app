@@ -21,6 +21,7 @@ private:
 	Wt::WLineEdit *hueEdit_;
 	Wt::WSlider *satScaleSlider_;
 	Wt::WSlider *briScaleSlider_;
+	Wt::WSlider *hueScaleSlider_;
 	Wt::WText *change_;
 	Wt::WText *light_;
 	std::string currentLight = "0";
