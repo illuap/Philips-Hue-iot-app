@@ -9,6 +9,7 @@
 
 #include "Session.h"
 #include "LightsControl.h"
+#include "BridgeControl.h"
 
 #ifndef HANGMANGAME_H_
 #define HANGMANGAME_H_
@@ -23,6 +24,7 @@ namespace Wt {
 
 class Session;
 class LightsControlWidget; 
+class BridgeControlWidget; 
 
 class HangmanGame : public Wt::WContainerWidget
 {
@@ -33,10 +35,11 @@ public:
 
 private:
   Wt::WStackedWidget *mainStack_;
-  LightsControlWidget *the_Lights; 
+  LightsControlWidget *the_Lights;
+  BridgeControlWidget *the_Bridge;  
   Wt::WContainerWidget *links_;
   Wt::WAnchor *backToGameAnchor_;
-  Wt::WAnchor *scoresAnchor_;
+  Wt::WAnchor *bridge_;
   Wt::WAnchor *hueLights_;
 
 

@@ -1,9 +1,3 @@
-/*
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium
- *
- * See the LICENSE file for terms of use.
- */
-
 #include <boost/lexical_cast.hpp>
 
 #include <Wt/WText>

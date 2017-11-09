@@ -47,8 +47,8 @@ builddir = .
 
 all: $(builddir)/test
 
-$(builddir)/test: $(builddir)/test_LightsControl.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_ImagesWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o
-	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_LightsControl.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o  $(builddir)/test_ImagesWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
+$(builddir)/test: $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_ImagesWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o
+	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o  $(builddir)/test_ImagesWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
 
 $(builddir)/test_hangman.o: hangman.C
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread hangman.C
@@ -67,6 +67,9 @@ $(builddir)/test_User.o: User.C
 
 $(builddir)/test_LightsControl.o: LightsControl.C
 	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread LightsControl.C 
+
+$(builddir)/test_BridgeControl.o: BridgeControl.C
+	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread BridgeControl.C 
 
 clean:
 	rm -f *.o

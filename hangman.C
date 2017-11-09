@@ -14,7 +14,7 @@ Wt::WApplication *createApplication(const Wt::WEnvironment& env)
 {
   Wt::WApplication *app = new Wt::WApplication(env);
   
-  app->setTitle("Light Hue App");
+  app->setTitle("Hue Light App");
 
   app->messageResourceBundle().use(app->appRoot() + "strings");
   app->messageResourceBundle().use(app->appRoot() + "templates");
