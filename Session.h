@@ -47,6 +47,8 @@ public:
   void updateBridge(Bridge* newBridge);
   bool addBridge(Bridge* newBridge);
   //-------------------------
+  bool setLightBelongsTo(std::string lightName,std::string bridgeIP);
+  //-------------------------
   Light* getLight(std::string name);
   void updateLight(Light* newLight);
   bool addLight(Light* newLight);
