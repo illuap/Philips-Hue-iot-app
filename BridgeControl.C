@@ -36,10 +36,11 @@ void BridgeControlWidget::update()
 	clear();
 	
 	this ->addWidget(new WBreak());
-	/*user_ = new WText(this);
-	user_->setText("test");*/
 
+	//
 	//Database function to get the list of bridge ip addresses
+	//Code combining these ip addresses into a single string
+	//
 
 	ipList_ = new WText(this);
 	//ipList_->setText(/*List of ip addresses*/);
@@ -96,6 +97,13 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 
 		string ip = ipEdit_->text().toUTF8();
 		string port = portEdit_->text().toUTF8();
+
+		//
+		//Get bridge from database who has the same ip address and port as those entered by the user
+		//Set registered status to true
+		//Set user id as the username variable
+		//
+
 
 		/*Bridge* bridge = session_getBridge(ip+":"+port);
 		bridge.setRegistered(true);
