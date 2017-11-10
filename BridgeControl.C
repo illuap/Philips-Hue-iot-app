@@ -53,7 +53,7 @@ void BridgeControlWidget::update()
     // A widget can be added to a container by using addWidget()
 		x = bridges[i];
 		WPushButton *currentButton = new WPushButton(x.getBridgeName(),this);
-		currentButton->setLink("/?_=/lights?user="+x.getUserId()+"&ip="+x.getIpAddress()+"&port="+std::to_string(x.getPortNumber()));
+		currentButton->setLink("/?_=/lights?user="+x.getUserId()+"%26ip="+x.getIpAddress()+"%26port="+std::to_string(x.getPortNumber()));
 	} 
 
 	/*
