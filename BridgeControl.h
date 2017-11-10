@@ -20,11 +20,12 @@ private:
 	//Displays the user id, remove later
 	Wt::WText *user_;
 
-	Wt::WText *ipList_;
 	Wt::WText *ip_;
 	Wt::WLineEdit *ipEdit_;
 	Wt::WText *port_;
 	Wt::WLineEdit *portEdit_;
+	Wt::WText *location_;
+	Wt::WLineEdit *locationEdit_;
 	Wt::WPushButton *button;
 
 	//Test. Remove later

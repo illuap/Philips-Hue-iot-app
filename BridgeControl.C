@@ -37,13 +37,6 @@ void BridgeControlWidget::update()
 	
 	this ->addWidget(new WBreak());
 
-	//
-	//Database function to get the list of bridge ip addresses
-	//Code combining these ip addresses into a single string
-	//
-
-	ipList_ = new WText(this);
-	//ipList_->setText(/*List of ip addresses*/);
 	ip_ = new WText(this);
 	ip_->setText("Enter the IP Address");
 	ipEdit_ = new WLineEdit(this);
@@ -56,17 +49,19 @@ void BridgeControlWidget::update()
 	portEdit_->setMargin(5, Left);
 	this->addWidget(new WBreak());
 
+	location_ = new WText(this);
+	location_->setText("Enter the bridge location");
+	locationEdit_ = new WLineEdit(this);
+	locationEdit_->setMargin(5, Left);
+	this->addWidget(new WBreak());
+
 	WPushButton *button
 		= new WPushButton("Register", this);										
 	button->setMargin(5, Left);
 	this->addWidget(new WBreak());
 	testText_ = new WText(this);
 	testText_->setText("testing");
-	/*								
-	Bridge *temp = new Bridge();
-	temp->setIpAddress("911");
-	session_->addBridge(temp);
-	*/
+
 	button->clicked().connect(this, &BridgeControlWidget::registerBridge);
 
 	(boost::bind(&BridgeControlWidget::registerBridge, this));
@@ -97,6 +92,7 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 
 		string ip = ipEdit_->text().toUTF8();
 		string port = portEdit_->text().toUTF8();
+		string location = locationEdit_->text().toUTF8();
 
 		//
 		//Get bridge from database who has the same ip address and port as those entered by the user
@@ -104,12 +100,16 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		//Set user id as the username variable
 		//
 
+		/*
+		Bridge *bridge = new Bridge();
+		bridge0->setIpAddress(ip);
+		bridge->setPortNumber(stoi(port));
+		bridge->setRegistered(true);
+		bridge->setUserId(username);
+		bridge->setLocation(location);
+		session_->addBridge(bridge);*/
 
-		/*Bridge* bridge = session_getBridge(ip+":"+port);
-		bridge.setRegistered(true);
-		bridge.setUserId(username);
-
-		testText_->setText(bridge.getUserId);*/
+		testText_->setText(bridge.getUserId);
 		//clear();
 
 	}
