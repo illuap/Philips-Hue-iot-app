@@ -26,6 +26,9 @@ private:
 	Wt::WText *change_;
 	Wt::WText *light_;
 	std::string currentLight = "0";
+	std::string ip = "";
+	std::string userID = "";
+	std::string port = "";
 	void on();
 	void off();
 	void hue();
