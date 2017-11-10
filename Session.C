@@ -73,15 +73,14 @@ class UnixCryptHashFunction : public Auth::HashFunction
 
 void Session::configureAuth()
 {
-  myAuthService.setAuthTokensEnabled(true, "hangmancookie");
+  myAuthService.setAuthTokensEnabled(true, "hueappcookie");
   myAuthService.setEmailVerificationEnabled(true);
+  //myAuthService.setEmailPolicy(Wt::Auth::EmailPolicy::Mandatory)
 
   Auth::PasswordVerifier *verifier = new Auth::PasswordVerifier();
   verifier->addHashFunction(new Auth::BCryptHashFunction(7));
 
 #ifdef HAVE_CRYPT
-  // We want to still support users registered in the pre - Wt::Auth
-  // version of the hangman example
   verifier->addHashFunction(new UnixCryptHashFunction());
 #endif
 
@@ -94,7 +93,7 @@ void Session::configureAuth()
 }
 
 Session::Session()
-  : sqlite3_(WApplication::instance()->appRoot() + "hangman.db")
+  : sqlite3_(WApplication::instance()->appRoot() + "hueApp.db")
 {
   session_.setConnection(sqlite3_);
   sqlite3_.setProperty("show-queries", "true");
@@ -123,9 +122,6 @@ Session::Session()
     Light *light1 = new Light("name1","type1",200,201,202,true,203);
     dbo::ptr<Light> light1ptr = session_.add(light1);
 
-    Bridge *bridge1 = new Bridge();
-    dbo::ptr<Bridge> bridge1ptr = session_.add(bridge1);
-
     Wt::log("info") << "Database created";
   } catch (...) {
     Wt::log("info") << "Using existing database";
@@ -139,7 +135,7 @@ Session::~Session()
   delete users_;
 }
 
-dbo::ptr<User> Session::user() const
+dbo::ptr<User> Session::user()
 {
   if (login_.loggedIn()) {
     dbo::ptr<AuthInfo> authInfo = users_->find(login_.user());
@@ -148,6 +144,8 @@ dbo::ptr<User> Session::user() const
     if (!user) {
       user = session_.add(new User());
       authInfo.modify()->setUser(user);
+      //user.modify()-> name = login_.user().identity(Auth::Identity::LoginName).toUTF8();
+
     }
 
     return user;
@@ -162,6 +160,8 @@ std::string Session::userName() const
   else
     return std::string();
 }
+
+
 /*
 void Session::addToScore(int s)
 {
@@ -179,13 +179,72 @@ void Session::addToScore(int s)
 */
 //---------------------
 
-Bridge* Session::getBridge(std::string ip){
+Bridge* Session::getBridge(std::string ip, std::string port){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(ip);
-  
-  transaction.commit();
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
+            .where("ipAddress = ?").bind(ip)
+            .where("portNumber = ?").bind(port);
+
   return bridgeObj.modify();
+  /*
+  // get table of common ports
+  dbo::Query<BridgePtr> query = session_.find<Bridge>().where("portNumber = ?").bind(port);
+  Bridges bridges = query.resultList();
+  dbo::ptr<Bridge> bridge;
+
+  // get matching ips
+  for (Bridges::const_iterator i = bridges.begin(); i != bridges.end(); ++i){
+    bridge = *i;
+    if(bridge.modify()->getIpAddress() == ip){
+      transaction.commit();
+      return bridge.modify();
+    }
+  }
+  return NULL;
+  //dbo::ptr<Bridge> bridgeObj = query.find<Bridge>().where("ipAddress = ?").bind(ip);
+  */
+  transaction.commit();
+}
+
+void Session::addUserBridgeID(std::string newBridgeUserId){
+  dbo::Transaction transaction(session_);
+
+  dbo::ptr<User> u = user();
+  if (u) {
+    u.modify()->name = userName();
+    u.modify()->bridgeUserID = newBridgeUserId;
+  }
+
+  transaction.commit();
+}
+
+std::string Session::getUserBridgeID(){
+
+  dbo::ptr<User> u = user();
+  if (u) {
+
+    return u.modify()->bridgeUserID;
+  }
+
+}
+
+Wt::Dbo::ptr<Bridge> Session::getUserBridge(){
+  dbo::Transaction transaction(session_);
+
+/*
+  dbo::ptr<Bridge> u = session_.find<Bridge>().where("name = ?").bind(userName());
+  if (u) {
+    return u.modify();
+  }
+*/
+  dbo::ptr<User> u = user();
+  if (u) {
+    return u.modify()->bridge;
+  }
+
+
+  transaction.commit();
 }
 
 void Session::updateBridge(Bridge* newBridge){
@@ -204,23 +263,81 @@ void Session::updateBridge(Bridge* newBridge){
   transaction.commit();
 }
 
+std::vector<Bridge> Session::getBridges(){
+  dbo::Transaction transaction(session_);
+
+
+  dbo::ptr<User> u = user();
+  if (u && u.modify()->name == "") {
+    u.modify()->name = userName();
+  }
+
+  Wt::Dbo::Query<BridgePtr> query = session_.find<Bridge>();
+  Bridges bridges = query.resultList();
+  std::vector<Bridge> x;
+  for (Bridges::const_iterator i = bridges.begin(); i != bridges.end(); ++i){
+    dbo::ptr<Bridge> bridge = *i;
+    x.push_back(*bridge);
+  }
+
+  transaction.commit();
+  return x;
+}
+
+
 bool Session::addBridge(Bridge* newBridge){
   
   dbo::Transaction transaction(session_);
 
   dbo::ptr<Bridge> bridgeObj;
-    bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress());
+    bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress())
+                                        .where("portNumber = ?").bind(newBridge->getPortNumber());
     if(!bridgeObj){
       //Wt::Dbo::ptr<Light> temp = session_.add(new Light("name2","type2",200,201,202,true,203));
       bridgeObj = session_.add(newBridge);
       //bridgeObj.modify()->lights.insert( temp );
+      transaction.commit();
       return true;
     }else{
+      transaction.commit();
       return false;
     }
 
   transaction.commit();
 }
+
+
+void Session::updateUser(User* newUser){
+  dbo::Transaction transaction(session_);
+
+  dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
+  user.modify()->name = newUser->name;
+  user.modify()->firstName = newUser->firstName;
+  user.modify()->lastName = newUser->lastName;
+  user.modify()->email = newUser->email;
+  user.modify()->bridgeUserID = newUser->bridgeUserID;
+  //user.modify()->bridge = newUser->bridge;
+
+  transaction.commit();
+}
+
+
+User* Session::getUser(){
+  dbo::Transaction transaction(session_);
+  dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
+  transaction.commit();
+  return user.modify();
+}
+
+
+
+
+
+
+
+
+
+
 
 bool Session::setLightBelongsTo(std::string lightName,std::string bridgeIP){
   
@@ -241,7 +358,6 @@ bool Session::setLightBelongsTo(std::string lightName,std::string bridgeIP){
 
   transaction.commit();
 }
-
 
 //---------------------
 //---------------------

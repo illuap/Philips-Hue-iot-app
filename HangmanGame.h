@@ -37,10 +37,8 @@ private:
   Wt::WStackedWidget *mainStack_;
   LightsControlWidget *the_Lights;
   BridgeControlWidget *the_Bridge;  
-  Wt::WContainerWidget *links_;
+  // Wt::WContainerWidget *links_;
   Wt::WAnchor *backToGameAnchor_;
-  Wt::WAnchor *bridge_;
-  Wt::WAnchor *hueLights_;
 
 
   Session session_;

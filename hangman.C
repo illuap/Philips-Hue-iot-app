@@ -6,6 +6,7 @@
 
 #include <Wt/WApplication>
 #include <Wt/WServer>
+#include <Wt/WAnchor>
 
 #include "HangmanGame.h"
 #include "Session.h"

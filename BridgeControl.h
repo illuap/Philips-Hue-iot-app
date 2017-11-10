@@ -26,6 +26,7 @@ private:
 	Wt::WLineEdit *portEdit_;
 	Wt::WText *location_;
 	Wt::WLineEdit *locationEdit_;
+	Wt::WLineEdit *name_;
 	Wt::WPushButton *button;
 	Wt::WText *errorText_;
 
@@ -37,6 +38,10 @@ private:
 	Wt::Http::Client * connect();
 	void registerBridge();
 	void setIpAddress();
+	std::string username; 
+	std::string ip; 
+	std::string port; 
+	void showLights();
 };
 
 
