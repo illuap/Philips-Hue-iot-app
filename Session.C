@@ -228,16 +228,16 @@ std::string Session::getUserBridgeID(){
   }
 
 }
-
+/*
 Wt::Dbo::ptr<Bridge> Session::getUserBridge(){
   dbo::Transaction transaction(session_);
 
-/*
-  dbo::ptr<Bridge> u = session_.find<Bridge>().where("name = ?").bind(userName());
-  if (u) {
-    return u.modify();
-  }
-*/
+
+  //dbo::ptr<Bridge> u = session_.find<Bridge>().where("name = ?").bind(userName());
+  //if (u) {
+  //  return u.modify();
+  //}
+y
   dbo::ptr<User> u = user();
   if (u) {
     return u.modify()->bridge;
@@ -246,6 +246,7 @@ Wt::Dbo::ptr<Bridge> Session::getUserBridge(){
 
   transaction.commit();
 }
+*/
 
 void Session::updateBridge(Bridge* newBridge){
   dbo::Transaction transaction(session_);
@@ -331,7 +332,7 @@ void Session::setUserBelongsTo(Bridge* x){
   if(aBridge && user){
     Wt::log("info") << "port2!!!!!!!!!" << std::to_string(x->getPortNumber());
     Wt::log("info") << "port3!!!!!!!!!" << std::to_string(aBridge.modify()->getPortNumber());
-    user.modify()-> bridge = aBridge;
+    user.modify()->bridges.insert(aBridge);
   }
 
   transaction.commit();

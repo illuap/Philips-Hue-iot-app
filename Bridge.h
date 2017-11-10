@@ -131,7 +131,7 @@ public:
 		Wt::Dbo::field(a, userId, "userId");
 		Wt::Dbo::field(a, registered, "registered");
 		Wt::Dbo::field(a, portNumber, "portNumber");
-		Wt::Dbo::hasMany(a, users, Wt::Dbo::ManyToOne, "bridge");
+		Wt::Dbo::hasMany(a, users, Wt::Dbo::ManyToMany, "bridge_user");
 		Wt::Dbo::hasMany(a, lights, Wt::Dbo::ManyToOne, "bridge");
 	}
 };

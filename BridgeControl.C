@@ -17,6 +17,7 @@
 
 #include "BridgeControl.h"
 #include "Session.h"
+#include "User.h"
 
 using namespace Wt;
 using namespace std;
@@ -45,13 +46,28 @@ void BridgeControlWidget::update()
 
 	std::vector<Bridge> bridges = session_->getBridges();
 
-	this->addWidget(new WText("Existing bridges:"));
+	this->addWidget(new WText("Your existing bridges:"));
 	this->addWidget(new WBreak());
+	Bridge x;
 	for(int i = 0; i < bridges.size(); i++){
-		this->addWidget(new WText(bridges[i].getBridgeName() + " " 
-			+ bridges[i].getIpAddress() + ":" 
-			+ std::to_string(bridges[i].getPortNumber())));
+		x = bridges[i];
+		this->addWidget(new WText(x.getBridgeName() + " " 
+			+ x.getIpAddress() + ":" 
+			+ std::to_string(x.getPortNumber())));
 		this->addWidget(new WBreak());
+		/*
+		Bridge x = bridges[i];
+	    for (Wt::Dbo::collection< Wt::Dbo::ptr<User> >::const_iterator it = x.users.begin(); it != x.users.end(); ++it) {
+	    	Wt::Dbo::ptr<User> user = *it;
+	    	if(user->name == session_->userName()){
+				this->addWidget(new WText(x.getBridgeName() + " " 
+					+ x.getIpAddress() + ":" 
+					+ std::to_string(x.getPortNumber())));
+				this->addWidget(new WBreak());
+			}
+	    }
+
+		*/
 	}
 
 	/*
