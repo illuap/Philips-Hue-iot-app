@@ -73,15 +73,14 @@ class UnixCryptHashFunction : public Auth::HashFunction
 
 void Session::configureAuth()
 {
-  myAuthService.setAuthTokensEnabled(true, "hangmancookie");
+  myAuthService.setAuthTokensEnabled(true, "hueappcookie");
   myAuthService.setEmailVerificationEnabled(true);
+  //myAuthService.setEmailPolicy(Wt::Auth::EmailPolicy::Mandatory)
 
   Auth::PasswordVerifier *verifier = new Auth::PasswordVerifier();
   verifier->addHashFunction(new Auth::BCryptHashFunction(7));
 
 #ifdef HAVE_CRYPT
-  // We want to still support users registered in the pre - Wt::Auth
-  // version of the hangman example
   verifier->addHashFunction(new UnixCryptHashFunction());
 #endif
 
@@ -94,7 +93,7 @@ void Session::configureAuth()
 }
 
 Session::Session()
-  : sqlite3_(WApplication::instance()->appRoot() + "hangman.db")
+  : sqlite3_(WApplication::instance()->appRoot() + "hueApp.db")
 {
   session_.setConnection(sqlite3_);
   sqlite3_.setProperty("show-queries", "true");
@@ -179,13 +178,44 @@ void Session::addToScore(int s)
 */
 //---------------------
 
-Bridge* Session::getBridge(std::string ip){
+Bridge* Session::getBridge(std::string ip, std::string port){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(ip);
-  
-  transaction.commit();
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
+            .where("ipAddress = ?").bind(ip)
+            .where("portNumber = ?").bind(port);
+
   return bridgeObj.modify();
+  /*
+  // get table of common ports
+  dbo::Query<BridgePtr> query = session_.find<Bridge>().where("portNumber = ?").bind(port);
+  Bridges bridges = query.resultList();
+  dbo::ptr<Bridge> bridge;
+
+  // get matching ips
+  for (Bridges::const_iterator i = bridges.begin(); i != bridges.end(); ++i){
+    bridge = *i;
+    if(bridge.modify()->getIpAddress() == ip){
+      transaction.commit();
+      return bridge.modify();
+    }
+  }
+  return NULL;
+  //dbo::ptr<Bridge> bridgeObj = query.find<Bridge>().where("ipAddress = ?").bind(ip);
+  */
+  transaction.commit();
+}
+
+void Session::addUserBridgeID(std::string newBridgeUserId){
+  dbo::Transaction transaction(session_);
+
+  dbo::ptr<User> u = user();
+  if (u) {
+    u.modify()->name = userName();
+    u.modify()->bridgeUserID = newBridgeUserId;
+  }
+
+  transaction.commit();
 }
 
 void Session::updateBridge(Bridge* newBridge){
@@ -203,6 +233,22 @@ void Session::updateBridge(Bridge* newBridge){
 
   transaction.commit();
 }
+
+std::vector<Bridge> Session::getBridges(){
+  dbo::Transaction transaction(session_);
+
+  Wt::Dbo::Query<BridgePtr> query = session_.find<Bridge>();
+  Bridges bridges = query.resultList();
+  std::vector<Bridge> x;
+  for (Bridges::const_iterator i = bridges.begin(); i != bridges.end(); ++i){
+    dbo::ptr<Bridge> bridge = *i;
+    x.push_back(*bridge);
+  }
+
+  transaction.commit();
+  return x;
+}
+
 
 bool Session::addBridge(Bridge* newBridge){
   

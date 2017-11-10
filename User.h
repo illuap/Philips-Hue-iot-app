@@ -28,6 +28,7 @@ public:
   std::string firstName;
   std::string lastName;
   std::string email;
+  std::string bridgeUserID;
 //  Bridge *bridgeID;
   Wt::Dbo::collection< Wt::Dbo::ptr<AuthInfo> > authInfos;
 
@@ -37,6 +38,7 @@ public:
     Wt::Dbo::field(a, firstName, "firstName");
     Wt::Dbo::field(a, lastName, "lastName");
     Wt::Dbo::field(a, email, "email");
+    Wt::Dbo::field(a, bridgeUserID, "bridgeUserID");
 
     Wt::Dbo::hasMany(a, authInfos, Wt::Dbo::ManyToOne, "user");
   }

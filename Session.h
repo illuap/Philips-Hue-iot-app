@@ -22,6 +22,8 @@
 #include "Bridge.h"
 
 typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
+typedef Wt::Dbo::ptr<Bridge> BridgePtr;
+typedef Wt::Dbo::collection<BridgePtr> Bridges;
 
 class Session
 {
@@ -42,8 +44,11 @@ public:
   std::string userName() const;
 
   //-------------------------
+  void addUserBridgeID(std::string newBridgeUserId);
   //-------------------------
-  Bridge* getBridge(std::string ip);
+  std::vector<Bridge> getBridges();
+  //-------------------------
+  Bridge* getBridge(std::string ip, std::string port);
   void updateBridge(Bridge* newBridge);
   bool addBridge(Bridge* newBridge);
   //-------------------------
