@@ -48,13 +48,13 @@ void BridgeControlWidget::update()
 
 	this->addWidget(new WText("Existing bridges:"));
 	this->addWidget(new WBreak());
-	for(int i = 0; i < bridges.size(); i++){
-		this->addWidget(new WText(bridges[i].getBridgeName() + " " 
-			+ bridges[i].getIpAddress() + ":" 
-			+ std::to_string(bridges[i].getPortNumber())+"  "
-			+ bridges[i].getUserId()));
-		this->addWidget(new WBreak());
-	}
+	Bridge x; 
+	for (unsigned int i = 0; i < bridges.size(); i++) {
+    // A widget can be added to a container by using addWidget()
+		x = bridges[i];
+		WPushButton *currentButton = new WPushButton(x.getBridgeName(),this);
+		currentButton->setLink("/?_=/lights?user="+x.getUserId()+"&ip="+x.getIpAddress()+"&port="+std::to_string(x.getPortNumber()));
+	} 
 
 	/*
 	std::string userid = session_->getUserBridgeID();
