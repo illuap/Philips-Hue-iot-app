@@ -153,14 +153,18 @@ void BridgeControlWidget::registerBridge(){
 	testText_->setText(username+ip+port);
 
 	Bridge *temp = new Bridge();
-
+	Wt::log("info") << "port!!!!!!!!!" << port;
 	temp->setBridgeName(name);
 	temp->setIpAddress(ip);
 	int x = stoi(port);
 	temp->setPortNumber(x);
 	temp->setUserId(username);
 
-	session_->addBridge(temp);
+
+	User *temp_user = session_->getUser();
+	temp_user->bridgeUserID = username;
+	session_->updateUser(temp_user);
+	session_->setUserBelongsTo(temp);
 }
 
 void BridgeControlWidget::showLights() 

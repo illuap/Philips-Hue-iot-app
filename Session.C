@@ -321,6 +321,21 @@ void Session::updateUser(User* newUser){
   transaction.commit();
 }
 
+void Session::setUserBelongsTo(Bridge* x){
+  dbo::Transaction transaction(session_);
+  dbo::ptr<Bridge> aBridge =  session_.add(x);
+  //dbo::ptr<Bridge> aBridge = session_.find<Bridge>().where("ipAddress = ?").bind(x->getIpAddress())
+  //.where("portNumber = ?").bind(x->getPortNumber());
+  dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
+
+  if(aBridge && user){
+    Wt::log("info") << "port2!!!!!!!!!" << std::to_string(x->getPortNumber());
+    Wt::log("info") << "port3!!!!!!!!!" << std::to_string(aBridge.modify()->getPortNumber());
+    user.modify()-> bridge = aBridge;
+  }
+
+  transaction.commit();
+}
 
 User* Session::getUser(){
   dbo::Transaction transaction(session_);

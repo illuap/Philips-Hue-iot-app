@@ -46,7 +46,7 @@ public:
   Wt::Dbo::ptr<Bridge> getUserBridge();
   void updateUser(User* newUser);
   User* getUser();
-  void updateUserBridge(Bridge* x);
+  void setUserBelongsTo(Bridge* x);
   //-------------------------
   void addUserBridgeID(std::string newBridgeUserId);
   //-------------------------
