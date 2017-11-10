@@ -127,38 +127,45 @@ Http::Client * BridgeControlWidget::connect() {
 void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
-		//Parse the username from the response JSON
-		size_t pos = response.body().find("username");
-		string substring = response.body().substr(pos+11);
-		size_t end = substring.find("\"");
-		username = substring.substr(0,end);
+		if (response.body().find("error") != -1) {
+			errorText_->setText("Please link the bridge");
+		}
+		else {
+			//Parse the username from the response JSON
+			size_t pos = response.body().find("username");
+			string substring = response.body().substr(pos + 11);
+			size_t end = substring.find("\"");
+			username = substring.substr(0, end);
+
+
+			//Get the bridge name, ip address, port number, and location
+			string name = name_->text().toUTF8();
+			string ip = ipEdit_->text().toUTF8();
+			string port = portEdit_->text().toUTF8();
+			string location = locationEdit_->text().toUTF8();
+
+			//Creates a new bridge and adds it to the database
+			Bridge *temp = new Bridge();
+			temp->setBridgeName(name);
+			temp->setIpAddress(ip);
+			int x = stoi(port);
+			temp->setPortNumber(x);
+			temp->setUserId(username);
+			temp->setLocation(location);
+
+			session_->addBridge(temp);
+			update();
+
+		}
+		}
 		
-		
-		//Get the bridge name, ip address, port number, and location
-		string name = name_-> text().toUTF8();
-		string ip = ipEdit_->text().toUTF8();
-		string port = portEdit_->text().toUTF8();
-		string location = locationEdit_->text().toUTF8();
-
-		//Creates a new bridge and adds it to the database
-		Bridge *temp = new Bridge();
-		temp->setBridgeName(name);
-		temp->setIpAddress(ip);
-		int x = stoi(port);
-		temp->setPortNumber(x);
-		temp->setUserId(username);
-		temp->setLocation(location);
-
-		session_->addBridge(temp);
-		update();
-
-	}
 }
 
 void BridgeControlWidget::registerBridge() {
 	string name = name_->text().toUTF8();
 	string ip = ipEdit_->text().toUTF8();
-	string port = portEdit_->text().toUTF8();
+	string port = portEdit_->text().toUTF8();
+
 	//Checks if entered port number is an integer
 	if (!port.empty() && find_if(port.begin(), port.end(), [](char c) { return !std::isdigit(c); }) == port.end()) {
 		vector<Bridge> bridges = session_->getBridges();
@@ -170,19 +177,23 @@ void BridgeControlWidget::registerBridge() {
 			client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
 			client->post("http://" + ip + ":" + port + "/api", *msg);
 			testText_->setText(username + ip + port);
-		}		else {
+		}
+
+		else {
 			vector<int> ports;
 			bool foundPort = false;
 			//Creates a vector of all the port numbers
 			for (size_t i = 0; i<bridges.size(); i++) {
 				ports.push_back(bridges[i].getPortNumber());
-			}
+			}
+
 			//Makes a POST request to register the bridge if the bridge with the given port number isn't registered yet
 			for (size_t i = 0; i<ports.size(); i++) {
 				if (ports[i] == stoi(port)) {
 					foundPort = true;
 				}
-			}
+			}
+
 			if (foundPort == false) {
 				Http::Client *client = BridgeControlWidget::connect();
 				Http::Message *msg = new Http::Message();
@@ -190,13 +201,15 @@ void BridgeControlWidget::registerBridge() {
 				client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
 				client->post("http://" + ip + ":" + port + "/api", *msg);
 				testText_->setText(username + ip + port);
-			}
+			}
+
 			//Displays an error if the bridge is already registered
 			else {
 				errorText_->setText("Bridge already registered");
 			}
 		}
-	}
+	}
+
 	//Displays an error if an integer was not entered for the port number
 	else {
 		errorText_->setText("Not a valid port number");
