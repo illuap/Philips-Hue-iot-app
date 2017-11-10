@@ -62,6 +62,10 @@ void BridgeControlWidget::update()
 	testText_ = new WText(this);
 	testText_->setText("testing");
 
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	errorText_ = new WText(this);
+
 	button->clicked().connect(this, &BridgeControlWidget::registerBridge);
 
 	(boost::bind(&BridgeControlWidget::registerBridge, this));
@@ -109,7 +113,7 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		bridge->setLocation(location);
 		session_->addBridge(bridge);*/
 
-		testText_->setText(bridge.getUserId);
+		testText_->setText(ip+":"+port);
 		//clear();
 
 	}
@@ -118,9 +122,23 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 void BridgeControlWidget::registerBridge(){
 	string ip = ipEdit_->text().toUTF8();
 	string port = portEdit_->text().toUTF8();
-	Http::Client *client = BridgeControlWidget::connect();
-	Http::Message *msg = new Http::Message();
-	msg->addBodyText("{\"devicetype\" : \"danny\"}");
-	client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
-	client->post("http://"+ip+":"+port+"/api", *msg);
+	//Checks if port number inputted is a number
+	if (!s.empty() && std::find_if(s.begin(), s.end(), [](char c) { return !std::isdigit(c); }) == s.end()) {
+		//Get vector of bridges
+		/*vector<Bridge> bridges;
+		vector<int> ports;
+		for (auto const& value : bridges) {
+			ports.push_back(value->getPortNumber());
+		}*/
+		Http::Client *client = BridgeControlWidget::connect();
+		Http::Message *msg = new Http::Message();
+		msg->addBodyText("{\"devicetype\" : \"danny\"}");
+		client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
+		client->post("http://" + ip + ":" + port + "/api", *msg);
+	}
+	else {
+		errorText_->setText("Not a valid port number");
+	}
+	
+	
 }

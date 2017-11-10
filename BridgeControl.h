@@ -27,6 +27,7 @@ private:
 	Wt::WText *location_;
 	Wt::WLineEdit *locationEdit_;
 	Wt::WPushButton *button;
+	Wt::WText *errorText_;
 
 	//Test. Remove later
 	Wt::WText *testText_;
