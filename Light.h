@@ -115,59 +115,30 @@ public:
 		return transitionTime;
 	}
 
-	// Function Name: setName()
-	// Parameters: string of the new name
-	// Return: None
-	// Description: sets a Light's name
 	void setName(std::string newName) {
 		name = newName;
 	}
 	
-	// Function Name: setType()
-	// Parameters: string of the new type
-	// Return: None
-	// Description: sets a Light's type
 	void setType(std::string newType) {
 		type = newType;
 	}
 
-	// Function Name: setBrightness()
-	// Parameters: int of the new brightness
-	// Return: None
-	// Description: sets a Light's brightness
 	void setBrightness(int newBri) {
 		bri = newBri;
 	}
 
-
-	// Function Name: setHue()
-	// Parameters: int of the new hue
-	// Return: None
-	// Description: sets a Light's hue
 	void setHue(int newHue) {
 		hue = newHue;
 	}
 
-	// Function Name: setSaturation()
-	// Parameters: int of the new saturation
-	// Return: None
-	// Description: sets a Light's saturation
 	void setSaturation(int newSat) {
 		sat = newSat;
 	}
 
-	// Function Name: setOn()
-	// Parameters: boolean of the on/off status
-	// Return: None
-	// Description: sets a Light's on/off status
 	void setOn(bool newOn) {
 		on = newOn;
 	}
 
-	// Function Name: setTransitionTime()
-	// Parameters: int of the new transition time
-	// Return: None
-	// Description: sets a Light's transition time
 	void setTransition(int newTrans) {
 		transitionTime = newTrans;
 	}

@@ -42,7 +42,11 @@ public:
    * These methods deal with the currently logged in user
    */
   std::string userName() const;
-
+  std::string getUserBridgeID();
+  Wt::Dbo::ptr<Bridge> getUserBridge();
+  void updateUser(User* newUser);
+  User* getUser();
+  void updateUserBridge(Bridge* x);
   //-------------------------
   void addUserBridgeID(std::string newBridgeUserId);
   //-------------------------
@@ -69,7 +73,7 @@ private:
   UserDatabase *users_;
   Wt::Auth::Login login_;
 
-  Wt::Dbo::ptr<User> user() const;
+  Wt::Dbo::ptr<User> user();
 };
 
 #endif //SESSION_H_

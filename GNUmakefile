@@ -77,7 +77,7 @@ clean:
 	rm -f $(builddir)/test
 
 start:
-	./test --docroot ./ --http-address 127.0.0.1 --http-port 8080
+	./test --docroot ./ --http-address 127.0.0.1 --http-port 8090
 
 .PHONY: all clean
 

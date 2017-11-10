@@ -18,6 +18,7 @@ public:
 
 private:
 	Session *session_;
+	Wt::WLineEdit *nameEdit_;
 	Wt::WLineEdit *hueEdit_;
 	Wt::WSlider *satScaleSlider_;
 	Wt::WSlider *briScaleSlider_;
@@ -30,12 +31,14 @@ private:
 	void hue();
 	void bright();
 	void sat();
+	void name();
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
 	Wt::Http::Client * connect();
 	void lightOne();
 	void lightTwo();
 	void lightThree();
+	void returnBridge();
 };
 
 #endif

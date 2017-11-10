@@ -14,8 +14,10 @@
 #include <Wt/Auth/Dbo/AuthInfo>
 
 #include <string>
+#include "Bridge.h"
 
 class User;
+class Bridge;
 typedef Wt::Auth::Dbo::AuthInfo<User> AuthInfo;
 typedef Wt::Dbo::collection< Wt::Dbo::ptr<User> > Users;
 
@@ -29,17 +31,19 @@ public:
   std::string lastName;
   std::string email;
   std::string bridgeUserID;
+  Wt::Dbo::ptr<Bridge> bridge;
 //  Bridge *bridgeID;
   Wt::Dbo::collection< Wt::Dbo::ptr<AuthInfo> > authInfos;
 
   template<class Action>
   void persist(Action& a)
   {
+    Wt::Dbo::field(a, name, "name");
     Wt::Dbo::field(a, firstName, "firstName");
     Wt::Dbo::field(a, lastName, "lastName");
     Wt::Dbo::field(a, email, "email");
     Wt::Dbo::field(a, bridgeUserID, "bridgeUserID");
-
+    Wt::Dbo::belongsTo(a, bridge, "bridge");
     Wt::Dbo::hasMany(a, authInfos, Wt::Dbo::ManyToOne, "user");
   }
 };
