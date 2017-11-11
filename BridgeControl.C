@@ -65,7 +65,8 @@ void BridgeControlWidget::update()
 	*/
 
 	// END OF PRINTING BRIDGES
-	
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
 	//Input for the bridge name
 	this->addWidget(new WText("Enter a bridge name: "));
 	name_ = new WLineEdit(this);
