@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -47,25 +48,16 @@ void BridgeControlWidget::update()
 
 	this->addWidget(new WText("Existing bridges:"));
 	this->addWidget(new WBreak());
-	for(int i = 0; i < bridges.size(); i++){
-		this->addWidget(new WText(bridges[i].getBridgeName() + " " 
-			+ bridges[i].getIpAddress() + ":" 
-			+ std::to_string(bridges[i].getPortNumber())+"  "
-			+ bridges[i].getUserId()));
-		this->addWidget(new WBreak());
-	}
+	Bridge x; 
+	for (unsigned int i = 0; i < bridges.size(); i++) {
+    // A widget can be added to a container by using addWidget()
+		x = bridges[i];
+		WPushButton *currentButton = new WPushButton(x.getBridgeName(),this);
+		currentButton->setLink("/?_=/lights?user="+x.getUserId()+"%26ip="+x.getIpAddress()+"%26port="+std::to_string(x.getPortNumber()));
+	} 
 
-	/*
-	std::string userid = session_->getUserBridgeID();
-	if(userid == ""){
-		this->addWidget(new WText("NEW"));
-	}else{
-		this->addWidget(new WText("OLD"));
-	}
-	*/
-
-	// END OF PRINTING BRIDGES
-	
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
 	//Input for the bridge name
 	this->addWidget(new WText("Enter a bridge name: "));
 	name_ = new WLineEdit(this);
@@ -97,6 +89,7 @@ void BridgeControlWidget::update()
 	WPushButton *button
 		= new WPushButton("Register", this);										
 	button->setMargin(5, Left);
+	this->addWidget(new WBreak());
 	confirm_ = new WText(this);
 
 	this->addWidget(new WBreak());

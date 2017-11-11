@@ -228,16 +228,16 @@ std::string Session::getUserBridgeID(){
   }
 
 }
-
+/*
 Wt::Dbo::ptr<Bridge> Session::getUserBridge(){
   dbo::Transaction transaction(session_);
 
-/*
-  dbo::ptr<Bridge> u = session_.find<Bridge>().where("name = ?").bind(userName());
-  if (u) {
-    return u.modify();
-  }
-*/
+
+  //dbo::ptr<Bridge> u = session_.find<Bridge>().where("name = ?").bind(userName());
+  //if (u) {
+  //  return u.modify();
+  //}
+y
   dbo::ptr<User> u = user();
   if (u) {
     return u.modify()->bridge;
@@ -246,6 +246,7 @@ Wt::Dbo::ptr<Bridge> Session::getUserBridge(){
 
   transaction.commit();
 }
+*/
 
 void Session::updateBridge(Bridge* newBridge){
   dbo::Transaction transaction(session_);
@@ -321,6 +322,21 @@ void Session::updateUser(User* newUser){
   transaction.commit();
 }
 
+void Session::setUserBelongsTo(Bridge* x){
+  dbo::Transaction transaction(session_);
+  dbo::ptr<Bridge> aBridge =  session_.add(x);
+  //dbo::ptr<Bridge> aBridge = session_.find<Bridge>().where("ipAddress = ?").bind(x->getIpAddress())
+  //.where("portNumber = ?").bind(x->getPortNumber());
+  dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
+
+  if(aBridge && user){
+    Wt::log("info") << "port2!!!!!!!!!" << std::to_string(x->getPortNumber());
+    Wt::log("info") << "port3!!!!!!!!!" << std::to_string(aBridge.modify()->getPortNumber());
+    user.modify()->bridges.insert(aBridge);
+  }
+
+  transaction.commit();
+}
 
 User* Session::getUser(){
   dbo::Transaction transaction(session_);

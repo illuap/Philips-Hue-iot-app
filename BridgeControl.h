@@ -29,11 +29,13 @@ private:
 	Wt::WLineEdit *name_;
 	Wt::WPushButton *button;
 	Wt::WText *errorText_;
+
 	Wt::WText *confirm_;
 
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	Wt::Http::Client * connect();
 	void registerBridge();
+	void showLights();
 	std::string username; 
 	std::string ip; 
 	std::string port; 

@@ -29,14 +29,23 @@ LightsControlWidget::LightsControlWidget(Session *session, WContainerWidget *par
 void LightsControlWidget::update()
 {
   clear();
-  //**************************************************************************************************************************************************
-  //HI NICOLE, THIS WILL MAGICALLY GIVE YOU THE PART OF THE URL THAT YOU NEED. SO YOU GOT THE USERNAME FOR THE LIGHT, IP ADDRESS AND PORTNUMBER
-  //**************************************************************************************************************************************************
-  //
-  string newString = WApplication::instance()->internalPath();
-  this->addWidget(new WText(newString));
-  //////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////
+  
+  //get URL info
+  string address = WApplication::instance()->internalPath();
+  size_t pos = address.find("user=");						//get userID
+  string subString = address.substr(pos + 5);
+  size_t endPos = subString.find("&");
+  userID = subString.substr(0, endPos);
+  pos = address.find("ip=");								//get ip
+  subString = address.substr(pos + 3);
+  endPos = subString.find("&");
+  ip = subString.substr(0, endPos);
+  pos = address.find("port=");								//get port
+  subString = address.substr(pos + 5);
+  endPos = subString.find("&");
+  port = subString.substr(0, endPos);
+
+
   new WText("Select the light to be changed: "); 
  WPushButton *oneButton
     = new WPushButton("Light 1", this);                   // 1st light button
@@ -127,7 +136,7 @@ void LightsControlWidget::update()
   light_ = new WText(this);                           // displays which light is being changed
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
-
+  this->addWidget(new WBreak());
   WPushButton *returnButton							//go back to bridge
 	  = new WPushButton("Return To Bridge", this);
 
@@ -169,7 +178,6 @@ Http::Client * LightsControlWidget::connect() {
 void LightsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
 }
 
-
 //handles get lights request
 void LightsControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
@@ -209,7 +217,7 @@ void LightsControlWidget::lightOne() {
 	change_->setText("");
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://localhost:8000/api/newdeveloper/lights/1")) {
+	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/1")) {
 		WApplication::instance()->deferRendering();
 	}
 }
@@ -221,7 +229,7 @@ void LightsControlWidget::lightTwo() {
 	change_->setText("");
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://localhost:8000/api/newdeveloper/lights/2")) {
+	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/2")) {
 		WApplication::instance()->deferRendering();
 	}
 }
@@ -233,7 +241,7 @@ void LightsControlWidget::lightThree() {
 	change_->setText("");
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://localhost:8000/api/newdeveloper/lights/3")) {
+	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/3")) {
 		WApplication::instance()->deferRendering();
 	}
 }
@@ -248,7 +256,7 @@ void LightsControlWidget::name() {
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"name\" : \"" + input + "\"}");
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight, *msg);
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight, *msg);
 		change_->setText("New Name: " + input);
 	}
 }
@@ -264,7 +272,7 @@ void LightsControlWidget::on() {
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"on\" : true}");
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("Light: ON");
 	}
 }
@@ -279,7 +287,7 @@ void LightsControlWidget::off() {
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"on\" : false}");
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("Light: OFF");
 	}
 }
@@ -295,7 +303,7 @@ void LightsControlWidget::hue() {
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"hue\" : \"" + to_string(input) + "\"}");
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("new Hue: " + to_string(input));
 	}
 }
@@ -311,11 +319,10 @@ void LightsControlWidget::bright() {
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"bri\" : \"" + to_string(input) + "\"}");
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("new Brightness: " + to_string(input));
 	}
 }
-
 
 //changes the saturation
 void LightsControlWidget::sat() {
@@ -328,7 +335,7 @@ void LightsControlWidget::sat() {
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"sat\" : \"" + to_string(input) + "\"}");
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://localhost:8000/api/newdeveloper/lights/" + currentLight + "/state", *msg);
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("new Saturation: " + to_string(input));
 	}
 }
