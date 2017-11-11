@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -22,10 +23,9 @@
 using namespace Wt;
 using namespace std;
 
-string ip = "ip";
+string ipAddress = "ip";
 string port = "port";
 string name = "";
-string location = "";
 
 BridgeControlWidget::BridgeControlWidget(Session *session, WContainerWidget *parent):
   WContainerWidget(parent),
@@ -98,6 +98,7 @@ void BridgeControlWidget::update()
 	WPushButton *button
 		= new WPushButton("Register", this);										
 	button->setMargin(5, Left);
+	confirm_ = new WText(this);
 
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
@@ -105,6 +106,7 @@ void BridgeControlWidget::update()
 	errorText_ = new WText(this);
 
 	this->addWidget(new WBreak());
+
 	button->clicked().connect(this, &BridgeControlWidget::registerBridge);
 	(boost::bind(&BridgeControlWidget::registerBridge, this));
 	(boost::bind(&BridgeControlWidget::handleHttpResponse, this));
@@ -123,32 +125,39 @@ Http::Client * BridgeControlWidget::connect() {
 void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
-		//Parse the username from the response JSON
-		size_t pos = response.body().find("username");
-		string substring = response.body().substr(pos+11);
-		size_t end = substring.find("\"");
-		username = substring.substr(0,end);
+		if (response.body().find("error") != -1) {
+			update();
+			errorText_->setText("Please link the bridge");
+		}
+		else {
+			//Parse the username from the response JSON
+			size_t pos = response.body().find("username");
+			string substring = response.body().substr(pos + 11);
+			size_t end = substring.find("\"");
+			username = substring.substr(0, end);
+
+
+			//Get the bridge name, ip address, port number, and location
+			string name = name_->text().toUTF8();
+			string ip = ipEdit_->text().toUTF8();
+			string port = portEdit_->text().toUTF8();
+			string location = locationEdit_->text().toUTF8();
+
+			//Creates a new bridge and adds it to the database
+			Bridge *temp = new Bridge();
+			temp->setBridgeName(name);
+			temp->setIpAddress(ip);
+			int x = stoi(port);
+			temp->setPortNumber(x);
+			temp->setUserId(username);
+			temp->setLocation(location);
+
+			session_->addBridge(temp);
+			update();
+
+		}
+		}
 		
-		
-		//Get the bridge name, ip address, port number, and location
-		name = name_-> text().toUTF8();
-		ip = ipEdit_->text().toUTF8();
-		port = portEdit_->text().toUTF8();
-		location = locationEdit_->text().toUTF8();
-
-		//Creates a new bridge and adds it to the database
-		Bridge *temp = new Bridge();
-		temp->setBridgeName(name);
-		temp->setIpAddress(ip);
-		int x = stoi(port);
-		temp->setPortNumber(x);
-		temp->setUserId(username);
-		temp->setLocation(location);
-
-		session_->addBridge(temp);
-		update();
-
-	}
 }
 
 void BridgeControlWidget::registerBridge() {
@@ -161,12 +170,13 @@ void BridgeControlWidget::registerBridge() {
 		vector<Bridge> bridges = session_->getBridges();
 		//Makes a POST request to register the bridge if there are no bridges registered yet
 		if (bridges.empty()) {
+			confirm_->setText("Are you sure?");
 			Http::Client *client = BridgeControlWidget::connect();
 			Http::Message *msg = new Http::Message();
 			msg->addBodyText("{\"devicetype\" : \"danny\"}");
 			client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
 			client->post("http://" + ip + ":" + port + "/api", *msg);
-			testText_->setText(username + ip + port);
+
 		}
 
 		else {
@@ -185,12 +195,12 @@ void BridgeControlWidget::registerBridge() {
 			}
 
 			if (foundPort == false) {
+				confirm_->setText("Are you sure?");
 				Http::Client *client = BridgeControlWidget::connect();
 				Http::Message *msg = new Http::Message();
 				msg->addBodyText("{\"devicetype\" : \"danny\"}");
 				client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
 				client->post("http://" + ip + ":" + port + "/api", *msg);
-				testText_->setText(username + ip + port);
 			}
 
 			//Displays an error if the bridge is already registered
@@ -210,5 +220,4 @@ void BridgeControlWidget::showLights()
 {
 	clear();
 	WApplication::instance()->setInternalPath("/lights?user="+username+"&ip="+ip+"&port="+port,  true);
-	
 }

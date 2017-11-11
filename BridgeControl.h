@@ -30,18 +30,14 @@ private:
 	Wt::WPushButton *button;
 	Wt::WText *errorText_;
 
-	//Test. Remove later
-	Wt::WText *testText_;
+	Wt::WText *confirm_;
 
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
-	void handleHttpResponseIp(boost::system::error_code err, const Wt::Http::Message& response);
 	Wt::Http::Client * connect();
 	void registerBridge();
-	void setIpAddress();
 	std::string username; 
 	std::string ip; 
 	std::string port; 
-	void showLights();
 };
 
 
