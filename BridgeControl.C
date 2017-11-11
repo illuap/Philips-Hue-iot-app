@@ -97,6 +97,7 @@ void BridgeControlWidget::update()
 	WPushButton *button
 		= new WPushButton("Register", this);										
 	button->setMargin(5, Left);
+	confirm_ = new WText(this);
 
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
@@ -104,15 +105,11 @@ void BridgeControlWidget::update()
 	errorText_ = new WText(this);
 
 	this->addWidget(new WBreak());
-	testText_ = new WText(this);
-	testText_->setText("testing");
-	WPushButton *showLightsButton= new WPushButton("Show Lights", this);	
+
 	button->clicked().connect(this, &BridgeControlWidget::registerBridge);
-	showLightsButton->clicked().connect(this, &BridgeControlWidget::showLights);
 	(boost::bind(&BridgeControlWidget::registerBridge, this));
 	(boost::bind(&BridgeControlWidget::handleHttpResponse, this));
 	(boost::bind(&BridgeControlWidget::connect, this));
-	(boost::bind(&BridgeControlWidget::showLights, this));
 
 }
 
@@ -128,6 +125,7 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
 		if (response.body().find("error") != -1) {
+			update();
 			errorText_->setText("Please link the bridge");
 		}
 		else {
@@ -171,12 +169,13 @@ void BridgeControlWidget::registerBridge() {
 		vector<Bridge> bridges = session_->getBridges();
 		//Makes a POST request to register the bridge if there are no bridges registered yet
 		if (bridges.empty()) {
+			confirm_->setText("Are you sure?");
 			Http::Client *client = BridgeControlWidget::connect();
 			Http::Message *msg = new Http::Message();
 			msg->addBodyText("{\"devicetype\" : \"danny\"}");
 			client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
 			client->post("http://" + ip + ":" + port + "/api", *msg);
-			testText_->setText(username + ip + port);
+
 		}
 
 		else {
@@ -195,12 +194,12 @@ void BridgeControlWidget::registerBridge() {
 			}
 
 			if (foundPort == false) {
+				confirm_->setText("Are you sure?");
 				Http::Client *client = BridgeControlWidget::connect();
 				Http::Message *msg = new Http::Message();
 				msg->addBodyText("{\"devicetype\" : \"danny\"}");
 				client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
 				client->post("http://" + ip + ":" + port + "/api", *msg);
-				testText_->setText(username + ip + port);
 			}
 
 			//Displays an error if the bridge is already registered
