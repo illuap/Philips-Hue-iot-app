@@ -152,7 +152,9 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 			temp->setUserId(username);
 			temp->setLocation(location);
 
-			session_->addBridge(temp);
+			session_->setUserBelongsTo(temp);
+
+			session_->addBridgeUserId(username,ip,x);
 			update();
 
 		}
