@@ -105,15 +105,10 @@ void BridgeControlWidget::update()
 	errorText_ = new WText(this);
 
 	this->addWidget(new WBreak());
-	testText_ = new WText(this);
-	testText_->setText("testing");
-	WPushButton *showLightsButton= new WPushButton("Show Lights", this);	
 	button->clicked().connect(this, &BridgeControlWidget::registerBridge);
-	showLightsButton->clicked().connect(this, &BridgeControlWidget::showLights);
 	(boost::bind(&BridgeControlWidget::registerBridge, this));
 	(boost::bind(&BridgeControlWidget::handleHttpResponse, this));
 	(boost::bind(&BridgeControlWidget::connect, this));
-	(boost::bind(&BridgeControlWidget::showLights, this));
 
 }
 
