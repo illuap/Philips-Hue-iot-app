@@ -37,7 +37,6 @@ endif
 # Use "make RANLIB=''" for platforms without ranlib.
 RANLIB ?= ranlib
 
-CC := g++
 CXX := g++
 
 CPPFLAGS = -std=c++14
@@ -47,29 +46,26 @@ builddir = .
 
 all: $(builddir)/test
 
-$(builddir)/test: $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o $(builddir)/test_ImagesWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o
-	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_hangman.o $(builddir)/test_HangmanGame.o  $(builddir)/test_ImagesWidget.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
+$(builddir)/test: $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o
+	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
 
-$(builddir)/test_hangman.o: hangman.C
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread hangman.C
+$(builddir)/test_HueApp.o: HueApp.C
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread HueApp.C
 
-$(builddir)/test_HangmanGame.o: HangmanGame.C
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread HangmanGame.C
-
-$(builddir)/test_ImagesWidget.o: ImagesWidget.C
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread ImagesWidget.C
+$(builddir)/test_Main.o: Main.C
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread Main.C
 
 $(builddir)/test_Session.o: Session.C
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread Session.C
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread Session.C
 
 $(builddir)/test_User.o: User.C
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread User.C
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread User.C
 
 $(builddir)/test_LightsControl.o: LightsControl.C
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread LightsControl.C 
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread LightsControl.C 
 
 $(builddir)/test_BridgeControl.o: BridgeControl.C
-	$(CC) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread BridgeControl.C 
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread BridgeControl.C 
 
 clean:
 	rm -f *.o

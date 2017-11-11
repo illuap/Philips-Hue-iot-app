@@ -20,6 +20,7 @@
 #include "User.h"
 #include "Light.h"
 #include "Bridge.h"
+//#include "BridgeUserIds.h"
 
 typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
 typedef Wt::Dbo::ptr<Bridge> BridgePtr;
@@ -36,7 +37,6 @@ public:
   Wt::Auth::AbstractUserDatabase& users();
   Wt::Auth::Login& login() { return login_; }
 
-  std::vector<User> topUsers(int limit);
 
   /*
    * These methods deal with the currently logged in user
@@ -47,6 +47,8 @@ public:
   void updateUser(User* newUser);
   User* getUser();
   void setUserBelongsTo(Bridge* x);
+  //void addBridgeUserId(std::string bridgeUserId, std::string ip, int port);
+  //std::vector<BridgeUserIds> getBridgeUserId();
   //-------------------------
   void addUserBridgeID(std::string newBridgeUserId);
   //-------------------------

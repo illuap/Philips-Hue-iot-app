@@ -1,9 +1,3 @@
-/*
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium.
- *
- * See the LICENSE file for terms of use.
- */
-
 #include "Session.h"
 
 
@@ -85,7 +79,6 @@ void Session::configureAuth()
 #endif
 
   myPasswordService.setVerifier(verifier);
-  myPasswordService.setStrengthValidator(new Auth::PasswordStrengthValidator());
   myPasswordService.setAttemptThrottlingEnabled(true);
 
   if (Auth::GoogleService::configured())
@@ -101,6 +94,7 @@ Session::Session()
   session_.mapClass<User>("user");
   session_.mapClass<Light>("light");
   session_.mapClass<Bridge>("bridge");
+  //session_.mapClass<BridgeUserIds>("BridgeUserIds");
   session_.mapClass<AuthInfo>("auth_info");
   session_.mapClass<AuthInfo::AuthIdentityType>("auth_identity");
   session_.mapClass<AuthInfo::AuthTokenType>("auth_token");
@@ -161,22 +155,6 @@ std::string Session::userName() const
     return std::string();
 }
 
-
-/*
-void Session::addToScore(int s)
-{
-  dbo::Transaction transaction(session_);
-
-  dbo::ptr<User> u = user();
-  if (u) {
-    u.modify()->score += s;
-    ++u.modify()->gamesPlayed;
-    u.modify()->lastGame = WDateTime::currentDateTime();
-  }
-
-  transaction.commit();
-}
-*/
 //---------------------
 
 Bridge* Session::getBridge(std::string ip, std::string port){
@@ -187,23 +165,7 @@ Bridge* Session::getBridge(std::string ip, std::string port){
             .where("portNumber = ?").bind(port);
 
   return bridgeObj.modify();
-  /*
-  // get table of common ports
-  dbo::Query<BridgePtr> query = session_.find<Bridge>().where("portNumber = ?").bind(port);
-  Bridges bridges = query.resultList();
-  dbo::ptr<Bridge> bridge;
 
-  // get matching ips
-  for (Bridges::const_iterator i = bridges.begin(); i != bridges.end(); ++i){
-    bridge = *i;
-    if(bridge.modify()->getIpAddress() == ip){
-      transaction.commit();
-      return bridge.modify();
-    }
-  }
-  return NULL;
-  //dbo::ptr<Bridge> bridgeObj = query.find<Bridge>().where("ipAddress = ?").bind(ip);
-  */
   transaction.commit();
 }
 
@@ -228,25 +190,6 @@ std::string Session::getUserBridgeID(){
   }
 
 }
-/*
-Wt::Dbo::ptr<Bridge> Session::getUserBridge(){
-  dbo::Transaction transaction(session_);
-
-
-  //dbo::ptr<Bridge> u = session_.find<Bridge>().where("name = ?").bind(userName());
-  //if (u) {
-  //  return u.modify();
-  //}
-y
-  dbo::ptr<User> u = user();
-  if (u) {
-    return u.modify()->bridge;
-  }
-
-
-  transaction.commit();
-}
-*/
 
 void Session::updateBridge(Bridge* newBridge){
   dbo::Transaction transaction(session_);
@@ -345,10 +288,34 @@ User* Session::getUser(){
   return user.modify();
 }
 
+/* TO BE ADDED LATER
+void Session::addBridgeUserId(std::string bridgeUserId, std::string ip, int port){
+  dbo::Transaction transaction(session_);
+
+  BridgeUserIds *temp = new BridgeUserIds(bridgeUserId,userName(),ip,port);
+  dbo::ptr<BridgeUserIds> x = session_.add(temp);
+
+  transaction.commit();
+}
 
 
 
+std::vector<BridgeUserIds> Session::getBridgeUserId(){
 
+  dbo::Transaction transaction(session_);
+
+  Wt::Dbo::Query<Wt::Dbo::ptr<BridgeUserIds>> query = session_.find<BridgeUserIds>();
+  BridgeUserIds temp = query.resultList();
+  std::vector<BridgeUserIds> x;
+  for (Wt::Dbo::collection<BridgeUserIds>::const_iterator i = temp.begin(); i != temp.end(); ++i){
+    dbo::ptr<BridgeUserIds> y = *i;
+    x.push_back(*y);
+  }
+
+  transaction.commit();
+  return x;
+}
+*/
 
 
 

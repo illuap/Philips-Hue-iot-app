@@ -207,3 +207,8 @@ void BridgeControlWidget::registerBridge() {
 		errorText_->setText("Not a valid port number");
 	}
 }
+void BridgeControlWidget::showLights() 
+{
+	clear();
+	WApplication::instance()->setInternalPath("/lights?user="+username+"&ip="+ip+"&port="+port,  true);
+}

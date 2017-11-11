@@ -11,8 +11,8 @@
 #include "LightsControl.h"
 #include "BridgeControl.h"
 
-#ifndef HANGMANGAME_H_
-#define HANGMANGAME_H_
+#ifndef HUEAPP_H_
+#define HUEAPP_H_
 
 
 
@@ -26,10 +26,10 @@ class Session;
 class LightsControlWidget; 
 class BridgeControlWidget; 
 
-class HangmanGame : public Wt::WContainerWidget
+class HueApp : public Wt::WContainerWidget
 {
 public:
-  HangmanGame(Wt::WContainerWidget *parent = 0);
+  HueApp(Wt::WContainerWidget *parent = 0);
 
   void handleInternalPath(const std::string &internalPath);
 
@@ -49,4 +49,4 @@ private:
 
 };
 
-#endif //HANGMANGAME_H_
+#endif //HUEAPP_H_
