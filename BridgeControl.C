@@ -55,16 +55,7 @@ void BridgeControlWidget::update()
 		WPushButton *currentButton = new WPushButton(x.getBridgeName(),this);
 		currentButton->setLink("/?_=/lights?user="+x.getUserId()+"%26ip="+x.getIpAddress()+"%26port="+std::to_string(x.getPortNumber()));
 	} 
-	/*
-	std::string userid = session_->getUserBridgeID();
-	if(userid == ""){
-		this->addWidget(new WText("NEW"));
-	}else{
-		this->addWidget(new WText("OLD"));
-	}
-	*/
 
-	// END OF PRINTING BRIDGES
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 	//Input for the bridge name
@@ -98,6 +89,7 @@ void BridgeControlWidget::update()
 	WPushButton *button
 		= new WPushButton("Register", this);										
 	button->setMargin(5, Left);
+	this->addWidget(new WBreak());
 	confirm_ = new WText(this);
 
 	this->addWidget(new WBreak());
@@ -152,9 +144,7 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 			temp->setUserId(username);
 			temp->setLocation(location);
 
-			session_->setUserBelongsTo(temp);
-
-			session_->addBridgeUserId(username,ip,x);
+			session_->addBridge(temp);
 			update();
 
 		}
@@ -217,7 +207,6 @@ void BridgeControlWidget::registerBridge() {
 		errorText_->setText("Not a valid port number");
 	}
 }
-
 void BridgeControlWidget::showLights() 
 {
 	clear();
