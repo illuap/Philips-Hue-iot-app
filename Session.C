@@ -85,7 +85,6 @@ void Session::configureAuth()
 #endif
 
   myPasswordService.setVerifier(verifier);
-  myPasswordService.setStrengthValidator(new Auth::PasswordStrengthValidator());
   myPasswordService.setAttemptThrottlingEnabled(true);
 
   if (Auth::GoogleService::configured())
