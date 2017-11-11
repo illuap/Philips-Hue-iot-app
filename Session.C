@@ -94,7 +94,7 @@ Session::Session()
   session_.mapClass<User>("user");
   session_.mapClass<Light>("light");
   session_.mapClass<Bridge>("bridge");
-  session_.mapClass<BridgeUserIds>("BridgeUserIds");
+  //session_.mapClass<BridgeUserIds>("BridgeUserIds");
   session_.mapClass<AuthInfo>("auth_info");
   session_.mapClass<AuthInfo::AuthIdentityType>("auth_identity");
   session_.mapClass<AuthInfo::AuthTokenType>("auth_token");
