@@ -19,6 +19,7 @@
 
 #include "BridgeControl.h"
 #include "Session.h"
+#include "BridgeUserIds.h"
 
 using namespace Wt;
 using namespace std;
@@ -144,7 +145,9 @@ void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, cons
 			temp->setUserId(username);
 			temp->setLocation(location);
 
+			
 			session_->addBridge(temp);
+			session_->addBridgeUserId(temp, username);
 			update();
 
 		}

@@ -1,5 +1,3 @@
-// this file is unused in stage 2 and will be used later on.
-
 #ifndef BRIDGE_USER_IDS_H
 #define  BRIDGE_USER_IDS_H
 
@@ -8,10 +6,15 @@
 #include <Wt/Auth/Dbo/AuthInfo>
 
 #include <string>
+#include "Bridge.h"
+#include "User.h"
+
+#include "User.h"
 
 class BridgeUserIds
 {
 public:
+  /*
   std::string bridgeUserID;
   std::string username;
   std::string ip;
@@ -38,7 +41,30 @@ public:
     Wt::Dbo::field(a, ip, "ip");
     Wt::Dbo::field(a, port, "port");
   }
+  */
+  std::string bridgeUserID;
+  Wt::Dbo::ptr<User> user;
+  Wt::Dbo::ptr<Bridge> bridge;
+  BridgeUserIds(){
+    bridgeUserID = "";
+  }
+
+  BridgeUserIds(Wt::Dbo::ptr<User>  x,  Wt::Dbo::ptr<Bridge> y, std::string id){
+    bridgeUserID = id;
+    user = x;
+    bridge = y;
+  }
+
+  template<class Action>
+  void persist(Action& a)
+  {
+    Wt::Dbo::field(a, bridgeUserID, "bridgeUserID");
+    Wt::Dbo::belongsTo(a, user, "userID");
+    Wt::Dbo::belongsTo(a, bridge, "bridgeID");
+  }
 };
 
 
+
+    
 #endif

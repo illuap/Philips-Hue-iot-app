@@ -94,7 +94,7 @@ Session::Session()
   session_.mapClass<User>("user");
   session_.mapClass<Light>("light");
   session_.mapClass<Bridge>("bridge");
-  //session_.mapClass<BridgeUserIds>("BridgeUserIds");
+  session_.mapClass<BridgeUserIds>("BridgeUserIds");
   session_.mapClass<AuthInfo>("auth_info");
   session_.mapClass<AuthInfo::AuthIdentityType>("auth_identity");
   session_.mapClass<AuthInfo::AuthTokenType>("auth_token");
@@ -168,7 +168,7 @@ Bridge* Session::getBridge(std::string ip, std::string port){
 
   transaction.commit();
 }
-
+/*
 void Session::addUserBridgeID(std::string newBridgeUserId){
   dbo::Transaction transaction(session_);
 
@@ -190,6 +190,7 @@ std::string Session::getUserBridgeID(){
   }
 
 }
+*/
 
 void Session::updateBridge(Bridge* newBridge){
   dbo::Transaction transaction(session_);
@@ -264,7 +265,7 @@ void Session::updateUser(User* newUser){
 
   transaction.commit();
 }
-
+/*
 void Session::setUserBelongsTo(Bridge* x){
   dbo::Transaction transaction(session_);
   dbo::ptr<Bridge> aBridge =  session_.add(x);
@@ -273,13 +274,12 @@ void Session::setUserBelongsTo(Bridge* x){
   dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
 
   if(aBridge && user){
-    Wt::log("info") << "port2!!!!!!!!!" << std::to_string(x->getPortNumber());
-    Wt::log("info") << "port3!!!!!!!!!" << std::to_string(aBridge.modify()->getPortNumber());
     user.modify()->bridges.insert(aBridge);
   }
 
   transaction.commit();
 }
+*/
 
 User* Session::getUser(){
   dbo::Transaction transaction(session_);
@@ -288,17 +288,22 @@ User* Session::getUser(){
   return user.modify();
 }
 
-/* TO BE ADDED LATER
-void Session::addBridgeUserId(std::string bridgeUserId, std::string ip, int port){
-  dbo::Transaction transaction(session_);
 
-  BridgeUserIds *temp = new BridgeUserIds(bridgeUserId,userName(),ip,port);
+void Session::addBridgeUserId(Bridge *y, std::string bridgeUserId){
+  dbo::Transaction transaction(session_);
+  
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
+            .where("ipAddress = ?").bind(y->getIpAddress())
+            .where("portNumber = ?").bind(y->getPortNumber());
+
+
+  BridgeUserIds *temp = new BridgeUserIds(user(), bridgeObj,bridgeUserId);
   dbo::ptr<BridgeUserIds> x = session_.add(temp);
 
   transaction.commit();
 }
 
-
+/*
 
 std::vector<BridgeUserIds> Session::getBridgeUserId(){
 
@@ -315,11 +320,8 @@ std::vector<BridgeUserIds> Session::getBridgeUserId(){
   transaction.commit();
   return x;
 }
+
 */
-
-
-
-
 
 
 bool Session::setLightBelongsTo(std::string lightName,std::string bridgeIP){
