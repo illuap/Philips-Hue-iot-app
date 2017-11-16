@@ -19,7 +19,8 @@ using namespace Wt;
 HueApp::HueApp(WContainerWidget *parent):
   WContainerWidget(parent),
   the_Lights(0),
-  the_Bridge(0)
+  the_Bridge(0),
+  the_Groups(0)
 {
   session_.login().changed().connect(this, &HueApp::onAuthEvent);
 
@@ -68,6 +69,7 @@ void HueApp::onAuthEvent()
     mainStack_->clear();
     the_Lights = 0;
     the_Bridge = 0;
+	the_Groups = 0;
     // links_->hide();
   }
 }
@@ -79,6 +81,8 @@ void HueApp::handleInternalPath(const std::string &internalPath)
       showLights();
     else if(internalPath == "/bridge")
       showBridge();
+	else if (internalPath == "/group")
+	  showGroups();
     else
       WApplication::instance()->setInternalPath("/bridge",  true);
   }
@@ -103,4 +107,15 @@ void HueApp::showBridge(){
   the_Bridge->update();
 
   // hueLights_->removeStyleClass("selected-link");
+}
+
+void HueApp::showGroups()
+{
+	if (!the_Groups)
+		the_Groups = new GroupsControlWidget(&session_, mainStack_);
+
+	mainStack_->setCurrentWidget(the_Groups);
+	the_Groups->update();
+
+	// hueLights_->addStyleClass("selected-link");
 }
