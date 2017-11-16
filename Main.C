@@ -1,13 +1,8 @@
-/*
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium
- *
- * See the LICENSE file for terms of use.
- */
-
 #include <Wt/WApplication>
 #include <Wt/WServer>
+#include <Wt/WAnchor>
 
-#include "HangmanGame.h"
+#include "HueApp.h"
 #include "Session.h"
 
 Wt::WApplication *createApplication(const Wt::WEnvironment& env)
@@ -21,7 +16,7 @@ Wt::WApplication *createApplication(const Wt::WEnvironment& env)
 
   app->useStyleSheet("css/hangman.css");
 
-  new HangmanGame(app->root());
+  new HueApp(app->root());
 
   return app;
 }

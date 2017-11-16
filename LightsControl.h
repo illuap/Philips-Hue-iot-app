@@ -18,6 +18,7 @@ public:
 
 private:
 	Session *session_;
+	Wt::WLineEdit *nameEdit_;
 	Wt::WLineEdit *hueEdit_;
 	Wt::WSlider *satScaleSlider_;
 	Wt::WSlider *briScaleSlider_;
@@ -25,17 +26,22 @@ private:
 	Wt::WText *change_;
 	Wt::WText *light_;
 	std::string currentLight = "0";
+	std::string ip = "";
+	std::string userID = "";
+	std::string port = "";
 	void on();
 	void off();
 	void hue();
 	void bright();
 	void sat();
+	void name();
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
 	Wt::Http::Client * connect();
 	void lightOne();
 	void lightTwo();
 	void lightThree();
+	void returnBridge();
 };
 
 #endif

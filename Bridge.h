@@ -9,8 +9,10 @@
 #include <Wt/Dbo/WtSqlTraits>
 
 #include "Light.h"
+#include "User.h"
 
 class Light;
+class User;
 //typedef Wt::Dbo::collection< Wt::Dbo::ptr<Light> > Lights;
 
 class Bridge {
@@ -39,6 +41,8 @@ public:
 	~Bridge() {}
 
 	Wt::Dbo::collection<Wt::Dbo::ptr<Light> > lights;
+	Wt::Dbo::collection<Wt::Dbo::ptr<User> > users;
+
 
 	std::string getBridgeName() {
 		return bridgeName;
@@ -127,6 +131,7 @@ public:
 		Wt::Dbo::field(a, userId, "userId");
 		Wt::Dbo::field(a, registered, "registered");
 		Wt::Dbo::field(a, portNumber, "portNumber");
+		Wt::Dbo::hasMany(a, users, Wt::Dbo::ManyToMany, "bridge_user");
 		Wt::Dbo::hasMany(a, lights, Wt::Dbo::ManyToOne, "bridge");
 	}
 };

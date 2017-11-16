@@ -20,6 +20,7 @@
 #include "User.h"
 #include "Light.h"
 #include "Bridge.h"
+#include "BridgeUserIds.h"
 
 typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
 typedef Wt::Dbo::ptr<Bridge> BridgePtr;
@@ -36,7 +37,6 @@ public:
   Wt::Auth::AbstractUserDatabase& users();
   Wt::Auth::Login& login() { return login_; }
 
-  std::vector<User> topUsers(int limit);
 
   /*
    * These methods deal with the currently logged in user
@@ -44,19 +44,33 @@ public:
   std::string userName() const;
 
   //-------------------------
+  //---------User DB--------
+  void updateUser(User* newUser);
+  User* getUser();
+
+  //-------------------------------------
+  //---------Bridge With Users DB--------
+  void addBridgeUserId(Bridge *y, std::string bridgeUserId);
+  std::vector<BridgeUserIds> getBridgeUserId();
+
+  //-------------------------
+  //---------Bridge DB--------
   void addUserBridgeID(std::string newBridgeUserId);
-  //-------------------------
   std::vector<Bridge> getBridges();
-  //-------------------------
+
   Bridge* getBridge(std::string ip, std::string port);
   void updateBridge(Bridge* newBridge);
   bool addBridge(Bridge* newBridge);
+
   //-------------------------
+  //---------LIGHT DB--------
   bool setLightBelongsTo(std::string lightName,std::string bridgeIP);
-  //-------------------------
+  
   Light* getLight(std::string name);
   void updateLight(Light* newLight);
   bool addLight(Light* newLight);
+
+  //-------------------------
   //-------------------------
 
   static const Wt::Auth::AuthService& auth();
@@ -69,7 +83,7 @@ private:
   UserDatabase *users_;
   Wt::Auth::Login login_;
 
-  Wt::Dbo::ptr<User> user() const;
+  Wt::Dbo::ptr<User> user();
 };
 
 #endif //SESSION_H_
