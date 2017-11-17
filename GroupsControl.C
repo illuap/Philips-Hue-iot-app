@@ -123,6 +123,7 @@ Http::Client * GroupsControlWidget::connect() {
 
 //handle request (does nothing withthe response) - for creating a group
 void GroupsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
+	update();
 }
 
 //handles get groups
@@ -139,13 +140,21 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		}
 
 		for (int i = 0; i < n; i++) {
-			size_t pos = response.body().find("\"" + to_string(i + 1) + "\"");						//get userID
-			string subString = response.body().substr(pos + 13);
-			size_t endPos = subString.find("\"");
-			string name = subString.substr(0, endPos);
-			WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
-			currentButton->setMargin(5, Left);
-			//currentButton->setLink("/?_=/lights?user=" + x.getUserId() + "%26ip=" + x.getIpAddress() + "%26port=" + std::to_string(x.getPortNumber()));
+			string groups = response.body();
+			if (groups.find("\"" + to_string(i + 1) + "\"") != string::npos) {
+				size_t pos = groups.find("\"" + to_string(i + 1) + "\"");
+				string subString;
+				if ( (i + 1) >= 10) {
+					subString = groups.substr(pos + 14);
+				} else {
+					subString = groups.substr(pos + 13);
+				}
+				size_t endPos = subString.find("\"");
+				string name = subString.substr(0, endPos);
+				WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
+				currentButton->setMargin(5, Left);
+				//currentButton->setLink("/?_=/lights?user=" + x.getUserId() + "%26ip=" + x.getIpAddress() + "%26port=" + std::to_string(x.getPortNumber()));
+			}
 		}
 	}
 }
@@ -217,14 +226,12 @@ void GroupsControlWidget::createGroup() {
 					}
 				}
 			}
-
+			status_->setText("Are you sure?");
 			Http::Message *msg = new Http::Message();
 			msg->addBodyText("{\"lights\" : " + selectedLights + ", \"name\" : \"" + nameEdit_->text().toUTF8() + "\", \"type\" : \"LightGroup\" }");
 			Http::Client *client = GroupsControlWidget::connect();
 			client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-			if (client->post("http://127.0.0.1:8000/api/newdeveloper/groups", *msg)) {
-				update();
-			}
+			client->post("http://127.0.0.1:8000/api/newdeveloper/groups", *msg);
 		}
 	}
 }
