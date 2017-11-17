@@ -47,6 +47,10 @@ void GroupsControlWidget::update()
 	port = subString.substr(0, endPos);
 	*/
 
+	one = false;
+	two = false;
+	three = false; 
+
 	this->addWidget(new WText("CREATE A GROUP: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WText("Group name: "));
