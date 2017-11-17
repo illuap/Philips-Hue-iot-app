@@ -137,9 +137,6 @@ void LightsControlWidget::update()
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
   this->addWidget(new WBreak());
-  WPushButton *groupsButton							//go to groups page
-	  = new WPushButton("Go To My Groups", this);
-  this->addWidget(new WBreak());
   this->addWidget(new WBreak());
   WPushButton *returnButton							//go back to bridge
 	  = new WPushButton("Return To Bridge", this);
@@ -151,7 +148,6 @@ void LightsControlWidget::update()
   twoButton->clicked().connect(this, &LightsControlWidget::lightTwo);
   threeButton->clicked().connect(this, &LightsControlWidget::lightThree);
   returnButton->clicked().connect(this, &LightsControlWidget::returnBridge);
-  groupsButton->clicked().connect(this, &LightsControlWidget::groups);
   briScaleSlider_->valueChanged().connect(this, &LightsControlWidget::bright);
   satScaleSlider_->valueChanged().connect(this, &LightsControlWidget::sat);
   hueScaleSlider_->valueChanged().connect(this, &LightsControlWidget::hue);
@@ -170,7 +166,6 @@ void LightsControlWidget::update()
   (boost::bind(&LightsControlWidget::lightTwo, this));
   (boost::bind(&LightsControlWidget::lightThree, this));
   (boost::bind(&LightsControlWidget::returnBridge, this));
-  (boost::bind(&LightsControlWidget::groups, this));
 }
 
 //creates a client
@@ -350,10 +345,4 @@ void LightsControlWidget::returnBridge()
 {
 	clear();
 	WApplication::instance()->setInternalPath("/Bridge", true);
-}
-
-void LightsControlWidget::groups()
-{
-	clear();
-	WApplication::instance()->setInternalPath("/group", true);
 }

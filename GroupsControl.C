@@ -47,21 +47,6 @@ void GroupsControlWidget::update()
 	port = subString.substr(0, endPos);
 	*/
 
-	//create a group
-
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-	WPushButton *lightsButton							//go to lights page
-		= new WPushButton("Go To My Lights", this);
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-	WPushButton *returnButton							//go back to bridge
-		= new WPushButton("Return To Bridge", this);
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-
 	this->addWidget(new WText("CREATE A GROUP: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WText("Group name: "));
@@ -90,7 +75,6 @@ void GroupsControlWidget::update()
 	light2_ = new WText(this);
 	this->addWidget(new WBreak());
 	light3_ = new WText(this);
-	this->addWidget(new WBreak());
 	
 	//create group
 	this->addWidget(new WBreak());
@@ -104,10 +88,11 @@ void GroupsControlWidget::update()
 
 	//list groups
 	this->addWidget(new WText("Your Groups: "));
+	this->addWidget(new WBreak());
 	groups_ = new WText(this);
 	Http::Client *client = GroupsControlWidget::connect();
 	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://127.0.0.1:8003/api/newdeveloper/groups")) {
+	if (client->get("http://127.0.0.1:8000/api/newdeveloper/groups")) {
 		WApplication::instance()->deferRendering();
 	}
 
@@ -115,8 +100,6 @@ void GroupsControlWidget::update()
 	twoButton->clicked().connect(this, &GroupsControlWidget::lightTwo);
 	threeButton->clicked().connect(this, &GroupsControlWidget::lightThree);
 	createButton->clicked().connect(this, &GroupsControlWidget::createGroup);
-	returnButton->clicked().connect(this, &GroupsControlWidget::returnBridge);
-	lightsButton->clicked().connect(this, &GroupsControlWidget::returnLights);
 
 	(boost::bind(&GroupsControlWidget::handleHttpResponse, this));
 	(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this));
@@ -124,8 +107,7 @@ void GroupsControlWidget::update()
 	(boost::bind(&GroupsControlWidget::lightOne, this));
 	(boost::bind(&GroupsControlWidget::lightTwo, this));
 	(boost::bind(&GroupsControlWidget::lightThree, this));
-	(boost::bind(&GroupsControlWidget::returnBridge, this));
-	(boost::bind(&GroupsControlWidget::returnLights, this));
+	(boost::bind(&GroupsControlWidget::createGroup, this));
 }
 
 //creates a client
@@ -152,17 +134,15 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 			pos += target.length();
 		}
 
-		for (int i = 1; i <= n; i++) {
-			size_t pos = response.body().find("\"" + to_string(i) + "\"");						//get userID
+		for (int i = 0; i < n; i++) {
+			size_t pos = response.body().find("\"" + to_string(i + 1) + "\"");						//get userID
 			string subString = response.body().substr(pos + 13);
 			size_t endPos = subString.find("\"");
 			string name = subString.substr(0, endPos);
-			WPushButton *currentButton = new WPushButton(to_string(i) + " - " + name, this);
+			WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
 			currentButton->setMargin(5, Left);
 			//currentButton->setLink("/?_=/lights?user=" + x.getUserId() + "%26ip=" + x.getIpAddress() + "%26port=" + std::to_string(x.getPortNumber()));
 		}
-
-		update();
 	}
 }
 
@@ -238,23 +218,9 @@ void GroupsControlWidget::createGroup() {
 			msg->addBodyText("{\"lights\" : " + selectedLights + ", \"name\" : \"" + nameEdit_->text().toUTF8() + "\", \"type\" : \"LightGroup\" }");
 			Http::Client *client = GroupsControlWidget::connect();
 			client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-			if (client->post("http://127.0.0.1:8003/api/newdeveloper/groups", *msg)) {
-				WApplication::instance()->deferRendering();
+			if (client->post("http://127.0.0.1:8000/api/newdeveloper/groups", *msg)) {
+				update();
 			}
-		
 		}
 	}
-}
-
-
-void GroupsControlWidget::returnBridge()
-{
-	clear();
-	WApplication::instance()->setInternalPath("/Bridge", true);
-}
-
-void GroupsControlWidget::returnLights()
-{
-	clear();
-	WApplication::instance()->setInternalPath("/light", true);
 }

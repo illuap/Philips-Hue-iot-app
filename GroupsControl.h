@@ -36,8 +36,6 @@ private:
 	void lightOne();
 	void lightTwo();
 	void lightThree();
-	void returnBridge();
-	void returnLights();
 	void createGroup();
 };
 
