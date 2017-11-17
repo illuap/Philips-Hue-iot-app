@@ -19,22 +19,17 @@ public:
 private:
 	Session *session_;
 	Wt::WLineEdit *nameEdit_;
-	Wt::WLineEdit *hueEdit_;
-	Wt::WSlider *satScaleSlider_;
-	Wt::WSlider *briScaleSlider_;
-	Wt::WSlider *hueScaleSlider_;
-	Wt::WText *change_;
-	Wt::WText *light_;
-	std::string currentLight = "0";
+	Wt::WText *light1_;
+	Wt::WText *light2_;
+	Wt::WText *light3_;
+	Wt::WText *status_;
+	Wt::WText *groups_;
 	std::string ip = "";
 	std::string userID = "";
 	std::string port = "";
-	void on();
-	void off();
-	void hue();
-	void bright();
-	void sat();
-	void name();
+	bool one = false;
+	bool two = false;
+	bool three = false;
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
 	Wt::Http::Client * connect();
@@ -42,6 +37,8 @@ private:
 	void lightTwo();
 	void lightThree();
 	void returnBridge();
+	void returnLights();
+	void createGroup();
 };
 
 #endif

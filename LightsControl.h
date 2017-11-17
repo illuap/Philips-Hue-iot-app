@@ -42,6 +42,7 @@ private:
 	void lightTwo();
 	void lightThree();
 	void returnBridge();
+	void groups();
 };
 
 #endif

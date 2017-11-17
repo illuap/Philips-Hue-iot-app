@@ -47,7 +47,7 @@ builddir = .
 all: $(builddir)/test
 
 $(builddir)/test: $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o
-	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
+	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
 
 $(builddir)/test_HueApp.o: HueApp.C
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread HueApp.C

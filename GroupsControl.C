@@ -30,6 +30,7 @@ void GroupsControlWidget::update()
 {
 	clear();
 
+	/*
 	//get URL info
 	string address = WApplication::instance()->internalPath();
 	size_t pos = address.find("user=");						//get userID
@@ -44,9 +45,32 @@ void GroupsControlWidget::update()
 	subString = address.substr(pos + 5);
 	endPos = subString.find("&");
 	port = subString.substr(0, endPos);
+	*/
 
+	//create a group
 
-	new WText("BLAH ");
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	WPushButton *lightsButton							//go to lights page
+		= new WPushButton("Go To My Lights", this);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	WPushButton *returnButton							//go back to bridge
+		= new WPushButton("Return To Bridge", this);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
+	this->addWidget(new WText("CREATE A GROUP: "));
+	this->addWidget(new WBreak());
+	this->addWidget(new WText("Group name: "));
+	nameEdit_ = new WLineEdit(this);												//input for group name
+	nameEdit_->setFocus();
+	this->addWidget(new WBreak());
+
+	//select the lights to be part of the group
+	this->addWidget(new WText("Choose your lights: "));
 	WPushButton *oneButton
 		= new WPushButton("Light 1", this);                   // 1st light button
 	oneButton->setMargin(5, Left);
@@ -57,107 +81,43 @@ void GroupsControlWidget::update()
 		= new WPushButton("Light 3", this);                   // 3rd light button
 	threeButton->setMargin(5, Left);
 	this->addWidget(new WBreak());
+	
+	// displays which lights have been chosen
+	this->addWidget(new WText("Selected lights for your new group: "));
+	this->addWidget(new WBreak());
+	light1_ = new WText(this);                          
+	this->addWidget(new WBreak());
+	light2_ = new WText(this);
+	this->addWidget(new WBreak());
+	light3_ = new WText(this);
+	this->addWidget(new WBreak());
+	
+	//create group
+	this->addWidget(new WBreak());
+	WPushButton *createButton
+		= new WPushButton("Create Group", this);                  
 	this->addWidget(new WBreak());
 
-
-	//change name
-	this->addWidget(new WText("Set New Name: "));
-	nameEdit_ = new WLineEdit(this);												// user text input
-	nameEdit_->setFocus();
-	WPushButton *nameButton
-		= new WPushButton("Change", this);										// submit button
-	nameButton->setMargin(5, Left);
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-
-	//turn on
-	this->addWidget(new WText("Light on/off: "));
-	WPushButton *onButton
-		= new WPushButton("ON", this);                      // ON button
-	onButton->setMargin(5, Left);
-
-	//turn off
-	WPushButton *offButton
-		= new WPushButton("OFF", this);                     // OFF button
-	offButton->setMargin(5, Left);
+	status_ = new WText(this);                           // displays status of creating a group
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	//change hue
-	this->addWidget(new WText("Hue: "));
-	this->addWidget(new WBreak());
-	this->addWidget(new WText("0  "));
-	hueScaleSlider_ = new WSlider(this);					 //slider bar
-	hueScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
-	hueScaleSlider_->setMinimum(0);
-	hueScaleSlider_->setMaximum(65535);
-	hueScaleSlider_->setValue(100);
-	hueScaleSlider_->setTickInterval(10000);
-	hueScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
-	hueScaleSlider_->resize(300, 50);
-	this->addWidget(new WText("  65535"));
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
+	//list groups
+	this->addWidget(new WText("Your Groups: "));
+	groups_ = new WText(this);
+	Http::Client *client = GroupsControlWidget::connect();
+	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
+	if (client->get("http://127.0.0.1:8003/api/newdeveloper/groups")) {
+		WApplication::instance()->deferRendering();
+	}
 
-	//change brightness
-	this->addWidget(new WText("Brightness: "));
-	this->addWidget(new WBreak());
-	this->addWidget(new WText("1  "));
-	briScaleSlider_ = new WSlider(this);					 //slider bar
-	briScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
-	briScaleSlider_->setMinimum(1);
-	briScaleSlider_->setMaximum(254);
-	briScaleSlider_->setValue(100);
-	briScaleSlider_->setTickInterval(50);
-	briScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
-	briScaleSlider_->resize(300, 50);
-	this->addWidget(new WText("  254"));
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-
-	//change saturation
-	this->addWidget(new WText("Saturation: "));
-	this->addWidget(new WBreak());
-	this->addWidget(new WText("0  "));
-	satScaleSlider_ = new WSlider(this);					//slider bar
-	satScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
-	satScaleSlider_->setMinimum(0);
-	satScaleSlider_->setMaximum(254);
-	satScaleSlider_->setValue(100);
-	satScaleSlider_->setTickInterval(50);
-	satScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
-	satScaleSlider_->resize(300, 50);
-	this->addWidget(new WText("  254"));
-
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-	this->addWidget(new WBreak());
-	light_ = new WText(this);                           // displays which light is being changed
-	this->addWidget(new WBreak());
-	change_ = new WText(this);                          //displays the status of a light change
-	this->addWidget(new WBreak());
-	WPushButton *returnButton							//go back to bridge
-		= new WPushButton("Return To Bridge", this);
-
-	onButton->clicked().connect(this, &GroupsControlWidget::on);
-	nameButton->clicked().connect(this, &GroupsControlWidget::name);
-	offButton->clicked().connect(this, &GroupsControlWidget::off);
 	oneButton->clicked().connect(this, &GroupsControlWidget::lightOne);
 	twoButton->clicked().connect(this, &GroupsControlWidget::lightTwo);
 	threeButton->clicked().connect(this, &GroupsControlWidget::lightThree);
+	createButton->clicked().connect(this, &GroupsControlWidget::createGroup);
 	returnButton->clicked().connect(this, &GroupsControlWidget::returnBridge);
-	briScaleSlider_->valueChanged().connect(this, &GroupsControlWidget::bright);
-	satScaleSlider_->valueChanged().connect(this, &GroupsControlWidget::sat);
-	hueScaleSlider_->valueChanged().connect(this, &GroupsControlWidget::hue);
+	lightsButton->clicked().connect(this, &GroupsControlWidget::returnLights);
 
-
-	(boost::bind(&GroupsControlWidget::hue, this));
-	(boost::bind(&GroupsControlWidget::name, this));
-	(boost::bind(&GroupsControlWidget::bright, this));
-	(boost::bind(&GroupsControlWidget::sat, this));
-	(boost::bind(&GroupsControlWidget::on, this));
-	(boost::bind(&GroupsControlWidget::off, this));
 	(boost::bind(&GroupsControlWidget::handleHttpResponse, this));
 	(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this));
 	(boost::bind(&GroupsControlWidget::connect, this));
@@ -165,6 +125,7 @@ void GroupsControlWidget::update()
 	(boost::bind(&GroupsControlWidget::lightTwo, this));
 	(boost::bind(&GroupsControlWidget::lightThree, this));
 	(boost::bind(&GroupsControlWidget::returnBridge, this));
+	(boost::bind(&GroupsControlWidget::returnLights, this));
 }
 
 //creates a client
@@ -174,180 +135,126 @@ Http::Client * GroupsControlWidget::connect() {
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-//handle request (does nothing withthe response) - for changing the light state
+//handle request (does nothing withthe response) - for creating a group
 void GroupsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
 }
 
-//handles get lights request
+//handles get groups
 void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
-		Json::Object result;
-		Json::parse(response.body(), result);
+		//find number of groups
+		int n = 0;
+		string::size_type pos = 0;
+		string target = "name";
+		while ((pos = response.body().find(target, pos)) != string::npos) {
+			++n;
+			pos += target.length();
+		}
 
-		//get sat
-		size_t pos = response.body().find("sat");
-		string subString = response.body().substr(pos + 5);
-		size_t endPos = subString.find(",");
-		string sat = subString.substr(0, endPos);
+		for (int i = 1; i <= n; i++) {
+			size_t pos = response.body().find("\"" + to_string(i) + "\"");						//get userID
+			string subString = response.body().substr(pos + 13);
+			size_t endPos = subString.find("\"");
+			string name = subString.substr(0, endPos);
+			WPushButton *currentButton = new WPushButton(to_string(i) + " - " + name, this);
+			currentButton->setMargin(5, Left);
+			//currentButton->setLink("/?_=/lights?user=" + x.getUserId() + "%26ip=" + x.getIpAddress() + "%26port=" + std::to_string(x.getPortNumber()));
+		}
 
-		//get bri
-		pos = response.body().find("bri");
-		subString = response.body().substr(pos + 5);
-		endPos = subString.find(",");
-		string bri = subString.substr(0, endPos);
-
-		//get hue
-		pos = response.body().find("hue");
-		subString = response.body().substr(pos + 5);
-		endPos = subString.find(",");
-		string hue = subString.substr(0, endPos);
-
-		hueScaleSlider_->setValue(stoi(hue));
-		satScaleSlider_->setValue(stoi(sat));
-		briScaleSlider_->setValue(stoi(bri));
+		update();
 	}
 }
 
-
-//selects light 1 to change
+//selects light 1
 void GroupsControlWidget::lightOne() {
-	currentLight = "1";
-	light_->setText("You are changing Light 1");
-	change_->setText("");
-	Http::Client *client = GroupsControlWidget::connect();
-	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/1")) {
-		WApplication::instance()->deferRendering();
+	if (!one) {
+		one = true;
+		light1_->setText("Light 1");
+	} else {
+		one = false;
+		light1_->setText("");
 	}
 }
 
-//selects light 2 to change
+//selects light 2
 void GroupsControlWidget::lightTwo() {
-	currentLight = "2";
-	light_->setText("You are changing Light 2");
-	change_->setText("");
-	Http::Client *client = GroupsControlWidget::connect();
-	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/2")) {
-		WApplication::instance()->deferRendering();
+	if (!two) {
+		two = true;
+		light2_->setText("Light 2");
+	} else {
+		two = false;
+		light2_->setText("");
 	}
 }
 
-//selects light 3 to change
+//selects light 3
 void GroupsControlWidget::lightThree() {
-	currentLight = "3";
-	light_->setText("You are changing Light 3");
-	change_->setText("");
-	Http::Client *client = GroupsControlWidget::connect();
-	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/3")) {
-		WApplication::instance()->deferRendering();
+	if (!three) {
+		three = true;
+		light3_->setText("Light 3");
+	} else {
+		three = false;
+		light3_->setText("");
 	}
 }
 
-//changes the name
-void GroupsControlWidget::name() {
-	if (currentLight.compare("0") == 0) {
-		light_->setText("Please select a light to change");
-	}
-	else {
-		std::string input = nameEdit_->text().toUTF8();
-		Http::Client *client = GroupsControlWidget::connect();
-		Http::Message *msg = new Http::Message();
-		msg->addBodyText("{\"name\" : \"" + input + "\"}");
-		client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight, *msg);
-		change_->setText("New Name: " + input);
+//creates group
+void GroupsControlWidget::createGroup() {
+	if (!one && !two && !three) {
+		status_->setText("Select as least 1 light to be in your group");
+	} else {
+		if (nameEdit_->text().toUTF8() == "") {
+			status_->setText("Enter a name for your group");
+		} else {
+			string selectedLights = "";
+			if (one && two && three) {
+				selectedLights = "[\"1\",\"2\",\"3\"]";
+			} else {
+				if (one && two) {
+					selectedLights = "[\"1\",\"2\"]";
+				} else {
+					if (one && three) {
+						selectedLights = "[\"1\",\"3\"]";
+					} else {
+						if (two && three) {
+							selectedLights = "[\"2\",\"3\"]";
+						} else {
+							if (one) {
+								selectedLights = "[\"1\"]";
+							} else {
+								if (two) {
+									selectedLights = "[\"2\"]";
+								} else {
+									selectedLights = "[\"3\"]";
+								}
+							}
+						}
+					}
+				}
+			}
+
+			Http::Message *msg = new Http::Message();
+			msg->addBodyText("{\"lights\" : " + selectedLights + ", \"name\" : \"" + nameEdit_->text().toUTF8() + "\", \"type\" : \"LightGroup\" }");
+			Http::Client *client = GroupsControlWidget::connect();
+			client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
+			if (client->post("http://127.0.0.1:8003/api/newdeveloper/groups", *msg)) {
+				WApplication::instance()->deferRendering();
+			}
+		
+		}
 	}
 }
 
-
-//turns light on
-void GroupsControlWidget::on() {
-	change_->setText("");
-	if (currentLight.compare("0") == 0) {
-		light_->setText("Please select a light to change");
-	}
-	else {
-		Http::Client *client = GroupsControlWidget::connect();
-		Http::Message *msg = new Http::Message();
-		msg->addBodyText("{\"on\" : true}");
-		client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
-		change_->setText("Light: ON");
-	}
-}
-
-//turns light off
-void GroupsControlWidget::off() {
-	change_->setText("");
-	if (currentLight.compare("0") == 0) {
-		light_->setText("Please select a light to change");
-	}
-	else {
-		Http::Client *client = GroupsControlWidget::connect();
-		Http::Message *msg = new Http::Message();
-		msg->addBodyText("{\"on\" : false}");
-		client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
-		change_->setText("Light: OFF");
-	}
-}
-
-//changes the hue 
-void GroupsControlWidget::hue() {
-	if (currentLight.compare("0") == 0) {
-		light_->setText("Please select a light to change");
-		change_->setText("");
-	}
-	else {
-		int input = hueScaleSlider_->value();
-		Http::Client *client = GroupsControlWidget::connect();
-		Http::Message *msg = new Http::Message();
-		msg->addBodyText("{\"hue\" : \"" + to_string(input) + "\"}");
-		client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
-		change_->setText("new Hue: " + to_string(input));
-	}
-}
-
-//changes the brightness
-void GroupsControlWidget::bright() {
-	if (currentLight.compare("0") == 0) {
-		light_->setText("Please select a light to change");
-		change_->setText("");
-	}
-	else {
-		int input = briScaleSlider_->value();
-		Http::Client *client = GroupsControlWidget::connect();
-		Http::Message *msg = new Http::Message();
-		msg->addBodyText("{\"bri\" : \"" + to_string(input) + "\"}");
-		client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
-		change_->setText("new Brightness: " + to_string(input));
-	}
-}
-
-//changes the saturation
-void GroupsControlWidget::sat() {
-	if (currentLight.compare("0") == 0) {
-		light_->setText("Please select a light to change");
-		change_->setText("");
-	}
-	else {
-		int input = satScaleSlider_->value();
-		Http::Client *client = GroupsControlWidget::connect();
-		Http::Message *msg = new Http::Message();
-		msg->addBodyText("{\"sat\" : \"" + to_string(input) + "\"}");
-		client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
-		change_->setText("new Saturation: " + to_string(input));
-	}
-}
 
 void GroupsControlWidget::returnBridge()
 {
 	clear();
 	WApplication::instance()->setInternalPath("/Bridge", true);
+}
+
+void GroupsControlWidget::returnLights()
+{
+	clear();
+	WApplication::instance()->setInternalPath("/light", true);
 }
