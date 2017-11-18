@@ -1516,7 +1516,8 @@ test_Main.o: Main.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/system/error_code.hpp \
  /usr/local/include/boost/system/config.hpp \
  /usr/local/include/boost/system/api_config.hpp \
- /usr/local/include/boost/cerrno.hpp BridgeControl.h GroupsControl.h
+ /usr/local/include/boost/cerrno.hpp BridgeControl.h GroupsControl.h \
+ SingleGroupsControl.h
 
 /usr/include/stdc-predef.h:
 
@@ -4773,3 +4774,5 @@ LightsControl.h:
 BridgeControl.h:
 
 GroupsControl.h:
+
+SingleGroupsControl.h:

@@ -20,7 +20,8 @@ HueApp::HueApp(WContainerWidget *parent):
   WContainerWidget(parent),
   the_Lights(0),
   the_Bridge(0),
-  the_Groups(0)
+  the_Groups(0),
+  the_SingleGroups(0)
 {
   session_.login().changed().connect(this, &HueApp::onAuthEvent);
 
@@ -70,6 +71,7 @@ void HueApp::onAuthEvent()
     the_Lights = 0;
     the_Bridge = 0;
 	the_Groups = 0;
+	the_SingleGroups = 0;
     // links_->hide();
   }
 }
@@ -83,6 +85,8 @@ void HueApp::handleInternalPath(const std::string &internalPath)
       showBridge();
 	else if (internalPath == "/group")
 	  showGroups();
+	else if (internalPath == "/singlegroup")
+		showSingleGroups();
     else
       WApplication::instance()->setInternalPath("/bridge",  true);
   }
@@ -116,6 +120,17 @@ void HueApp::showGroups()
 
 	mainStack_->setCurrentWidget(the_Groups);
 	the_Groups->update();
+
+	// hueLights_->addStyleClass("selected-link");
+}
+
+void HueApp::showSingleGroups()
+{
+	if (!the_SingleGroups)
+		the_SingleGroups = new SingleGroupsControlWidget(&session_, mainStack_);
+
+	mainStack_->setCurrentWidget(the_SingleGroups);
+	the_SingleGroups->update();
 
 	// hueLights_->addStyleClass("selected-link");
 }

@@ -1527,7 +1527,7 @@ test_HueApp.o: HueApp.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/Dbo/Session_impl.h Bridge.h Light.h \
  BridgeUserIds.h LightsControl.h \
  /usr/local/include/boost/system/system_error.hpp BridgeControl.h \
- GroupsControl.h
+ GroupsControl.h SingleGroupsControl.h
 
 /usr/include/stdc-predef.h:
 
@@ -4824,3 +4824,5 @@ LightsControl.h:
 BridgeControl.h:
 
 GroupsControl.h:
+
+SingleGroupsControl.h:
