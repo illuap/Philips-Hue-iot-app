@@ -131,14 +131,11 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
 		//find number of groups
-		int n = 0;
-		string::size_type pos = 0;
-		string target = "name";
-		while ((pos = response.body().find(target, pos)) != string::npos) {
-			++n;
-			pos += target.length();
-		}
-
+		size_t pos = response.body().find_last_of(",");
+		string subString = response.body().substr(pos + 2);
+		size_t endPos = subString.find("\"");
+		string num = subString.substr(0, endPos);
+		int n = atoi(num.c_str());
 		for (int i = 0; i < n; i++) {
 			string groups = response.body();
 			if (groups.find("\"" + to_string(i + 1) + "\"") != string::npos) {
