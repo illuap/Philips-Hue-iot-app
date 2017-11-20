@@ -130,6 +130,22 @@ void SingleGroupsControlWidget::update()
 	satScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
 	satScaleSlider_->resize(300, 50);
 	this->addWidget(new WText("  254"));
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
+	//change transition time
+	this->addWidget(new WText("Transition Time: (multiple of 100ms) "));
+	this->addWidget(new WBreak());
+	this->addWidget(new WText("1  (100ms)"));
+	transitionScaleSlider_ = new WSlider(this);					 //slider bar
+	transitionScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
+	transitionScaleSlider_->setMinimum(1);
+	transitionScaleSlider_->setMaximum(20);
+	transitionScaleSlider_->setValue(4);
+	transitionScaleSlider_->setTickInterval(2);
+	transitionScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
+	transitionScaleSlider_->resize(300, 50);
+	this->addWidget(new WText("  20 (2 seconds)"));
 
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
@@ -156,10 +172,12 @@ void SingleGroupsControlWidget::update()
 	briScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::bright);
 	satScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::sat);
 	hueScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::hue);
+	transitionScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::hue);
 
 
 	(boost::bind(&SingleGroupsControlWidget::hue, this));
 	(boost::bind(&SingleGroupsControlWidget::name, this));
+	(boost::bind(&SingleGroupsControlWidget::transition, this));
 	(boost::bind(&SingleGroupsControlWidget::bright, this));
 	(boost::bind(&SingleGroupsControlWidget::sat, this));
 	(boost::bind(&SingleGroupsControlWidget::on, this));
@@ -292,6 +310,19 @@ void SingleGroupsControlWidget::sat(){
 	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2/action", *msg);
 	change_->setText("new Saturation: " + to_string(input));
 }
+
+//changes the saturation
+void SingleGroupsControlWidget::transition() {
+	int input = transitionScaleSlider_->value();
+	Http::Client *client = SingleGroupsControlWidget::connect();
+	Http::Message *msg = new Http::Message();
+	msg->addBodyText("{\"transitiontime\" : \"" + to_string(input) + "\"}");
+	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
+	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2/action", *msg);
+	change_->setText("new Transition Time: " + to_string(input * 100) + "ms");
+}
+
+
 
 
 void SingleGroupsControlWidget::returnBridge(){

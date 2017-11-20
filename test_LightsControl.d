@@ -735,6 +735,102 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/integer.hpp \
  /usr/local/include/boost/integer_fwd.hpp \
  /usr/local/include/boost/detail/basic_pointerbuf.hpp \
+ /usr/local/include/boost/algorithm/string.hpp \
+ /usr/local/include/boost/algorithm/string/std_containers_traits.hpp \
+ /usr/local/include/boost/algorithm/string/std/string_traits.hpp \
+ /usr/local/include/boost/algorithm/string/yes_no_type.hpp \
+ /usr/local/include/boost/algorithm/string/sequence_traits.hpp \
+ /usr/local/include/boost/algorithm/string/std/list_traits.hpp \
+ /usr/include/c++/5/list /usr/include/c++/5/bits/stl_list.h \
+ /usr/include/c++/5/bits/list.tcc \
+ /usr/local/include/boost/algorithm/string/std/slist_traits.hpp \
+ /usr/local/include/boost/algorithm/string/config.hpp \
+ /usr/include/c++/5/ext/slist \
+ /usr/local/include/boost/algorithm/string/trim.hpp \
+ /usr/local/include/boost/range/as_literal.hpp \
+ /usr/local/include/boost/range/iterator_range.hpp \
+ /usr/local/include/boost/range/iterator_range_io.hpp \
+ /usr/local/include/boost/range/detail/str_types.hpp \
+ /usr/local/include/boost/algorithm/string/detail/trim.hpp \
+ /usr/local/include/boost/algorithm/string/classification.hpp \
+ /usr/local/include/boost/algorithm/string/detail/classification.hpp \
+ /usr/local/include/boost/algorithm/string/predicate_facade.hpp \
+ /usr/local/include/boost/algorithm/string/case_conv.hpp \
+ /usr/local/include/boost/iterator/transform_iterator.hpp \
+ /usr/local/include/boost/utility/result_of.hpp \
+ /usr/local/include/boost/preprocessor/iteration/iterate.hpp \
+ /usr/local/include/boost/preprocessor/slot/slot.hpp \
+ /usr/local/include/boost/preprocessor/slot/detail/def.hpp \
+ /usr/local/include/boost/preprocessor/repetition/enum_shifted_params.hpp \
+ /usr/local/include/boost/preprocessor/facilities/intercept.hpp \
+ /usr/local/include/boost/preprocessor/iteration/detail/iter/forward1.hpp \
+ /usr/local/include/boost/preprocessor/iteration/detail/bounds/lower1.hpp \
+ /usr/local/include/boost/preprocessor/slot/detail/shared.hpp \
+ /usr/local/include/boost/preprocessor/iteration/detail/bounds/upper1.hpp \
+ /usr/local/include/boost/utility/detail/result_of_iterate.hpp \
+ /usr/local/include/boost/algorithm/string/detail/case_conv.hpp \
+ /usr/local/include/boost/algorithm/string/predicate.hpp \
+ /usr/local/include/boost/algorithm/string/compare.hpp \
+ /usr/local/include/boost/algorithm/string/find.hpp \
+ /usr/local/include/boost/algorithm/string/finder.hpp \
+ /usr/local/include/boost/algorithm/string/constants.hpp \
+ /usr/local/include/boost/algorithm/string/detail/finder.hpp \
+ /usr/local/include/boost/algorithm/string/detail/predicate.hpp \
+ /usr/local/include/boost/algorithm/string/split.hpp \
+ /usr/local/include/boost/algorithm/string/iter_find.hpp \
+ /usr/local/include/boost/algorithm/string/concept.hpp \
+ /usr/local/include/boost/algorithm/string/find_iterator.hpp \
+ /usr/local/include/boost/algorithm/string/detail/find_iterator.hpp \
+ /usr/local/include/boost/function.hpp \
+ /usr/local/include/boost/preprocessor/iterate.hpp \
+ /usr/local/include/boost/function/detail/prologue.hpp \
+ /usr/include/c++/5/cassert \
+ /usr/local/include/boost/config/no_tr1/functional.hpp \
+ /usr/local/include/boost/function/function_base.hpp \
+ /usr/local/include/boost/detail/sp_typeinfo.hpp \
+ /usr/local/include/boost/core/typeinfo.hpp \
+ /usr/local/include/boost/core/demangle.hpp /usr/include/c++/5/cxxabi.h \
+ /usr/include/x86_64-linux-gnu/c++/5/bits/cxxabi_tweaks.h \
+ /usr/local/include/boost/type_traits/has_trivial_copy.hpp \
+ /usr/local/include/boost/type_traits/has_trivial_destructor.hpp \
+ /usr/local/include/boost/type_traits/composite_traits.hpp \
+ /usr/local/include/boost/type_traits/is_union.hpp \
+ /usr/local/include/boost/ref.hpp /usr/local/include/boost/core/ref.hpp \
+ /usr/local/include/boost/type_traits/alignment_of.hpp \
+ /usr/local/include/boost/type_traits/detail/size_t_trait_def.hpp \
+ /usr/local/include/boost/mpl/size_t.hpp \
+ /usr/local/include/boost/mpl/size_t_fwd.hpp \
+ /usr/local/include/boost/type_traits/detail/size_t_trait_undef.hpp \
+ /usr/local/include/boost/function_equal.hpp \
+ /usr/local/include/boost/function/function_fwd.hpp \
+ /usr/local/include/boost/mem_fn.hpp \
+ /usr/local/include/boost/bind/mem_fn.hpp \
+ /usr/local/include/boost/get_pointer.hpp \
+ /usr/local/include/boost/config/no_tr1/memory.hpp \
+ /usr/local/include/boost/bind/mem_fn_template.hpp \
+ /usr/local/include/boost/bind/mem_fn_cc.hpp \
+ /usr/local/include/boost/preprocessor/enum.hpp \
+ /usr/local/include/boost/preprocessor/repetition/enum.hpp \
+ /usr/local/include/boost/preprocessor/enum_params.hpp \
+ /usr/local/include/boost/function/detail/function_iterate.hpp \
+ /usr/local/include/boost/function/detail/maybe_include.hpp \
+ /usr/local/include/boost/function/function_template.hpp \
+ /usr/local/include/boost/detail/no_exceptions_support.hpp \
+ /usr/local/include/boost/core/no_exceptions_support.hpp \
+ /usr/local/include/boost/algorithm/string/detail/util.hpp \
+ /usr/local/include/boost/algorithm/string/join.hpp \
+ /usr/local/include/boost/algorithm/string/detail/sequence.hpp \
+ /usr/local/include/boost/algorithm/string/replace.hpp \
+ /usr/local/include/boost/algorithm/string/find_format.hpp \
+ /usr/include/c++/5/deque /usr/include/c++/5/bits/stl_deque.h \
+ /usr/include/c++/5/bits/deque.tcc \
+ /usr/local/include/boost/algorithm/string/detail/find_format.hpp \
+ /usr/local/include/boost/algorithm/string/detail/find_format_store.hpp \
+ /usr/local/include/boost/algorithm/string/detail/replace_storage.hpp \
+ /usr/local/include/boost/algorithm/string/detail/find_format_all.hpp \
+ /usr/local/include/boost/algorithm/string/formatter.hpp \
+ /usr/local/include/boost/algorithm/string/detail/formatter.hpp \
+ /usr/local/include/boost/algorithm/string/erase.hpp \
  /usr/local/include/Wt/WText /usr/local/include/Wt/WInteractWidget \
  /usr/local/include/Wt/WWebWidget /usr/include/c++/5/set \
  /usr/include/c++/5/bits/stl_tree.h /usr/include/c++/5/bits/stl_set.h \
@@ -747,16 +843,11 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/include/c++/5/bits/stl_multimap.h \
  /usr/local/include/boost/shared_ptr.hpp \
  /usr/local/include/boost/smart_ptr/shared_ptr.hpp \
- /usr/local/include/boost/config/no_tr1/memory.hpp \
  /usr/local/include/boost/smart_ptr/detail/shared_count.hpp \
  /usr/local/include/boost/smart_ptr/bad_weak_ptr.hpp \
  /usr/local/include/boost/smart_ptr/detail/sp_counted_base.hpp \
  /usr/local/include/boost/smart_ptr/detail/sp_has_sync.hpp \
  /usr/local/include/boost/smart_ptr/detail/sp_counted_base_gcc_x86.hpp \
- /usr/local/include/boost/detail/sp_typeinfo.hpp \
- /usr/local/include/boost/core/typeinfo.hpp \
- /usr/local/include/boost/core/demangle.hpp /usr/include/c++/5/cxxabi.h \
- /usr/include/x86_64-linux-gnu/c++/5/bits/cxxabi_tweaks.h \
  /usr/local/include/boost/smart_ptr/detail/sp_counted_impl.hpp \
  /usr/local/include/boost/smart_ptr/detail/sp_convertible.hpp \
  /usr/local/include/boost/smart_ptr/detail/sp_nullptr_t.hpp \
@@ -871,11 +962,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/signals2/deconstruct_ptr.hpp \
  /usr/local/include/boost/signals2/postconstructible.hpp \
  /usr/local/include/boost/signals2/predestructible.hpp \
- /usr/local/include/boost/type_traits/alignment_of.hpp \
- /usr/local/include/boost/type_traits/detail/size_t_trait_def.hpp \
- /usr/local/include/boost/mpl/size_t.hpp \
- /usr/local/include/boost/mpl/size_t_fwd.hpp \
- /usr/local/include/boost/type_traits/detail/size_t_trait_undef.hpp \
  /usr/local/include/boost/type_traits/type_with_alignment.hpp \
  /usr/local/include/boost/preprocessor/list/for_each_i.hpp \
  /usr/local/include/boost/preprocessor/tuple/to_list.hpp \
@@ -899,7 +985,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/type_traits/is_nothrow_move_constructible.hpp \
  /usr/local/include/boost/type_traits/has_trivial_move_constructor.hpp \
  /usr/local/include/boost/type_traits/has_nothrow_copy.hpp \
- /usr/local/include/boost/type_traits/has_trivial_copy.hpp \
  /usr/local/include/boost/detail/reference_content.hpp \
  /usr/local/include/boost/move/utility.hpp \
  /usr/local/include/boost/move/detail/config_begin.hpp \
@@ -911,43 +996,11 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/utility/in_place_factory.hpp \
  /usr/local/include/boost/utility/detail/in_place_factory_prefix.hpp \
  /usr/local/include/boost/preprocessor/punctuation/paren.hpp \
- /usr/local/include/boost/preprocessor/iteration/iterate.hpp \
- /usr/local/include/boost/preprocessor/slot/slot.hpp \
- /usr/local/include/boost/preprocessor/slot/detail/def.hpp \
- /usr/local/include/boost/preprocessor/repetition/enum.hpp \
- /usr/local/include/boost/preprocessor/iteration/detail/iter/forward1.hpp \
- /usr/local/include/boost/preprocessor/iteration/detail/bounds/lower1.hpp \
- /usr/local/include/boost/preprocessor/slot/detail/shared.hpp \
- /usr/local/include/boost/preprocessor/iteration/detail/bounds/upper1.hpp \
  /usr/local/include/boost/utility/detail/in_place_factory_suffix.hpp \
  /usr/local/include/boost/utility/swap.hpp \
  /usr/local/include/boost/optional/optional_fwd.hpp \
  /usr/local/include/boost/signals2/expired_slot.hpp \
  /usr/local/include/boost/signals2/signal.hpp \
- /usr/local/include/boost/function.hpp \
- /usr/local/include/boost/preprocessor/iterate.hpp \
- /usr/local/include/boost/function/detail/prologue.hpp \
- /usr/include/c++/5/cassert \
- /usr/local/include/boost/config/no_tr1/functional.hpp \
- /usr/local/include/boost/function/function_base.hpp \
- /usr/local/include/boost/type_traits/has_trivial_destructor.hpp \
- /usr/local/include/boost/type_traits/composite_traits.hpp \
- /usr/local/include/boost/type_traits/is_union.hpp \
- /usr/local/include/boost/ref.hpp /usr/local/include/boost/core/ref.hpp \
- /usr/local/include/boost/function_equal.hpp \
- /usr/local/include/boost/function/function_fwd.hpp \
- /usr/local/include/boost/mem_fn.hpp \
- /usr/local/include/boost/bind/mem_fn.hpp \
- /usr/local/include/boost/get_pointer.hpp \
- /usr/local/include/boost/bind/mem_fn_template.hpp \
- /usr/local/include/boost/bind/mem_fn_cc.hpp \
- /usr/local/include/boost/preprocessor/enum.hpp \
- /usr/local/include/boost/preprocessor/enum_params.hpp \
- /usr/local/include/boost/function/detail/function_iterate.hpp \
- /usr/local/include/boost/function/detail/maybe_include.hpp \
- /usr/local/include/boost/function/function_template.hpp \
- /usr/local/include/boost/detail/no_exceptions_support.hpp \
- /usr/local/include/boost/core/no_exceptions_support.hpp \
  /usr/local/include/boost/signals2/connection.hpp \
  /usr/local/include/boost/signals2/detail/null_output_iterator.hpp \
  /usr/local/include/boost/function_output_iterator.hpp \
@@ -982,7 +1035,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/variant/variant_fwd.hpp \
  /usr/local/include/boost/blank_fwd.hpp \
  /usr/local/include/boost/preprocessor/enum_shifted_params.hpp \
- /usr/local/include/boost/preprocessor/repetition/enum_shifted_params.hpp \
  /usr/local/include/boost/variant/detail/substitute_fwd.hpp \
  /usr/local/include/boost/variant/detail/backup_holder.hpp \
  /usr/local/include/boost/variant/detail/enable_recursive_fwd.hpp \
@@ -1027,8 +1079,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/signals2/detail/replace_slot_function.hpp \
  /usr/local/include/boost/signals2/detail/result_type_wrapper.hpp \
  /usr/local/include/boost/signals2/detail/slot_groups.hpp \
- /usr/include/c++/5/list /usr/include/c++/5/bits/stl_list.h \
- /usr/include/c++/5/bits/list.tcc \
  /usr/local/include/boost/signals2/detail/slot_call_iterator.hpp \
  /usr/local/include/boost/signals2/detail/auto_buffer.hpp \
  /usr/local/include/boost/multi_index/detail/scope_guard.hpp \
@@ -1045,12 +1095,9 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/parameter/parameters.hpp \
  /usr/local/include/boost/detail/is_xxx.hpp \
  /usr/local/include/boost/preprocessor/repetition/enum_shifted.hpp \
- /usr/local/include/boost/preprocessor/facilities/intercept.hpp \
  /usr/local/include/boost/parameter/aux_/arg_list.hpp \
  /usr/local/include/boost/parameter/aux_/void.hpp \
  /usr/local/include/boost/parameter/aux_/result_of0.hpp \
- /usr/local/include/boost/utility/result_of.hpp \
- /usr/local/include/boost/utility/detail/result_of_iterate.hpp \
  /usr/local/include/boost/parameter/aux_/default.hpp \
  /usr/local/include/boost/parameter/aux_/parameter_requirements.hpp \
  /usr/local/include/boost/parameter/aux_/yesno.hpp \
@@ -1151,8 +1198,7 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/include/c++/5/typeindex \
  /usr/local/include/boost/functional/hash/extensions.hpp \
  /usr/local/include/boost/detail/container_fwd.hpp \
- /usr/include/c++/5/deque /usr/include/c++/5/bits/stl_deque.h \
- /usr/include/c++/5/bits/deque.tcc /usr/local/include/boost/tti/tti.hpp \
+ /usr/local/include/boost/tti/tti.hpp \
  /usr/local/include/boost/tti/has_data.hpp \
  /usr/local/include/boost/tti/gen/has_data_gen.hpp \
  /usr/local/include/boost/tti/detail/ddata.hpp \
@@ -1410,35 +1456,10 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/io/ios_state.hpp \
  /usr/local/include/boost/io_fwd.hpp \
  /usr/local/include/boost/date_time/date_facet.hpp \
- /usr/local/include/boost/algorithm/string/replace.hpp \
- /usr/local/include/boost/algorithm/string/config.hpp \
- /usr/local/include/boost/algorithm/string/find_format.hpp \
- /usr/local/include/boost/range/as_literal.hpp \
- /usr/local/include/boost/range/iterator_range.hpp \
- /usr/local/include/boost/range/iterator_range_io.hpp \
- /usr/local/include/boost/range/detail/str_types.hpp \
- /usr/local/include/boost/algorithm/string/concept.hpp \
- /usr/local/include/boost/algorithm/string/detail/find_format.hpp \
- /usr/local/include/boost/algorithm/string/detail/find_format_store.hpp \
- /usr/local/include/boost/algorithm/string/detail/replace_storage.hpp \
- /usr/local/include/boost/algorithm/string/sequence_traits.hpp \
- /usr/local/include/boost/algorithm/string/yes_no_type.hpp \
- /usr/local/include/boost/algorithm/string/detail/sequence.hpp \
- /usr/local/include/boost/algorithm/string/detail/find_format_all.hpp \
- /usr/local/include/boost/algorithm/string/finder.hpp \
- /usr/local/include/boost/algorithm/string/constants.hpp \
- /usr/local/include/boost/algorithm/string/detail/finder.hpp \
- /usr/local/include/boost/algorithm/string/compare.hpp \
- /usr/local/include/boost/algorithm/string/formatter.hpp \
- /usr/local/include/boost/algorithm/string/detail/formatter.hpp \
- /usr/local/include/boost/algorithm/string/detail/util.hpp \
  /usr/local/include/boost/date_time/special_values_formatter.hpp \
  /usr/local/include/boost/date_time/period_formatter.hpp \
  /usr/local/include/boost/date_time/period_parser.hpp \
  /usr/local/include/boost/date_time/string_parse_tree.hpp \
- /usr/local/include/boost/algorithm/string/case_conv.hpp \
- /usr/local/include/boost/iterator/transform_iterator.hpp \
- /usr/local/include/boost/algorithm/string/detail/case_conv.hpp \
  /usr/local/include/boost/date_time/string_convert.hpp \
  /usr/local/include/boost/date_time/date_generator_formatter.hpp \
  /usr/local/include/boost/date_time/date_generator_parser.hpp \
@@ -1457,7 +1478,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/date_time/time_parsing.hpp \
  /usr/local/include/boost/date_time/posix_time/posix_time_io.hpp \
  /usr/local/include/boost/date_time/time_facet.hpp \
- /usr/local/include/boost/algorithm/string/erase.hpp \
  /usr/local/include/boost/date_time/posix_time/conversion.hpp \
  /usr/local/include/boost/date_time/posix_time/time_parsers.hpp \
  /usr/local/include/Wt/Dbo/ptr_tuple /usr/local/include/Wt/Dbo/Impl \
@@ -1469,7 +1489,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/Dbo/Query_impl.h \
  /usr/local/include/Wt/Dbo/Field_impl.h \
  /usr/local/include/Wt/Dbo/SqlTraits_impl.h \
- /usr/local/include/boost/algorithm/string/find.hpp \
  /usr/local/include/Wt/Dbo/Session_impl.h \
  /usr/local/include/Wt/WPushButton /usr/local/include/Wt/WAnchor \
  /usr/local/include/Wt/WLink /usr/local/include/boost/variant.hpp \
@@ -3114,6 +3133,206 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/detail/basic_pointerbuf.hpp:
 
+/usr/local/include/boost/algorithm/string.hpp:
+
+/usr/local/include/boost/algorithm/string/std_containers_traits.hpp:
+
+/usr/local/include/boost/algorithm/string/std/string_traits.hpp:
+
+/usr/local/include/boost/algorithm/string/yes_no_type.hpp:
+
+/usr/local/include/boost/algorithm/string/sequence_traits.hpp:
+
+/usr/local/include/boost/algorithm/string/std/list_traits.hpp:
+
+/usr/include/c++/5/list:
+
+/usr/include/c++/5/bits/stl_list.h:
+
+/usr/include/c++/5/bits/list.tcc:
+
+/usr/local/include/boost/algorithm/string/std/slist_traits.hpp:
+
+/usr/local/include/boost/algorithm/string/config.hpp:
+
+/usr/include/c++/5/ext/slist:
+
+/usr/local/include/boost/algorithm/string/trim.hpp:
+
+/usr/local/include/boost/range/as_literal.hpp:
+
+/usr/local/include/boost/range/iterator_range.hpp:
+
+/usr/local/include/boost/range/iterator_range_io.hpp:
+
+/usr/local/include/boost/range/detail/str_types.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/trim.hpp:
+
+/usr/local/include/boost/algorithm/string/classification.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/classification.hpp:
+
+/usr/local/include/boost/algorithm/string/predicate_facade.hpp:
+
+/usr/local/include/boost/algorithm/string/case_conv.hpp:
+
+/usr/local/include/boost/iterator/transform_iterator.hpp:
+
+/usr/local/include/boost/utility/result_of.hpp:
+
+/usr/local/include/boost/preprocessor/iteration/iterate.hpp:
+
+/usr/local/include/boost/preprocessor/slot/slot.hpp:
+
+/usr/local/include/boost/preprocessor/slot/detail/def.hpp:
+
+/usr/local/include/boost/preprocessor/repetition/enum_shifted_params.hpp:
+
+/usr/local/include/boost/preprocessor/facilities/intercept.hpp:
+
+/usr/local/include/boost/preprocessor/iteration/detail/iter/forward1.hpp:
+
+/usr/local/include/boost/preprocessor/iteration/detail/bounds/lower1.hpp:
+
+/usr/local/include/boost/preprocessor/slot/detail/shared.hpp:
+
+/usr/local/include/boost/preprocessor/iteration/detail/bounds/upper1.hpp:
+
+/usr/local/include/boost/utility/detail/result_of_iterate.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/case_conv.hpp:
+
+/usr/local/include/boost/algorithm/string/predicate.hpp:
+
+/usr/local/include/boost/algorithm/string/compare.hpp:
+
+/usr/local/include/boost/algorithm/string/find.hpp:
+
+/usr/local/include/boost/algorithm/string/finder.hpp:
+
+/usr/local/include/boost/algorithm/string/constants.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/finder.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/predicate.hpp:
+
+/usr/local/include/boost/algorithm/string/split.hpp:
+
+/usr/local/include/boost/algorithm/string/iter_find.hpp:
+
+/usr/local/include/boost/algorithm/string/concept.hpp:
+
+/usr/local/include/boost/algorithm/string/find_iterator.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/find_iterator.hpp:
+
+/usr/local/include/boost/function.hpp:
+
+/usr/local/include/boost/preprocessor/iterate.hpp:
+
+/usr/local/include/boost/function/detail/prologue.hpp:
+
+/usr/include/c++/5/cassert:
+
+/usr/local/include/boost/config/no_tr1/functional.hpp:
+
+/usr/local/include/boost/function/function_base.hpp:
+
+/usr/local/include/boost/detail/sp_typeinfo.hpp:
+
+/usr/local/include/boost/core/typeinfo.hpp:
+
+/usr/local/include/boost/core/demangle.hpp:
+
+/usr/include/c++/5/cxxabi.h:
+
+/usr/include/x86_64-linux-gnu/c++/5/bits/cxxabi_tweaks.h:
+
+/usr/local/include/boost/type_traits/has_trivial_copy.hpp:
+
+/usr/local/include/boost/type_traits/has_trivial_destructor.hpp:
+
+/usr/local/include/boost/type_traits/composite_traits.hpp:
+
+/usr/local/include/boost/type_traits/is_union.hpp:
+
+/usr/local/include/boost/ref.hpp:
+
+/usr/local/include/boost/core/ref.hpp:
+
+/usr/local/include/boost/type_traits/alignment_of.hpp:
+
+/usr/local/include/boost/type_traits/detail/size_t_trait_def.hpp:
+
+/usr/local/include/boost/mpl/size_t.hpp:
+
+/usr/local/include/boost/mpl/size_t_fwd.hpp:
+
+/usr/local/include/boost/type_traits/detail/size_t_trait_undef.hpp:
+
+/usr/local/include/boost/function_equal.hpp:
+
+/usr/local/include/boost/function/function_fwd.hpp:
+
+/usr/local/include/boost/mem_fn.hpp:
+
+/usr/local/include/boost/bind/mem_fn.hpp:
+
+/usr/local/include/boost/get_pointer.hpp:
+
+/usr/local/include/boost/config/no_tr1/memory.hpp:
+
+/usr/local/include/boost/bind/mem_fn_template.hpp:
+
+/usr/local/include/boost/bind/mem_fn_cc.hpp:
+
+/usr/local/include/boost/preprocessor/enum.hpp:
+
+/usr/local/include/boost/preprocessor/repetition/enum.hpp:
+
+/usr/local/include/boost/preprocessor/enum_params.hpp:
+
+/usr/local/include/boost/function/detail/function_iterate.hpp:
+
+/usr/local/include/boost/function/detail/maybe_include.hpp:
+
+/usr/local/include/boost/function/function_template.hpp:
+
+/usr/local/include/boost/detail/no_exceptions_support.hpp:
+
+/usr/local/include/boost/core/no_exceptions_support.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/util.hpp:
+
+/usr/local/include/boost/algorithm/string/join.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/sequence.hpp:
+
+/usr/local/include/boost/algorithm/string/replace.hpp:
+
+/usr/local/include/boost/algorithm/string/find_format.hpp:
+
+/usr/include/c++/5/deque:
+
+/usr/include/c++/5/bits/stl_deque.h:
+
+/usr/include/c++/5/bits/deque.tcc:
+
+/usr/local/include/boost/algorithm/string/detail/find_format.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/find_format_store.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/replace_storage.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/find_format_all.hpp:
+
+/usr/local/include/boost/algorithm/string/formatter.hpp:
+
+/usr/local/include/boost/algorithm/string/detail/formatter.hpp:
+
+/usr/local/include/boost/algorithm/string/erase.hpp:
+
 /usr/local/include/Wt/WText:
 
 /usr/local/include/Wt/WInteractWidget:
@@ -3156,8 +3375,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/smart_ptr/shared_ptr.hpp:
 
-/usr/local/include/boost/config/no_tr1/memory.hpp:
-
 /usr/local/include/boost/smart_ptr/detail/shared_count.hpp:
 
 /usr/local/include/boost/smart_ptr/bad_weak_ptr.hpp:
@@ -3167,16 +3384,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 /usr/local/include/boost/smart_ptr/detail/sp_has_sync.hpp:
 
 /usr/local/include/boost/smart_ptr/detail/sp_counted_base_gcc_x86.hpp:
-
-/usr/local/include/boost/detail/sp_typeinfo.hpp:
-
-/usr/local/include/boost/core/typeinfo.hpp:
-
-/usr/local/include/boost/core/demangle.hpp:
-
-/usr/include/c++/5/cxxabi.h:
-
-/usr/include/x86_64-linux-gnu/c++/5/bits/cxxabi_tweaks.h:
 
 /usr/local/include/boost/smart_ptr/detail/sp_counted_impl.hpp:
 
@@ -3408,16 +3615,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/signals2/predestructible.hpp:
 
-/usr/local/include/boost/type_traits/alignment_of.hpp:
-
-/usr/local/include/boost/type_traits/detail/size_t_trait_def.hpp:
-
-/usr/local/include/boost/mpl/size_t.hpp:
-
-/usr/local/include/boost/mpl/size_t_fwd.hpp:
-
-/usr/local/include/boost/type_traits/detail/size_t_trait_undef.hpp:
-
 /usr/local/include/boost/type_traits/type_with_alignment.hpp:
 
 /usr/local/include/boost/preprocessor/list/for_each_i.hpp:
@@ -3464,8 +3661,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/type_traits/has_nothrow_copy.hpp:
 
-/usr/local/include/boost/type_traits/has_trivial_copy.hpp:
-
 /usr/local/include/boost/detail/reference_content.hpp:
 
 /usr/local/include/boost/move/utility.hpp:
@@ -3490,22 +3685,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/preprocessor/punctuation/paren.hpp:
 
-/usr/local/include/boost/preprocessor/iteration/iterate.hpp:
-
-/usr/local/include/boost/preprocessor/slot/slot.hpp:
-
-/usr/local/include/boost/preprocessor/slot/detail/def.hpp:
-
-/usr/local/include/boost/preprocessor/repetition/enum.hpp:
-
-/usr/local/include/boost/preprocessor/iteration/detail/iter/forward1.hpp:
-
-/usr/local/include/boost/preprocessor/iteration/detail/bounds/lower1.hpp:
-
-/usr/local/include/boost/preprocessor/slot/detail/shared.hpp:
-
-/usr/local/include/boost/preprocessor/iteration/detail/bounds/upper1.hpp:
-
 /usr/local/include/boost/utility/detail/in_place_factory_suffix.hpp:
 
 /usr/local/include/boost/utility/swap.hpp:
@@ -3515,56 +3694,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 /usr/local/include/boost/signals2/expired_slot.hpp:
 
 /usr/local/include/boost/signals2/signal.hpp:
-
-/usr/local/include/boost/function.hpp:
-
-/usr/local/include/boost/preprocessor/iterate.hpp:
-
-/usr/local/include/boost/function/detail/prologue.hpp:
-
-/usr/include/c++/5/cassert:
-
-/usr/local/include/boost/config/no_tr1/functional.hpp:
-
-/usr/local/include/boost/function/function_base.hpp:
-
-/usr/local/include/boost/type_traits/has_trivial_destructor.hpp:
-
-/usr/local/include/boost/type_traits/composite_traits.hpp:
-
-/usr/local/include/boost/type_traits/is_union.hpp:
-
-/usr/local/include/boost/ref.hpp:
-
-/usr/local/include/boost/core/ref.hpp:
-
-/usr/local/include/boost/function_equal.hpp:
-
-/usr/local/include/boost/function/function_fwd.hpp:
-
-/usr/local/include/boost/mem_fn.hpp:
-
-/usr/local/include/boost/bind/mem_fn.hpp:
-
-/usr/local/include/boost/get_pointer.hpp:
-
-/usr/local/include/boost/bind/mem_fn_template.hpp:
-
-/usr/local/include/boost/bind/mem_fn_cc.hpp:
-
-/usr/local/include/boost/preprocessor/enum.hpp:
-
-/usr/local/include/boost/preprocessor/enum_params.hpp:
-
-/usr/local/include/boost/function/detail/function_iterate.hpp:
-
-/usr/local/include/boost/function/detail/maybe_include.hpp:
-
-/usr/local/include/boost/function/function_template.hpp:
-
-/usr/local/include/boost/detail/no_exceptions_support.hpp:
-
-/usr/local/include/boost/core/no_exceptions_support.hpp:
 
 /usr/local/include/boost/signals2/connection.hpp:
 
@@ -3635,8 +3764,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 /usr/local/include/boost/blank_fwd.hpp:
 
 /usr/local/include/boost/preprocessor/enum_shifted_params.hpp:
-
-/usr/local/include/boost/preprocessor/repetition/enum_shifted_params.hpp:
 
 /usr/local/include/boost/variant/detail/substitute_fwd.hpp:
 
@@ -3726,12 +3853,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/signals2/detail/slot_groups.hpp:
 
-/usr/include/c++/5/list:
-
-/usr/include/c++/5/bits/stl_list.h:
-
-/usr/include/c++/5/bits/list.tcc:
-
 /usr/local/include/boost/signals2/detail/slot_call_iterator.hpp:
 
 /usr/local/include/boost/signals2/detail/auto_buffer.hpp:
@@ -3764,17 +3885,11 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/preprocessor/repetition/enum_shifted.hpp:
 
-/usr/local/include/boost/preprocessor/facilities/intercept.hpp:
-
 /usr/local/include/boost/parameter/aux_/arg_list.hpp:
 
 /usr/local/include/boost/parameter/aux_/void.hpp:
 
 /usr/local/include/boost/parameter/aux_/result_of0.hpp:
-
-/usr/local/include/boost/utility/result_of.hpp:
-
-/usr/local/include/boost/utility/detail/result_of_iterate.hpp:
 
 /usr/local/include/boost/parameter/aux_/default.hpp:
 
@@ -3977,12 +4092,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 /usr/local/include/boost/functional/hash/extensions.hpp:
 
 /usr/local/include/boost/detail/container_fwd.hpp:
-
-/usr/include/c++/5/deque:
-
-/usr/include/c++/5/bits/stl_deque.h:
-
-/usr/include/c++/5/bits/deque.tcc:
 
 /usr/local/include/boost/tti/tti.hpp:
 
@@ -4524,50 +4633,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/date_time/date_facet.hpp:
 
-/usr/local/include/boost/algorithm/string/replace.hpp:
-
-/usr/local/include/boost/algorithm/string/config.hpp:
-
-/usr/local/include/boost/algorithm/string/find_format.hpp:
-
-/usr/local/include/boost/range/as_literal.hpp:
-
-/usr/local/include/boost/range/iterator_range.hpp:
-
-/usr/local/include/boost/range/iterator_range_io.hpp:
-
-/usr/local/include/boost/range/detail/str_types.hpp:
-
-/usr/local/include/boost/algorithm/string/concept.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/find_format.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/find_format_store.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/replace_storage.hpp:
-
-/usr/local/include/boost/algorithm/string/sequence_traits.hpp:
-
-/usr/local/include/boost/algorithm/string/yes_no_type.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/sequence.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/find_format_all.hpp:
-
-/usr/local/include/boost/algorithm/string/finder.hpp:
-
-/usr/local/include/boost/algorithm/string/constants.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/finder.hpp:
-
-/usr/local/include/boost/algorithm/string/compare.hpp:
-
-/usr/local/include/boost/algorithm/string/formatter.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/formatter.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/util.hpp:
-
 /usr/local/include/boost/date_time/special_values_formatter.hpp:
 
 /usr/local/include/boost/date_time/period_formatter.hpp:
@@ -4575,12 +4640,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 /usr/local/include/boost/date_time/period_parser.hpp:
 
 /usr/local/include/boost/date_time/string_parse_tree.hpp:
-
-/usr/local/include/boost/algorithm/string/case_conv.hpp:
-
-/usr/local/include/boost/iterator/transform_iterator.hpp:
-
-/usr/local/include/boost/algorithm/string/detail/case_conv.hpp:
 
 /usr/local/include/boost/date_time/string_convert.hpp:
 
@@ -4618,8 +4677,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/boost/date_time/time_facet.hpp:
 
-/usr/local/include/boost/algorithm/string/erase.hpp:
-
 /usr/local/include/boost/date_time/posix_time/conversion.hpp:
 
 /usr/local/include/boost/date_time/posix_time/time_parsers.hpp:
@@ -4643,8 +4700,6 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
 /usr/local/include/Wt/Dbo/Field_impl.h:
 
 /usr/local/include/Wt/Dbo/SqlTraits_impl.h:
-
-/usr/local/include/boost/algorithm/string/find.hpp:
 
 /usr/local/include/Wt/Dbo/Session_impl.h:
 

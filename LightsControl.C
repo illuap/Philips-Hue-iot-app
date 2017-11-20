@@ -1,4 +1,5 @@
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string.hpp>
 #include <Wt/WText>
 #include <Wt/WTable>
 #include <Wt/Dbo/Dbo>
@@ -45,17 +46,27 @@ void LightsControlWidget::update()
   endPos = subString.find("&");
   port = subString.substr(0, endPos);
 
+  //get group info to display 
+  Http::Client *client = LightsControlWidget::connect();
+  client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseName, this, _1, _2));
+  if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/")) {
+	  WApplication::instance()->deferRendering();
+  }
 
-  new WText("Select the light to be changed: "); 
- WPushButton *oneButton
-    = new WPushButton("Light 1", this);                   // 1st light button
-  oneButton->setMargin(5, Left);
-  WPushButton *twoButton
-    = new WPushButton("Light 2", this);                   // 2nd light button
-  twoButton->setMargin(5, Left);
-  WPushButton *threeButton
-    = new WPushButton("Light 3", this);                   // 3rd light button
-  threeButton->setMargin(5, Left);
+  this->addWidget(new WText("Select the light to be changed: "));
+  this->addWidget(new WBreak());
+  WPushButton *oneButton  = new WPushButton("Light 1", this);                   // 1st light button
+  oneButton->setMargin(10, Left);
+  oneLight_ = new WText(this);
+  this->addWidget(new WBreak());
+  WPushButton *twoButton = new WPushButton("Light 2", this);					//2nd light button
+  twoButton->setMargin(10, Left);
+  twoLight_ = new WText(this);
+  this->addWidget(new WBreak());
+  WPushButton *threeButton = new WPushButton("Light 3", this);                   // 3rd light button
+  threeButton->setMargin(10, Left);
+  threeLight_ = new WText(this);
+  this->addWidget(new WBreak());
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
 
@@ -128,6 +139,23 @@ void LightsControlWidget::update()
   satScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
   satScaleSlider_->resize(300, 50);
   this->addWidget(new WText("  254"));
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());
+
+  //change transition time
+  this->addWidget(new WText("Transition Time: (multiple of 100ms) "));
+  this->addWidget(new WBreak());
+  this->addWidget(new WText("1  (100ms)"));
+  transitionScaleSlider_ = new WSlider(this);					 //slider bar
+  transitionScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
+  transitionScaleSlider_->setMinimum(1);
+  transitionScaleSlider_->setMaximum(20);
+  transitionScaleSlider_->setValue(4);
+  transitionScaleSlider_->setTickInterval(2);
+  transitionScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
+  transitionScaleSlider_->resize(300, 50);
+  this->addWidget(new WText("  20 (2 seconds)"));
+
 
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
@@ -151,11 +179,13 @@ void LightsControlWidget::update()
   briScaleSlider_->valueChanged().connect(this, &LightsControlWidget::bright);
   satScaleSlider_->valueChanged().connect(this, &LightsControlWidget::sat);
   hueScaleSlider_->valueChanged().connect(this, &LightsControlWidget::hue);
+  transitionScaleSlider_->valueChanged().connect(this, &LightsControlWidget::transition);
 
 
   (boost::bind(&LightsControlWidget::hue, this));
   (boost::bind(&LightsControlWidget::name, this));
   (boost::bind(&LightsControlWidget::bright, this));
+  (boost::bind(&LightsControlWidget::transition, this));
   (boost::bind(&LightsControlWidget::sat, this));
   (boost::bind(&LightsControlWidget::on, this));
   (boost::bind(&LightsControlWidget::off, this));
@@ -173,6 +203,37 @@ Http::Client * LightsControlWidget::connect() {
 	Http::Client *client = new Http::Client(this);
 	client->setTimeout(15);
 	client->setMaximumResponseSize(10 * 1024);
+}
+
+//handle request (does nothing withthe response) - for changing the light state
+void LightsControlWidget::handleHttpResponseName(boost::system::error_code err, const Http::Message& response) {
+	WApplication::instance()->resumeRendering();
+	if (!err && response.status() == 200) {
+		Json::Object result;
+		Json::parse(response.body(), result);
+
+		size_t pos = response.body().find("name");
+		string subString = response.body().substr(pos + 6);
+		size_t endPos = subString.find(",");
+		string name = subString.substr(0, endPos);
+		boost::erase_all(name, "\"");
+		oneLight_->setText("	(" + name + ")");
+	
+		pos = subString.find("name");
+		subString = subString.substr(pos + 6);
+		endPos = subString.find(",");
+		name = subString.substr(0, endPos);
+		boost::erase_all(name, "\"");
+		twoLight_->setText("	(" + name + ")");
+
+		pos = subString.find("name");
+		subString = subString.substr(pos + 6);
+		endPos = subString.find(",");
+		name = subString.substr(0, endPos);
+		boost::erase_all(name, "\"");
+		threeLight_->setText("	(" + name + ")");
+	}
+
 }
 
 //handle request (does nothing withthe response) - for changing the light state
@@ -204,9 +265,18 @@ void LightsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		endPos = subString.find(",");
 		string hue = subString.substr(0, endPos);
 
+		/*
+		//get transition
+		pos = response.body().find("transitiontime");
+		subString = response.body().substr(pos + 16);
+		endPos = subString.find(",");
+		string trans = subString.substr(0, endPos);
+		*/
+
 		hueScaleSlider_->setValue(stoi(hue));
 		satScaleSlider_->setValue(stoi(sat));
 		briScaleSlider_->setValue(stoi(bri));
+		//transitionScaleSlider_->setValue(stoi(trans));
 	}
 }
 
@@ -214,7 +284,7 @@ void LightsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 //selects light 1 to change
 void LightsControlWidget::lightOne() {
 	currentLight = "1";
-	light_->setText("You are changing Light 1");
+	light_->setText("You are changing Light 1     " + oneLight_->text());
 	change_->setText("");
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
@@ -226,7 +296,7 @@ void LightsControlWidget::lightOne() {
 //selects light 2 to change
 void LightsControlWidget::lightTwo() {
 	currentLight = "2";
-	light_->setText("You are changing Light 2");
+	light_->setText("You are changing Light 2     " + twoLight_->text());
 	change_->setText("");
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
@@ -238,7 +308,7 @@ void LightsControlWidget::lightTwo() {
 //selects light 3 to change
 void LightsControlWidget::lightThree() {
 	currentLight = "3";
-	light_->setText("You are changing Light 3");
+	light_->setText("You are changing Light 3     " + threeLight_->text());
 	change_->setText("");
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
@@ -259,6 +329,15 @@ void LightsControlWidget::name() {
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight, *msg);
 		change_->setText("New Name: " + input);
+		if (currentLight.compare("1") == 0) {
+			oneLight_->setText("	(" + input + ")");
+		} else {
+			if (currentLight.compare("2") == 0) {
+				twoLight_->setText("	(" + input + ")");
+			} else {
+				threeLight_->setText("	(" + input + ")");
+			}
+		}
 	}
 }
 
@@ -338,6 +417,23 @@ void LightsControlWidget::sat() {
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("new Saturation: " + to_string(input));
+	}
+}
+
+//changes the transition time
+void LightsControlWidget::transition() {
+	if (currentLight.compare("0") == 0) {
+		light_->setText("Please select a light to change");
+		change_->setText("");
+	}
+	else {
+		int input = transitionScaleSlider_->value();
+		Http::Client *client = LightsControlWidget::connect();
+		Http::Message *msg = new Http::Message();
+		msg->addBodyText("{\"transitiontime\" : \"" + to_string(input) + "\"}");
+		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
+		change_->setText("new Transition Time: " + to_string(input * 100) + "ms");
 	}
 }
 
