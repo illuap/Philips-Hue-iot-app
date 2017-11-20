@@ -93,6 +93,8 @@ void GroupsControlWidget::update()
 	//list groups
 	this->addWidget(new WText("Your Groups: "));
 	this->addWidget(new WBreak());
+	this->addWidget(new WText("Note: \"1- Group 1\" is a default group containing all your lights."));
+	this->addWidget(new WBreak());
 	groups_ = new WText(this);
 	Http::Client *client = GroupsControlWidget::connect();
 	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
@@ -136,6 +138,9 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		size_t endPos = subString.find("\"");
 		string num = subString.substr(0, endPos);
 		int n = atoi(num.c_str());
+		if (n == NULL || n <= 0) {
+			n = 1;
+		}
 		for (int i = 0; i < n; i++) {
 			string groups = response.body();
 			if (groups.find("\"" + to_string(i + 1) + "\"") != string::npos) {
