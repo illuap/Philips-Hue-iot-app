@@ -165,7 +165,12 @@ void LightsControlWidget::update()
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
   this->addWidget(new WBreak());
-  this->addWidget(new WBreak());
+
+  WPushButton *groupButton						
+	  = new WPushButton("Go to My Groups", this);
+  groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+  groupButton->setMargin(10, Left);
+
   WPushButton *returnButton							//go back to bridge
 	  = new WPushButton("Return To Bridge", this);
 

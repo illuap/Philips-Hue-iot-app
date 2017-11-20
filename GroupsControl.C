@@ -30,7 +30,6 @@ void GroupsControlWidget::update()
 {
 	clear();
 
-	/*
 	//get URL info
 	string address = WApplication::instance()->internalPath();
 	size_t pos = address.find("user=");						//get userID
@@ -45,11 +44,22 @@ void GroupsControlWidget::update()
 	subString = address.substr(pos + 5);
 	endPos = subString.find("&");
 	port = subString.substr(0, endPos);
-	*/
 
 	one = false;
 	two = false;
 	three = false; 
+
+	WPushButton *lightButton
+		= new WPushButton("Return to My Lights", this);
+	lightButton->setLink("/?_=/lights?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+	lightButton->setMargin(10, Left);
+	WPushButton *returnButton							//go back to bridge
+		= new WPushButton("Return To Bridge", this);
+
+
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
 
 	this->addWidget(new WText("CREATE A GROUP: "));
 	this->addWidget(new WBreak());
@@ -98,7 +108,7 @@ void GroupsControlWidget::update()
 	groups_ = new WText(this);
 	Http::Client *client = GroupsControlWidget::connect();
 	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://127.0.0.1:8000/api/newdeveloper/groups")) {
+	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/groups")) {
 		WApplication::instance()->deferRendering();
 	}
 
@@ -106,6 +116,7 @@ void GroupsControlWidget::update()
 	twoButton->clicked().connect(this, &GroupsControlWidget::lightTwo);
 	threeButton->clicked().connect(this, &GroupsControlWidget::lightThree);
 	createButton->clicked().connect(this, &GroupsControlWidget::createGroup);
+	returnButton->clicked().connect(this, &GroupsControlWidget::returnBridge);
 
 	(boost::bind(&GroupsControlWidget::handleHttpResponse, this));
 	(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this));
@@ -114,6 +125,7 @@ void GroupsControlWidget::update()
 	(boost::bind(&GroupsControlWidget::lightTwo, this));
 	(boost::bind(&GroupsControlWidget::lightThree, this));
 	(boost::bind(&GroupsControlWidget::createGroup, this));
+	(boost::bind(&GroupsControlWidget::returnBridge, this));
 }
 
 //creates a client
@@ -133,8 +145,8 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
 		//find number of groups
-		size_t pos = response.body().find_last_of(",");
-		string subString = response.body().substr(pos + 2);
+		size_t pos = response.body().find_last_of("{");
+		string subString = response.body().substr(pos - 3);
 		size_t endPos = subString.find("\"");
 		string num = subString.substr(0, endPos);
 		int n = atoi(num.c_str());
@@ -143,7 +155,7 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		}
 		for (int i = 0; i < n; i++) {
 			string groups = response.body();
-			if (groups.find("\"" + to_string(i + 1) + "\"") != string::npos) {
+			if (groups.find("\"" + to_string(i + 1) + "\":") != string::npos) {
 				size_t pos = groups.find("\"" + to_string(i + 1) + "\"");
 				string subString;
 				if ( (i + 1) >= 10) {
@@ -155,7 +167,7 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 				string name = subString.substr(0, endPos);
 				WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
 				currentButton->setMargin(5, Left);
-				//currentButton->setLink("/?_=/lights?user=" + x.getUserId() + "%26ip=" + x.getIpAddress() + "%26port=" + std::to_string(x.getPortNumber()));
+				currentButton->setLink("/?_=/singlegroup?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + to_string(i+1));
 			}
 		}
 	}
@@ -233,7 +245,13 @@ void GroupsControlWidget::createGroup() {
 			msg->addBodyText("{\"lights\" : " + selectedLights + ", \"name\" : \"" + nameEdit_->text().toUTF8() + "\", \"type\" : \"LightGroup\" }");
 			Http::Client *client = GroupsControlWidget::connect();
 			client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-			client->post("http://127.0.0.1:8000/api/newdeveloper/groups", *msg);
+			client->post("http://" + ip + ":" + port + "/api/" + userID + "/groups", *msg);
 		}
 	}
 }
+
+void GroupsControlWidget::returnBridge() {
+	clear();
+	WApplication::instance()->setInternalPath("/Bridge", true);
+}
+

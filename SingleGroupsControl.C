@@ -31,7 +31,6 @@ void SingleGroupsControlWidget::update()
 {
 	clear();
 
-	/*
 	//get URL info
 	string address = WApplication::instance()->internalPath();
 	size_t pos = address.find("user=");						//get userID
@@ -46,13 +45,16 @@ void SingleGroupsControlWidget::update()
 	subString = address.substr(pos + 5);
 	endPos = subString.find("&");
 	port = subString.substr(0, endPos);
-	*/
+	pos = address.find("groupid=");								//get groupID
+	subString = address.substr(pos + 8);
+	endPos = subString.find("&");
+	groupID = subString.substr(0, endPos);
 
 	deleteConfirm = false;
 	//get group info to display 
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://127.0.0.1:8000/api/newdeveloper/groups/2")) {
+	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID)) {
 		WApplication::instance()->deferRendering();
 	}
 
@@ -160,7 +162,15 @@ void SingleGroupsControlWidget::update()
 
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
-	
+
+	WPushButton *groupButton
+		= new WPushButton("Return to My Groups", this);
+	groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+	groupButton->setMargin(10, Left);
+	WPushButton *lightButton
+		= new WPushButton("Return to My Lights", this);
+	lightButton->setLink("/?_=/lights?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+	lightButton->setMargin(10, Left);
 	WPushButton *returnButton							//go back to bridge
 		= new WPushButton("Return To Bridge", this);
 
@@ -172,7 +182,7 @@ void SingleGroupsControlWidget::update()
 	briScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::bright);
 	satScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::sat);
 	hueScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::hue);
-	transitionScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::hue);
+	transitionScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::transition);
 
 
 	(boost::bind(&SingleGroupsControlWidget::hue, this));
@@ -199,7 +209,7 @@ Http::Client * SingleGroupsControlWidget::connect() {
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-//handle request (does nothing withthe response) - for changing a group state
+//handle request (does nothing with the response) - for changing a group state
 void SingleGroupsControlWidget::handleHttpResponseUpdate(boost::system::error_code err, const Http::Message& response) {
 	update();
 }
@@ -235,8 +245,9 @@ void SingleGroupsControlWidget::deleteGroup() {
 		Http::Message *msg = new Http::Message();
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->deleteRequest("http://127.0.0.1:8000/api/newdeveloper/groups/2", *msg);
-		returnBridge();
+		client->deleteRequest("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID, *msg);
+		clear();
+		WApplication::instance()->setInternalPath("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port, true);
 	}
 }
 
@@ -253,7 +264,7 @@ void SingleGroupsControlWidget::name() {
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"name\" : \"" + input + "\"}");
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseUpdate, this, _1, _2));
-	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2", *msg);
+	client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID, *msg);
 	change_->setText("Are you sure?");
 }
 
@@ -264,7 +275,7 @@ void SingleGroupsControlWidget::on() {
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"on\" : true}");
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2/action", *msg);
+	client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID + "/action", *msg);
 	change_->setText("Light: ON");
 }
 
@@ -274,7 +285,7 @@ void SingleGroupsControlWidget::off() {
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"on\" : false}");
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2/action", *msg);
+	client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID + "/action", *msg);
 	change_->setText("Light: OFF");
 }
 
@@ -285,7 +296,7 @@ void SingleGroupsControlWidget::hue() {
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"hue\" : \"" + to_string(input) + "\"}");
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2/action", *msg);
+	client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID + "/action", *msg);
 	change_->setText("new Hue: " + to_string(input));
 }
 
@@ -296,7 +307,7 @@ void SingleGroupsControlWidget::bright() {
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"bri\" : \"" + to_string(input) + "\"}");
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2/action", *msg);
+	client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID + "/action", *msg);
 	change_->setText("new Brightness: " + to_string(input));
 }
 
@@ -307,18 +318,18 @@ void SingleGroupsControlWidget::sat(){
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"sat\" : \"" + to_string(input) + "\"}");
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2/action", *msg);
+	client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID + "/action", *msg);
 	change_->setText("new Saturation: " + to_string(input));
 }
 
-//changes the saturation
+//changes the transition
 void SingleGroupsControlWidget::transition() {
 	int input = transitionScaleSlider_->value();
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"transitiontime\" : \"" + to_string(input) + "\"}");
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-	client->put("http://127.0.0.1:8000/api/newdeveloper/groups/2/action", *msg);
+	client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID + "/action", *msg);
 	change_->setText("new Transition Time: " + to_string(input * 100) + "ms");
 }
 

@@ -21,6 +21,7 @@ private:
 	std::string ip = "";
 	std::string userID = "";
 	std::string port = "";
+	std::string groupID = "";
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseUpdate(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);

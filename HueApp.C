@@ -83,9 +83,9 @@ void HueApp::handleInternalPath(const std::string &internalPath)
       showLights();
     else if(internalPath == "/bridge")
       showBridge();
-	else if (internalPath == "/group")
+	else if (internalPath.find("/group") == 0)
 	  showGroups();
-	else if (internalPath == "/singlegroup")
+	else if (internalPath.find("/singlegroup") == 0)
 		showSingleGroups();
     else
       WApplication::instance()->setInternalPath("/bridge",  true);
