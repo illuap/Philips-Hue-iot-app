@@ -24,11 +24,13 @@
 
 typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
 
+typedef Wt::Dbo::collection<Wt::Dbo::ptr<Bridge>> Bridges_Collection;
+typedef Wt::Dbo::collection<Wt::Dbo::ptr<BridgeUserIds>> BridgeUserIds_Collection;
 typedef Wt::Dbo::ptr<Bridge> BridgePtr;
 typedef Wt::Dbo::ptr<User> UserPtr;
-typedef Wt::Dbo::ptr<BridgeUserIds> BridgeUserIdsPtr;
+typedef Wt::Dbo::ptr<BridgeUserIds> BridgeUserIds_Ptr;
 
-typedef Wt::Dbo dbo;
+
 
 class Session
 {
@@ -42,7 +44,7 @@ public:
   Wt::Auth::Login& login() { return login_; }
 
 
-  /*
+  /*  
    * These methods deal with the currently logged in user
    */
   std::string userName() const;
@@ -54,15 +56,24 @@ public:
 
   //-------------------------------------
   //---------Bridge With Users DB--------
+  //-------------------------------------
+  // ADD
   void addBridgeUserId(Bridge *y, std::string bridgeUserId);  //add to relation table
-  std::vector<BridgeUserIds> getBridgeUserIds();               //of currently logged in user
-  std::string getBridgeUserId(std::string ip, std::string port); //of currently logged in user
-  std::string getBridgeUserId(Bridge *bridgeObj);                //of currently logged in user
+  // GETTERS
+  std::vector<BridgeUserIds> getBridgeUserId();                  //get all the bridgeuserids of currentloy logged in user
+  BridgeUserIds* getBridgeUserId(std::string ip, std::string port); //get from specific bridge of currently logged in user
+  BridgeUserIds* getBridgeUserId(Bridge *bridgeObj);                //get from specific bridge of currently logged in user
 
-  std::vector<BridgeUserIds> getBridgeUserId();               //of currently logged in user
-  std::vector<BridgeUserIds> getBridgeUserId(std::string ip, std::string port); //of currently logged in user
-  std::vector<BridgeUserIds> getBridgeUserId(Bridge *bridgeObj); //of currently logged in user
-
+  std::vector<BridgeUserIds> getAllBridgeUserId();                                //NOT IMPLEMENTEDDDDDDD
+  std::vector<BridgeUserIds> getAllBridgeUserId(std::string ip, std::string port);//NOT IMPLEMENTEDDDDDDD
+  std::vector<BridgeUserIds> getAllBridgeUserId(Bridge *bridgeObj);               //NOT IMPLEMENTEDDDDDDD
+  // DELETE
+  void deleteBridgeUserId();
+  void deleteBridgeUserId(std::string ip, std::string port);
+  void deleteBridgeUserId(Bridge *bridgeObj);
+  void deleteAllBridgeUserId(); 
+  void deleteAllBridgeUserId(std::string ip, std::string port); 
+  void deleteAllBridgeUserId(Bridge *bridgeObj); 
 
   //-------------------------
   //---------Bridge DB--------
@@ -71,6 +82,7 @@ public:
   Bridge* getBridge(std::string ip, std::string port);
   void updateBridge(Bridge* newBridge);
   bool addBridge(Bridge* newBridge);
+  bool deleteBridge(std::string ip, std::string port);
 
   //-------------------------
   //---------LIGHT DB--------

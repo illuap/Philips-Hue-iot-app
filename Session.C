@@ -218,9 +218,9 @@ std::vector<Bridge> Session::getBridges(){
   }
 
   Wt::Dbo::Query<BridgePtr> query = session_.find<Bridge>();
-  Bridges bridges = query.resultList();
+  Bridges_Collection bridges = query.resultList();
   std::vector<Bridge> x;
-  for (Bridges::const_iterator i = bridges.begin(); i != bridges.end(); ++i){
+  for (Bridges_Collection::const_iterator i = bridges.begin(); i != bridges.end(); ++i){
     dbo::ptr<Bridge> bridge = *i;
     x.push_back(*bridge);
   }
@@ -288,6 +288,9 @@ User* Session::getUser(){
   return user.modify();
 }
 
+  //-------------------------------------
+  //---------Bridge With Users DB--------
+  //-------------------------------------
 
 void Session::addBridgeUserId(Bridge *y, std::string bridgeUserId){
   dbo::Transaction transaction(session_);
@@ -303,17 +306,20 @@ void Session::addBridgeUserId(Bridge *y, std::string bridgeUserId){
   transaction.commit();
 }
 
-/*
-
+//======GETTERS======
 std::vector<BridgeUserIds> Session::getBridgeUserId(){
-
   dbo::Transaction transaction(session_);
-
-  Wt::Dbo::Query<Wt::Dbo::ptr<BridgeUserIds>> query = session_.find<BridgeUserIds>();
-  BridgeUserIds temp = query.resultList();
+  Wt::Dbo::Query<BridgeUserIds_Ptr> query = session_.find<BridgeUserIds>()
+            .where("userID_id = ?").bind(this->user().id());
+  BridgeUserIds_Collection temp = query.resultList();
   std::vector<BridgeUserIds> x;
-  for (Wt::Dbo::collection<BridgeUserIds>::const_iterator i = temp.begin(); i != temp.end(); ++i){
-    dbo::ptr<BridgeUserIds> y = *i;
+
+  for (BridgeUserIds_Collection::const_iterator i = temp.begin(); i != temp.end(); ++i){
+    BridgeUserIds_Ptr y = *i;
+    Wt::log("info") << "BridgeUserIds (id, user_id,  bridge_id): "
+                    << y->bridgeUserID << " , " 
+                    << y->user.id() << " , " 
+                    << y->bridge.id() ;
     x.push_back(*y);
   }
 
@@ -321,8 +327,116 @@ std::vector<BridgeUserIds> Session::getBridgeUserId(){
   return x;
 }
 
-*/
+BridgeUserIds* Session::getBridgeUserId(std::string ip, std::string port){
 
+  dbo::Transaction transaction(session_);
+  Wt::log("info") << "Function getBridgeUserId was called";
+  BridgePtr temp_bridge = session_.find<Bridge>()
+            .where("ipAddress = ?").bind(ip)
+            .where("portNumber = ?").bind(port);
+
+  dbo::ptr<User> current_user = this->user();
+
+  Wt::log("info") << "Bridge ID obtained: " << temp_bridge.id();
+  Wt::log("info") << "User ID obtained: "<< current_user.id();
+
+  BridgeUserIds_Ptr y = session_.find<BridgeUserIds>()
+                            .where("bridgeID_id = ?").bind(temp_bridge.id())
+                            .where("userID_id = ?").bind(current_user.id());
+
+  Wt::log("info") << "BridgeUserId obtained: "<< y.modify()->bridgeUserID;
+                            
+  transaction.commit();
+  return y.modify();
+}
+BridgeUserIds* Session::getBridgeUserId(Bridge *bridgeObj){
+
+  dbo::Transaction transaction(session_);
+  Wt::log("info") << "Function getBridgeUserId was called";
+  BridgePtr temp_bridge = session_.find<Bridge>()
+            .where("ipAddress = ?").bind(bridgeObj->getIpAddress())
+            .where("portNumber = ?").bind(std::to_string(bridgeObj->getPortNumber()));
+
+  dbo::ptr<User> current_user = this->user();
+
+  Wt::log("info") << "Bridge ID obtained: " << temp_bridge.id();
+  Wt::log("info") << "User ID obtained: "<< current_user.id();
+
+  BridgeUserIds_Ptr y = session_.find<BridgeUserIds>()
+                            .where("bridgeID_id = ?").bind(temp_bridge.id())
+                            .where("userID_id = ?").bind(current_user.id());
+
+  Wt::log("info") << "BridgeUserId obtained: "<< y.modify()->bridgeUserID;
+
+  transaction.commit();
+  return y.modify();
+}
+
+
+std::vector<BridgeUserIds> Session::getAllBridgeUserId(){
+  dbo::Transaction transaction(session_);
+
+  Wt::Dbo::Query<BridgeUserIds_Ptr> query = session_.find<BridgeUserIds>();
+  BridgeUserIds_Collection temp = query.resultList();
+  std::vector<BridgeUserIds> x;
+  for (BridgeUserIds_Collection::const_iterator i = temp.begin(); i != temp.end(); ++i){
+    BridgeUserIds_Ptr y = *i;
+    Wt::log("info") << "BridgeUserIds (id, user_id,  bridge_id): "
+                    << y->bridgeUserID << " , " 
+                    << y->user.id() << " , " 
+                    << y->bridge.id() ;
+    x.push_back(*y);
+  }
+
+  transaction.commit();
+  return x;
+}
+std::vector<BridgeUserIds> Session::getAllBridgeUserId(std::string ip, std::string port){
+  dbo::Transaction transaction(session_);
+
+  BridgePtr temp_bridge = session_.find<Bridge>()
+            .where("ipAddress = ?").bind(ip)
+            .where("portNumber = ?").bind(port);
+  Wt::Dbo::Query<BridgeUserIds_Ptr> query = session_.find<BridgeUserIds>()
+            .where("bridgeID_id = ?").bind(temp_bridge.id());
+  BridgeUserIds_Collection temp = query.resultList();
+
+  std::vector<BridgeUserIds> x;
+
+  for (BridgeUserIds_Collection::const_iterator i = temp.begin(); i != temp.end(); ++i){
+    BridgeUserIds_Ptr y = *i;
+    Wt::log("info") << "BridgeUserIds (id, user_id,  bridge_id): "
+                    << y->bridgeUserID << " , " 
+                    << y->user.id() << " , " 
+                    << y->bridge.id() ;
+    x.push_back(*y);
+  }
+  transaction.commit();
+  return x;
+}
+
+std::vector<BridgeUserIds> Session::getAllBridgeUserId(Bridge *bridgeObj){
+  dbo::Transaction transaction(session_);
+
+  BridgePtr temp_bridge = session_.find<Bridge>()
+            .where("ipAddress = ?").bind(bridgeObj->getIpAddress())
+            .where("portNumber = ?").bind(std::to_string(bridgeObj->getPortNumber()));
+  Wt::Dbo::Query<BridgeUserIds_Ptr> query = session_.find<BridgeUserIds>()
+            .where("bridgeID_id = ?").bind(temp_bridge.id());
+  BridgeUserIds_Collection temp = query.resultList();
+  std::vector<BridgeUserIds> x;
+
+  for (BridgeUserIds_Collection::const_iterator i = temp.begin(); i != temp.end(); ++i){
+    BridgeUserIds_Ptr y = *i;
+    Wt::log("info") << "BridgeUserIds (id, user_id,  bridge_id): "
+                    << y->bridgeUserID << " , " 
+                    << y->user.id() << " , " 
+                    << y->bridge.id() ;
+    x.push_back(*y);
+  }
+  transaction.commit();
+  return x;
+}
 
 bool Session::setLightBelongsTo(std::string lightName,std::string bridgeIP){
   
