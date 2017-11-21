@@ -23,8 +23,12 @@
 #include "BridgeUserIds.h"
 
 typedef Wt::Auth::Dbo::UserDatabase<AuthInfo> UserDatabase;
+
 typedef Wt::Dbo::ptr<Bridge> BridgePtr;
-typedef Wt::Dbo::collection<BridgePtr> Bridges;
+typedef Wt::Dbo::ptr<User> UserPtr;
+typedef Wt::Dbo::ptr<BridgeUserIds> BridgeUserIdsPtr;
+
+typedef Wt::Dbo dbo;
 
 class Session
 {
@@ -50,12 +54,18 @@ public:
 
   //-------------------------------------
   //---------Bridge With Users DB--------
-  void addBridgeUserId(Bridge *y, std::string bridgeUserId);
-  std::vector<BridgeUserIds> getBridgeUserId();
+  void addBridgeUserId(Bridge *y, std::string bridgeUserId);  //add to relation table
+  std::vector<BridgeUserIds> getBridgeUserIds();               //of currently logged in user
+  std::string getBridgeUserId(std::string ip, std::string port); //of currently logged in user
+  std::string getBridgeUserId(Bridge *bridgeObj);                //of currently logged in user
+
+  std::vector<BridgeUserIds> getBridgeUserId();               //of currently logged in user
+  std::vector<BridgeUserIds> getBridgeUserId(std::string ip, std::string port); //of currently logged in user
+  std::vector<BridgeUserIds> getBridgeUserId(Bridge *bridgeObj); //of currently logged in user
+
 
   //-------------------------
   //---------Bridge DB--------
-  void addUserBridgeID(std::string newBridgeUserId);
   std::vector<Bridge> getBridges();
 
   Bridge* getBridge(std::string ip, std::string port);
