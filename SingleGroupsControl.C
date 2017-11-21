@@ -246,7 +246,7 @@ void SingleGroupsControlWidget::deleteGroup() {
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->deleteRequest("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID, *msg);
-		WApplication::instance()->setInternalPath("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port, true);
+		returnBridge();
 	}
 }
 
