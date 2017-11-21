@@ -169,7 +169,7 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 				}
 				size_t endPos = subString.find("\"");
 				string name = subString.substr(0, endPos);
-				if (name == "Group 1") {
+				if ((name == "Group 1") && (i == 0)) {
 					Http::Message *msg = new Http::Message();
 					Http::Client *client = GroupsControlWidget::connect();
 					client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseNULL, this, _1, _2));
