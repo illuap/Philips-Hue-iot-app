@@ -36,6 +36,7 @@ private:
 	void removeLights();
 	void deleteGroup();
 	void returnBridge();
+	void transition();
 	bool deleteConfirm;
 	Wt::WLineEdit *nameEdit_;
 	Wt::WText *groupInfoEdit_;
@@ -44,6 +45,7 @@ private:
 	Wt::WSlider *satScaleSlider_;
 	Wt::WSlider *briScaleSlider_;
 	Wt::WSlider *hueScaleSlider_;
+	Wt::WSlider *transitionScaleSlider_;
 	Wt::WText *change_;
 
 };

@@ -23,6 +23,7 @@ private:
 	Wt::WSlider *satScaleSlider_;
 	Wt::WSlider *briScaleSlider_;
 	Wt::WSlider *hueScaleSlider_;
+	Wt::WSlider *transitionScaleSlider_;
 	Wt::WText *oneLight_;
 	Wt::WText *twoLight_;
 	Wt::WText *threeLight_;
@@ -38,6 +39,7 @@ private:
 	void bright();
 	void sat();
 	void name();
+	void transition();
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseName(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);

@@ -169,16 +169,9 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 				}
 				size_t endPos = subString.find("\"");
 				string name = subString.substr(0, endPos);
-				if ((name == "Group 1") && (i == 0)) {
-					Http::Message *msg = new Http::Message();
-					Http::Client *client = GroupsControlWidget::connect();
-					client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseNULL, this, _1, _2));
-					client->deleteRequest("http://" + ip + ":" + port + "/api/" + userID + "/groups/1", *msg);
-				} else {
-					WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
-					currentButton->setMargin(5, Left);
-					currentButton->setLink("/?_=/singlegroup?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + to_string(i+1));
-				}
+				WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
+				currentButton->setMargin(5, Left);
+				currentButton->setLink("/?_=/singlegroup?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + to_string(i+1));
 			}
 		}
 	}
