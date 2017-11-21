@@ -32,6 +32,10 @@ private:
 	std::string ip = "";
 	std::string userID = "";
 	std::string port = "";
+	std::string loop [11] = { "0", "5617", "10532", "14277", "18256", "32065", "36512", "40959", "49151", "53364", "58045" };
+	bool loopOne = 0;
+	bool loopTwo = 0;
+	bool loopThree = 0;
 	void on();
 	void off();
 	void hue();

@@ -103,7 +103,6 @@ void GroupsControlWidget::update()
 	//list groups
 	this->addWidget(new WText("Your Groups: "));
 	this->addWidget(new WBreak());
-	this->addWidget(new WText("Note: \"1- Group 1\" is a default group containing all your lights."));
 	this->addWidget(new WBreak());
 	groups_ = new WText(this);
 	Http::Client *client = GroupsControlWidget::connect();
@@ -135,7 +134,12 @@ Http::Client * GroupsControlWidget::connect() {
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-//handle request (does nothing withthe response) - for creating a group
+//handle request (does nothing with the response) - for creating a group
+void GroupsControlWidget::handleHttpResponseNULL(boost::system::error_code err, const Http::Message& response) {
+	update();
+}
+
+//handle request (updates page)- for creating a group
 void GroupsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
 	update();
 }
@@ -165,9 +169,16 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 				}
 				size_t endPos = subString.find("\"");
 				string name = subString.substr(0, endPos);
-				WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
-				currentButton->setMargin(5, Left);
-				currentButton->setLink("/?_=/singlegroup?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + to_string(i+1));
+				if (name == "Group 1") {
+					Http::Message *msg = new Http::Message();
+					Http::Client *client = GroupsControlWidget::connect();
+					client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseNULL, this, _1, _2));
+					client->deleteRequest("http://" + ip + ":" + port + "/api/" + userID + "/groups/1", *msg);
+				} else {
+					WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
+					currentButton->setMargin(5, Left);
+					currentButton->setLink("/?_=/singlegroup?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + to_string(i+1));
+				}
 			}
 		}
 	}
