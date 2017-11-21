@@ -30,7 +30,6 @@ private:
 	void off();
 	void hue();
 	void bright();
-	void transition();
 	void sat();
 	void name();
 	void addLights();
@@ -45,7 +44,6 @@ private:
 	Wt::WSlider *satScaleSlider_;
 	Wt::WSlider *briScaleSlider_;
 	Wt::WSlider *hueScaleSlider_;
-	Wt::WSlider *transitionScaleSlider_;
 	Wt::WText *change_;
 
 };

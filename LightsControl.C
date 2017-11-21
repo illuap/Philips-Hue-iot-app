@@ -139,22 +139,6 @@ void LightsControlWidget::update()
   satScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
   satScaleSlider_->resize(300, 50);
   this->addWidget(new WText("  254"));
-  this->addWidget(new WBreak());
-  this->addWidget(new WBreak());
-
-  //change transition time
-  this->addWidget(new WText("Transition Time: (multiple of 100ms) "));
-  this->addWidget(new WBreak());
-  this->addWidget(new WText("1  (100ms)"));
-  transitionScaleSlider_ = new WSlider(this);					 //slider bar
-  transitionScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
-  transitionScaleSlider_->setMinimum(1);
-  transitionScaleSlider_->setMaximum(20);
-  transitionScaleSlider_->setValue(4);
-  transitionScaleSlider_->setTickInterval(2);
-  transitionScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
-  transitionScaleSlider_->resize(300, 50);
-  this->addWidget(new WText("  20 (2 seconds)"));
 
 
   this->addWidget(new WBreak());
@@ -184,13 +168,11 @@ void LightsControlWidget::update()
   briScaleSlider_->valueChanged().connect(this, &LightsControlWidget::bright);
   satScaleSlider_->valueChanged().connect(this, &LightsControlWidget::sat);
   hueScaleSlider_->valueChanged().connect(this, &LightsControlWidget::hue);
-  transitionScaleSlider_->valueChanged().connect(this, &LightsControlWidget::transition);
 
 
   (boost::bind(&LightsControlWidget::hue, this));
   (boost::bind(&LightsControlWidget::name, this));
   (boost::bind(&LightsControlWidget::bright, this));
-  (boost::bind(&LightsControlWidget::transition, this));
   (boost::bind(&LightsControlWidget::sat, this));
   (boost::bind(&LightsControlWidget::on, this));
   (boost::bind(&LightsControlWidget::off, this));
@@ -270,18 +252,9 @@ void LightsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		endPos = subString.find(",");
 		string hue = subString.substr(0, endPos);
 
-		/*
-		//get transition
-		pos = response.body().find("transitiontime");
-		subString = response.body().substr(pos + 16);
-		endPos = subString.find(",");
-		string trans = subString.substr(0, endPos);
-		*/
-
 		hueScaleSlider_->setValue(stoi(hue));
 		satScaleSlider_->setValue(stoi(sat));
 		briScaleSlider_->setValue(stoi(bri));
-		//transitionScaleSlider_->setValue(stoi(trans));
 	}
 }
 
@@ -422,23 +395,6 @@ void LightsControlWidget::sat() {
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("new Saturation: " + to_string(input));
-	}
-}
-
-//changes the transition time
-void LightsControlWidget::transition() {
-	if (currentLight.compare("0") == 0) {
-		light_->setText("Please select a light to change");
-		change_->setText("");
-	}
-	else {
-		int input = transitionScaleSlider_->value();
-		Http::Client *client = LightsControlWidget::connect();
-		Http::Message *msg = new Http::Message();
-		msg->addBodyText("{\"transitiontime\" : \"" + to_string(input) + "\"}");
-		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
-		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
-		change_->setText("new Transition Time: " + to_string(input * 100) + "ms");
 	}
 }
 

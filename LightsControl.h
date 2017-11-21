@@ -23,7 +23,6 @@ private:
 	Wt::WSlider *satScaleSlider_;
 	Wt::WSlider *briScaleSlider_;
 	Wt::WSlider *hueScaleSlider_;
-	Wt::WSlider *transitionScaleSlider_;
 	Wt::WText *oneLight_;
 	Wt::WText *twoLight_;
 	Wt::WText *threeLight_;
@@ -34,7 +33,6 @@ private:
 	std::string userID = "";
 	std::string port = "";
 	void on();
-	void transition();
 	void off();
 	void hue();
 	void bright();
