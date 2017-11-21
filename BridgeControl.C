@@ -100,10 +100,16 @@ void BridgeControlWidget::update()
 
 	this->addWidget(new WBreak());
 
+	//-- TESTING
+	WPushButton *testbtn = new WPushButton("TEST", this);	
+	//--
 	button->clicked().connect(this, &BridgeControlWidget::registerBridge);
 	(boost::bind(&BridgeControlWidget::registerBridge, this));
 	(boost::bind(&BridgeControlWidget::handleHttpResponse, this));
 	(boost::bind(&BridgeControlWidget::connect, this));
+
+	testbtn->clicked().connect(this, &BridgeControlWidget::test);
+	(boost::bind(&BridgeControlWidget::test, this));
 
 }
 
@@ -214,4 +220,29 @@ void BridgeControlWidget::showLights()
 {
 	clear();
 	WApplication::instance()->setInternalPath("/lights?user="+username+"&ip="+ip+"&port="+port,  true);
+}
+//-------
+//creates a client
+void BridgeControlWidget::test() {
+	Wt::log("info") << "Test function START";
+
+	Bridge *bridgeObj = new Bridge();
+	bridgeObj->setIpAddress("127.0.0.1");
+	bridgeObj->setPortNumber(8000);
+
+	session_->getBridgeUserId();
+	Wt::log("info") << "2nd function";
+	session_->getBridgeUserId("127.0.0.1","8000");
+	Wt::log("info") << "3rd function";
+	session_->getBridgeUserId(bridgeObj);
+	Wt::log("info") << "4th function";
+	session_->getAllBridgeUserId();
+	Wt::log("info") << "5th function";
+	session_->getAllBridgeUserId("127.0.0.1","8000");
+	Wt::log("info") << "6th function";
+	session_->getAllBridgeUserId(bridgeObj);
+	
+
+	Wt::log("info") << "Test function END";
+
 }
