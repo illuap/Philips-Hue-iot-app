@@ -39,6 +39,8 @@ private:
 	std::string username; 
 	std::string ip; 
 	std::string port; 
+
+	void test();
 };
 
 
