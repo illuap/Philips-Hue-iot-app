@@ -22,10 +22,6 @@ private:
 	std::string userID = "";
 	std::string port = "";
 	std::string groupID = "";
-	std::string loop[11] = { "0", "5617", "10532", "14277", "18256", "32065", "36512", "40959", "49151", "53364", "58045" };
-	bool loopOne = false;
-	bool loopTwo = false;
-	bool loopThree = false;
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseUpdate(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
