@@ -1502,8 +1502,11 @@ test_SingleGroupsControl.o: SingleGroupsControl.C \
  /usr/local/include/boost/variant/visitor_ptr.hpp \
  /usr/local/include/boost/variant/bad_visit.hpp \
  /usr/local/include/Wt/WFormWidget /usr/local/include/Wt/WValidator \
- /usr/local/include/Wt/WBreak /usr/local/include/Wt/WLineEdit \
- /usr/local/include/Wt/WApplication /usr/local/include/Wt/WCssStyleSheet \
+ /usr/local/include/Wt/WBreak /usr/local/include/Wt/WComboBox \
+ /usr/local/include/Wt/WAbstractItemModel \
+ /usr/local/include/Wt/WModelIndex /usr/local/include/Wt/WBoostAny \
+ /usr/local/include/Wt/WLineEdit /usr/local/include/Wt/WApplication \
+ /usr/local/include/Wt/WCssStyleSheet \
  /usr/local/include/Wt/WCssDecorationStyle /usr/local/include/Wt/WBorder \
  /usr/local/include/Wt/WColor /usr/local/include/Wt/WFont \
  /usr/local/include/Wt/WJavaScriptPreamble /usr/local/include/Wt/WLocale \
@@ -4734,6 +4737,14 @@ test_SingleGroupsControl.o: SingleGroupsControl.C \
 /usr/local/include/Wt/WValidator:
 
 /usr/local/include/Wt/WBreak:
+
+/usr/local/include/Wt/WComboBox:
+
+/usr/local/include/Wt/WAbstractItemModel:
+
+/usr/local/include/Wt/WModelIndex:
+
+/usr/local/include/Wt/WBoostAny:
 
 /usr/local/include/Wt/WLineEdit:
 

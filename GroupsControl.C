@@ -134,11 +134,6 @@ Http::Client * GroupsControlWidget::connect() {
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-//handle request (does nothing with the response) - for creating a group
-void GroupsControlWidget::handleHttpResponseNULL(boost::system::error_code err, const Http::Message& response) {
-	update();
-}
-
 //handle request (updates page)- for creating a group
 void GroupsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
 	update();

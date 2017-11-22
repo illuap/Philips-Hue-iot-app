@@ -22,6 +22,7 @@ private:
 	std::string userID = "";
 	std::string port = "";
 	std::string groupID = "";
+	std::string lights;
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseUpdate(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
@@ -47,6 +48,8 @@ private:
 	Wt::WSlider *hueScaleSlider_;
 	Wt::WSlider *transitionScaleSlider_;
 	Wt::WText *change_;
+	Wt::WComboBox *addChoices_;
+	Wt::WComboBox *removeChoices_;
 
 };
 

@@ -5,6 +5,7 @@
 #include <Wt/Dbo/Dbo>
 #include <Wt/WPushButton>
 #include <Wt/WBreak>
+#include <Wt/WComboBox>
 #include <Wt/WLineEdit>
 #include <Wt/Http/Message>
 #include <Wt/WApplication>
@@ -148,6 +149,31 @@ void SingleGroupsControlWidget::update()
 	transitionScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
 	transitionScaleSlider_->resize(300, 50);
 	this->addWidget(new WText("  20 (2 seconds)"));
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
+	//add lights
+	this->addWidget(new WText("Add Light: "));
+	addChoices_ = new WComboBox(this);												// user text input
+	WPushButton *addButton
+		= new WPushButton("Add", this);										// submit button
+	addButton->setMargin(5, Left);
+	addChoices_->clear();
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
+	//remove lights
+	this->addWidget(new WText("Remove Light: "));
+	removeChoices_ = new WComboBox(this);												// user text input
+	WPushButton *removeButton
+		= new WPushButton("Remove", this);										// submit button
+	removeButton->setMargin(5, Left);
+	removeChoices_->clear();
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	
+	WPushButton *deleteButton							//delete group
+		= new WPushButton("Delete This Group", this);
 
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
@@ -156,9 +182,6 @@ void SingleGroupsControlWidget::update()
 	change_ = new WText(this);                          //displays the status of a light change
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
-	
-	WPushButton *deleteButton							//delete group
-		= new WPushButton("Delete This Group", this);
 
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
@@ -175,6 +198,8 @@ void SingleGroupsControlWidget::update()
 		= new WPushButton("Return To Bridge", this);
 
 	onButton->clicked().connect(this, &SingleGroupsControlWidget::on);
+	addButton->clicked().connect(this, &SingleGroupsControlWidget::addLights);
+	removeButton->clicked().connect(this, &SingleGroupsControlWidget::removeLights);
 	nameButton->clicked().connect(this, &SingleGroupsControlWidget::name);
 	offButton->clicked().connect(this, &SingleGroupsControlWidget::off);
 	returnButton->clicked().connect(this, &SingleGroupsControlWidget::returnBridge);
@@ -228,10 +253,33 @@ void SingleGroupsControlWidget::handleHttpResponse(boost::system::error_code err
 		size_t pos = response.body().find("lights");
 		string subString = response.body().substr(pos + 10);
 		size_t endPos = subString.find("]");
-		string lights = subString.substr(0, endPos);
+		lights = subString.substr(0, endPos);
 		boost::erase_all(lights, "\"");
 		groupInfoEdit_->setText("Group Name: " + name);
 		groupLightsEdit_->setText("Lights in your Group: " + lights);
+
+		removeChoices_->clear();
+		addChoices_->clear();
+
+		//give user choices to add/remove lights
+		if (lights.find("1") != string::npos) {
+			removeChoices_->addItem("1");
+		} else {
+			addChoices_->addItem("1");
+		}
+
+		if (lights.find("2") != string::npos) {
+			removeChoices_->addItem("2");
+		} else {
+			addChoices_->addItem("2");
+		}
+
+
+		if (lights.find("3") != string::npos) {
+			removeChoices_->addItem("3");
+		} else {
+			addChoices_->addItem("3");
+		}
 	}
 }
 
@@ -251,9 +299,139 @@ void SingleGroupsControlWidget::deleteGroup() {
 }
 
 void SingleGroupsControlWidget::addLights() {
+	bool one = false;
+	bool two = false;
+	bool three = false;
+	if (addChoices_->currentText() == "1" || addChoices_->currentText() == "2" || addChoices_->currentText() == "3") {
+		//get lights already in the group
+		if (lights.find("1") != string::npos) {
+			one = true;
+		}
+		if (lights.find("2") != string::npos) {
+			two = true;
+		}
+		if (lights.find("3") != string::npos) {
+			three = true;
+		}
+
+		//get light that needs to be added
+		if (addChoices_->currentText() == "1") {
+			one = true;
+		} else {
+			if (addChoices_->currentText() == "2") {
+				two = true;
+			} else {
+				three = true;
+			}
+		}
+
+		//create body message
+		string selectedLights;
+		if (one && two && three) {
+			selectedLights = "[\"1\",\"2\",\"3\"]";
+		} else {
+			if (one && two) {
+				selectedLights = "[\"1\",\"2\"]";
+			} else {
+				if (one && three) {
+					selectedLights = "[\"1\",\"3\"]";
+				} else {
+					if (two && three) {
+						selectedLights = "[\"2\",\"3\"]";
+					} else {
+						if (one) {
+							selectedLights = "[\"1\"]";
+						} else {
+							if (two) {
+								selectedLights = "[\"2\"]";
+							} else {
+								selectedLights = "[\"3\"]";
+							}
+						}
+					}
+				}
+			}
+		}
+
+		change_->setText("Are you sure?");
+		Http::Message *msg = new Http::Message();
+		msg->addBodyText("{\"lights\" : " + selectedLights + "}");
+		Http::Client *client = SingleGroupsControlWidget::connect();
+		client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseUpdate, this, _1, _2));
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID, *msg);
+	} else {
+		change_->setText("Please choose a light. If there are no choices then all lights are already added.");
+	}
 }
 
 void SingleGroupsControlWidget::removeLights() {
+	bool one = false;
+	bool two = false;
+	bool three = false;
+	if (removeChoices_->currentText() == "1" || removeChoices_->currentText() == "2" || removeChoices_->currentText() == "3") {
+		//get lights already in the group
+		if (lights.find("1") != string::npos) {
+			one = true;
+		}
+		if (lights.find("2") != string::npos) {
+			two = true;
+		}
+		if (lights.find("3") != string::npos) {
+			three = true;
+		}
+
+		//get light that needs to be removed
+		if (removeChoices_->currentText() == "1") {
+			one = false;
+		} else {
+			if (removeChoices_->currentText() == "2") {
+				two = false;
+			} else {
+				three = false;
+			}
+		}
+
+		if (!three && !two && !one) {
+			change_->setText("You must have at least 1 light in your group");
+		} else {
+			//create body message
+			string selectedLights;
+			if (one && two && three) {
+				selectedLights = "[\"1\",\"2\",\"3\"]";
+			} else {
+				if (one && two) {
+					selectedLights = "[\"1\",\"2\"]";
+				} else {
+					if (one && three) {
+						selectedLights = "[\"1\",\"3\"]";
+					} else {
+						if (two && three) {
+							selectedLights = "[\"2\",\"3\"]";
+						} else {
+							if (one) {
+								selectedLights = "[\"1\"]";
+							} else {
+								if (two) {
+									selectedLights = "[\"2\"]";
+								} else {
+									selectedLights = "[\"3\"]";
+								}
+							}
+						}
+					}
+				}
+			}
+			change_->setText("Are you sure?");
+			Http::Message *msg = new Http::Message();
+			msg->addBodyText("{\"lights\" : " + selectedLights + "}");
+			Http::Client *client = SingleGroupsControlWidget::connect();
+			client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseUpdate, this, _1, _2));
+			client->put("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID, *msg);
+		}
+	} else {
+		change_->setText("Please choose a light. If there are no choices then you cannot remove any lights (groups must have at least 1 light)");
+	}
+
 }
 
 //changes the name
