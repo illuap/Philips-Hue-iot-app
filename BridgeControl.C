@@ -24,6 +24,11 @@
 using namespace Wt;
 using namespace std;
 
+#include <boost/thread.hpp>
+
+boost::mutex mutex;                // in the MyResource.cpp 
+                                          // used preventing thread locking
+
 string ipAddress = "ip";
 string port = "port";
 string name = "";
@@ -229,6 +234,16 @@ void BridgeControlWidget::test() {
 	Bridge *bridgeObj = new Bridge();
 	bridgeObj->setIpAddress("127.0.0.1");
 	bridgeObj->setPortNumber(8000);
+	Bridge *bridgeObj2 = new Bridge();
+	bridgeObj2->setIpAddress("127.0.0.1");
+	bridgeObj2->setPortNumber(8001);
+	Bridge *bridgeObj3 = new Bridge();
+	bridgeObj3->setIpAddress("127.0.0.1");
+	bridgeObj3->setPortNumber(8002);
+
+	session_->addBridgeUserId(bridgeObj, "wtf");
+	session_->addBridgeUserId(bridgeObj2, "wtf2");
+	session_->addBridgeUserId(bridgeObj3, "wtf3");
 
 	session_->getBridgeUserId();
 	Wt::log("info") << "2nd function";
@@ -242,6 +257,16 @@ void BridgeControlWidget::test() {
 	Wt::log("info") << "6th function";
 	session_->getAllBridgeUserId(bridgeObj);
 	
+
+	Wt::log("info") << "7th function";
+	session_->deleteBridgeUserId();
+	session_->addBridgeUserId(bridgeObj, "wtf");
+	session_->addBridgeUserId(bridgeObj2, "wtf2");
+	session_->addBridgeUserId(bridgeObj3, "wtf3");
+
+	Wt::log("info") << "7th function";
+	session_->deleteBridgeUserId("127.0.0.1","8001");
+
 
 	Wt::log("info") << "Test function END";
 

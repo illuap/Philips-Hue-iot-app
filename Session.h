@@ -77,7 +77,8 @@ public:
 
   //-------------------------
   //---------Bridge DB--------
-  std::vector<Bridge> getBridges();
+  std::vector<Bridge> getBridges();     //currently logged in user
+  std::vector<Bridge> getAllBridges();  // all user's bridges
 
   Bridge* getBridge(std::string ip, std::string port);
   void updateBridge(Bridge* newBridge);
