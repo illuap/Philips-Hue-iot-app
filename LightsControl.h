@@ -48,6 +48,7 @@ private:
 	void lightTwo();
 	void lightThree();
 	void returnBridge();
+	void deleteBridge();
 };
 
 #endif

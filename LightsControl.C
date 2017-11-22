@@ -168,6 +168,13 @@ void LightsControlWidget::update()
   this->addWidget(new WBreak());
   WPushButton *returnButton							//go back to bridge
 	  = new WPushButton("Return To Bridge", this);
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());
+  WPushButton *editButton
+	  = new WPushButton("Edit This Bridge", this);
+  editButton->setLink("/?_=/editbridge?ip=" + ip + "%26port=" + port);
+  WPushButton *deleteButton
+	  = new WPushButton("Delete This Bridge",this);
 
   onButton->clicked().connect(this, &LightsControlWidget::on);
   nameButton->clicked().connect(this, &LightsControlWidget::name);
@@ -180,6 +187,7 @@ void LightsControlWidget::update()
   satScaleSlider_->valueChanged().connect(this, &LightsControlWidget::sat);
   hueScaleSlider_->valueChanged().connect(this, &LightsControlWidget::hue);
   transitionScaleSlider_->valueChanged().connect(this, &LightsControlWidget::transition);
+  deleteButton->clicked().connect(this, &LightsControlWidget::deleteBridge);
 
 
   (boost::bind(&LightsControlWidget::hue, this));
@@ -196,6 +204,7 @@ void LightsControlWidget::update()
   (boost::bind(&LightsControlWidget::lightTwo, this));
   (boost::bind(&LightsControlWidget::lightThree, this));
   (boost::bind(&LightsControlWidget::returnBridge, this));
+  (boost::bind(&LightsControlWidget::deleteBridge, this));
 }
 
 //creates a client
@@ -418,6 +427,13 @@ void LightsControlWidget::sat() {
 		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("new Saturation: " + to_string(input));
 	}
+}
+
+//Delete the bridge and return to the home page
+void LightsControlWidget::deleteBridge() {
+	//session_->deleteBridge(userID);
+	clear();
+	WApplication::instance()->setInternalPath("/Bridge", true);
 }
 
 //changes the transition time

@@ -164,9 +164,8 @@ Bridge* Session::getBridge(std::string ip, std::string port){
             .where("ipAddress = ?").bind(ip)
             .where("portNumber = ?").bind(port);
 
-  return bridgeObj.modify();
-
   transaction.commit();
+  return bridgeObj.modify();
 }
 /*
 void Session::addUserBridgeID(std::string newBridgeUserId){

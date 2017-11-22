@@ -12,6 +12,7 @@
 #include "BridgeControl.h"
 #include "GroupsControl.h"
 #include "SingleGroupsControl.h"
+#include "BridgeEditControl.h"
 
 #ifndef HUEAPP_H_
 #define HUEAPP_H_
@@ -29,6 +30,7 @@ class LightsControlWidget;
 class BridgeControlWidget;
 class GroupsControlWidget;
 class SingleGroupsControlWidget;
+class BridgeEditControlWidget;
 
 class HueApp : public Wt::WContainerWidget
 {
@@ -43,6 +45,7 @@ private:
   BridgeControlWidget *the_Bridge;
   GroupsControlWidget *the_Groups;
   SingleGroupsControlWidget *the_SingleGroups;
+  BridgeEditControlWidget *the_BridgeEdit;
   // Wt::WContainerWidget *links_;
   Wt::WAnchor *backToGameAnchor_;
 
@@ -54,6 +57,7 @@ private:
   void showBridge();
   void showGroups();
   void showSingleGroups();
+  void showBridgeEdit();
 
 };
 
