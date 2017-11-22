@@ -31,7 +31,6 @@ private:
 	bool two = false;
 	bool three = false;
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
-	void handleHttpResponseNULL(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
 	Wt::Http::Client * connect();
 	void lightOne();
