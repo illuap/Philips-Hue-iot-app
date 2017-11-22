@@ -34,6 +34,14 @@ private:
 	void sat();
 	void name();
 	void addLights();
+	void partyMode();
+	void sunsetMode();
+	void fiftyMode();
+	void mustangMode();
+	void bloodMode();
+	void oceanMode();
+	void fireMode();
+	void forestMode();
 	void removeLights();
 	void deleteGroup();
 	void returnBridge();
