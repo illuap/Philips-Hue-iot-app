@@ -15,6 +15,7 @@
 #include <Wt/Json/Object>
 #include <Wt/Json/Parser>
 #include <Wt/WLogger>
+#include <Wt/WSound>
 #include <algorithm>
 
 #include "BridgeControl.h"
@@ -35,10 +36,12 @@ string name = "";
 
 BridgeControlWidget::BridgeControlWidget(Session *session, WContainerWidget *parent):
   WContainerWidget(parent),
-  session_(session)
+  session_(session),
+  messageReceived_(0)
 {
   setContentAlignment(AlignCenter);
   setStyleClass("highscores");
+  
 }
 
 
@@ -105,6 +108,12 @@ void BridgeControlWidget::update()
 
 	this->addWidget(new WBreak());
 
+	if (!messageReceived_){
+      messageReceived_ = new WSound("sounds/message_received.mp3");
+  		messageReceived_->setLoops(1);
+  	}
+
+
 	//-- TESTING
 	WPushButton *testbtn = new WPushButton("TEST", this);	
 	//--
@@ -115,6 +124,11 @@ void BridgeControlWidget::update()
 
 	testbtn->clicked().connect(this, &BridgeControlWidget::test);
 	(boost::bind(&BridgeControlWidget::test, this));
+
+	/*
+	WPushButton *playButton= new WPushButton("xxx", this);
+
+	playButton->clicked().connect(s, &WSound::play);*/
 
 }
 
@@ -229,6 +243,16 @@ void BridgeControlWidget::showLights()
 //-------
 //creates a client
 void BridgeControlWidget::test() {
+	//Wt::WSound* messageReceived_;
+	//messageReceived_= new WSound("sounds/message_received.mp3");
+	//messageReceived_->play();
+
+
+	//playButton->clicked().connect(s, &WSound::play);
+	//stopButton->clicked().connect(s, &WSound::stop);
+
+	messageReceived_->play();
+
 	Wt::log("info") << "Test function START";
 
 	Bridge *bridgeObj = new Bridge();

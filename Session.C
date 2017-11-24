@@ -69,6 +69,7 @@ void Session::configureAuth()
 {
   myAuthService.setAuthTokensEnabled(true, "hueappcookie");
   myAuthService.setEmailVerificationEnabled(true);
+  myAuthService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddressIdentity);
   //myAuthService.setEmailPolicy(Wt::Auth::EmailPolicy::Mandatory)
 
   Auth::PasswordVerifier *verifier = new Auth::PasswordVerifier();
@@ -161,6 +162,21 @@ dbo::ptr<User> Session::user()
     return dbo::ptr<User>();
 }
 
+dbo::ptr<User> Session::user(const Wt::Auth::User& authUser)
+{
+  dbo::ptr<AuthInfo> authInfo = users_->find(authUser);
+
+  dbo::ptr<User> user = authInfo->user();
+
+  if (!user) {
+    user = session_.add(new User());
+    authInfo.modify()->setUser(user);
+  }
+
+  return user;
+}
+
+
 std::string Session::userName() const
 {
   if (login_.loggedIn())
@@ -169,6 +185,27 @@ std::string Session::userName() const
     return std::string();
 }
 
+std::string Session::firstName() const
+{
+  if (login_.loggedIn()) {
+    dbo::ptr<AuthInfo> authInfo = users_->find(login_.user());
+    dbo::ptr<User> user = authInfo->user();
+
+    return user->firstName;
+  } else
+    return std::string();
+}
+
+std::string Session::lastName() const
+{
+  if (login_.loggedIn()) {
+    dbo::ptr<AuthInfo> authInfo = users_->find(login_.user());
+    dbo::ptr<User> user = authInfo->user();
+
+    return user->lastName;
+  } else
+    return std::string();
+}
 //---------------------
 
 Bridge* Session::getBridge(std::string ip, std::string port){
