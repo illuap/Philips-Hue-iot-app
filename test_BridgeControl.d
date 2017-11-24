@@ -1412,7 +1412,9 @@ test_BridgeControl.o: BridgeControl.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/config/abi_prefix.hpp \
  /usr/local/include/boost/config/abi_suffix.hpp \
  /usr/local/include/Wt/Json/Value /usr/local/include/Wt/Json/Object \
- /usr/local/include/Wt/Json/Parser BridgeControl.h \
+ /usr/local/include/Wt/Json/Parser /usr/local/include/Wt/WSound \
+ /usr/local/include/Wt/WMediaPlayer \
+ /usr/local/include/Wt/WCompositeWidget BridgeControl.h \
  /usr/local/include/boost/system/system_error.hpp Session.h \
  /usr/local/include/Wt/Auth/Login /usr/local/include/Wt/Auth/User \
  /usr/local/include/Wt/WDateTime /usr/local/include/Wt/Auth/Token \
@@ -1522,7 +1524,128 @@ test_BridgeControl.o: BridgeControl.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/Dbo/SqlTraits_impl.h \
  /usr/local/include/boost/algorithm/string/find.hpp \
  /usr/local/include/Wt/Dbo/Session_impl.h Bridge.h Light.h \
- BridgeUserIds.h
+ BridgeUserIds.h /usr/local/include/boost/thread.hpp \
+ /usr/local/include/boost/thread/thread.hpp \
+ /usr/local/include/boost/thread/thread_only.hpp \
+ /usr/local/include/boost/thread/detail/platform.hpp \
+ /usr/local/include/boost/config/requires_threads.hpp \
+ /usr/local/include/boost/thread/pthread/thread_data.hpp \
+ /usr/local/include/boost/thread/detail/config.hpp \
+ /usr/local/include/boost/thread/exceptions.hpp \
+ /usr/local/include/boost/thread/lock_guard.hpp \
+ /usr/local/include/boost/thread/detail/delete.hpp \
+ /usr/local/include/boost/thread/detail/move.hpp \
+ /usr/local/include/boost/type_traits/conditional.hpp \
+ /usr/local/include/boost/type_traits/remove_extent.hpp \
+ /usr/local/include/boost/thread/detail/lockable_wrapper.hpp \
+ /usr/local/include/boost/thread/lock_options.hpp \
+ /usr/local/include/boost/thread/lock_types.hpp \
+ /usr/local/include/boost/thread/lockable_traits.hpp \
+ /usr/local/include/boost/thread/thread_time.hpp \
+ /usr/local/include/boost/chrono/time_point.hpp \
+ /usr/local/include/boost/chrono/duration.hpp \
+ /usr/local/include/boost/chrono/config.hpp \
+ /usr/local/include/boost/chrono/detail/static_assert.hpp \
+ /usr/local/include/boost/ratio/ratio.hpp \
+ /usr/local/include/boost/ratio/config.hpp \
+ /usr/local/include/boost/ratio/detail/mpl/abs.hpp \
+ /usr/local/include/boost/ratio/detail/mpl/sign.hpp \
+ /usr/local/include/boost/ratio/detail/mpl/gcd.hpp \
+ /usr/local/include/boost/mpl/aux_/config/dependent_nttp.hpp \
+ /usr/local/include/boost/ratio/detail/mpl/lcm.hpp \
+ /usr/local/include/boost/ratio/ratio_fwd.hpp \
+ /usr/local/include/boost/ratio/detail/overflow_helpers.hpp \
+ /usr/local/include/boost/type_traits/common_type.hpp \
+ /usr/local/include/boost/chrono/detail/is_evenly_divisible_by.hpp \
+ /usr/local/include/boost/thread/mutex.hpp \
+ /usr/local/include/boost/thread/pthread/mutex.hpp \
+ /usr/local/include/boost/core/ignore_unused.hpp \
+ /usr/local/include/boost/thread/xtime.hpp \
+ /usr/local/include/boost/thread/pthread/timespec.hpp \
+ /usr/local/include/boost/thread/pthread/pthread_mutex_scoped_lock.hpp \
+ /usr/local/include/boost/chrono/system_clocks.hpp \
+ /usr/local/include/boost/chrono/detail/system.hpp \
+ /usr/local/include/boost/version.hpp \
+ /usr/local/include/boost/chrono/clock_string.hpp \
+ /usr/local/include/boost/chrono/ceil.hpp \
+ /usr/local/include/boost/thread/pthread/condition_variable_fwd.hpp \
+ /usr/local/include/boost/thread/cv_status.hpp \
+ /usr/local/include/boost/core/scoped_enum.hpp \
+ /usr/local/include/boost/enable_shared_from_this.hpp \
+ /usr/local/include/boost/smart_ptr/enable_shared_from_this.hpp \
+ /usr/local/include/boost/thread/detail/thread.hpp \
+ /usr/local/include/boost/thread/detail/thread_heap_alloc.hpp \
+ /usr/local/include/boost/thread/pthread/thread_heap_alloc.hpp \
+ /usr/local/include/boost/thread/detail/make_tuple_indices.hpp \
+ /usr/local/include/boost/thread/detail/invoke.hpp \
+ /usr/local/include/boost/thread/detail/is_convertible.hpp \
+ /usr/local/include/boost/thread/detail/thread_interruption.hpp \
+ /usr/local/include/boost/thread/v2/thread.hpp \
+ /usr/local/include/boost/thread/condition_variable.hpp \
+ /usr/local/include/boost/thread/pthread/condition_variable.hpp \
+ /usr/local/include/boost/thread/detail/thread_group.hpp \
+ /usr/local/include/boost/thread/shared_mutex.hpp \
+ /usr/local/include/boost/thread/pthread/shared_mutex.hpp \
+ /usr/local/include/boost/thread/once.hpp \
+ /usr/local/include/boost/thread/pthread/once_atomic.hpp \
+ /usr/local/include/boost/atomic.hpp \
+ /usr/local/include/boost/atomic/atomic.hpp \
+ /usr/local/include/boost/atomic/capabilities.hpp \
+ /usr/local/include/boost/atomic/detail/config.hpp \
+ /usr/local/include/boost/atomic/detail/platform.hpp \
+ /usr/local/include/boost/atomic/detail/int_sizes.hpp \
+ /usr/local/include/boost/atomic/detail/caps_gcc_atomic.hpp \
+ /usr/local/include/boost/atomic/fences.hpp \
+ /usr/local/include/boost/memory_order.hpp \
+ /usr/local/include/boost/atomic/detail/operations.hpp \
+ /usr/local/include/boost/atomic/detail/operations_lockfree.hpp \
+ /usr/local/include/boost/atomic/detail/ops_gcc_atomic.hpp \
+ /usr/local/include/boost/atomic/detail/storage_type.hpp \
+ /usr/local/include/boost/atomic/detail/operations_fwd.hpp \
+ /usr/local/include/boost/atomic/detail/ops_emulated.hpp \
+ /usr/local/include/boost/atomic/detail/lockpool.hpp \
+ /usr/local/include/boost/atomic/detail/link.hpp \
+ /usr/local/include/boost/atomic/atomic_flag.hpp \
+ /usr/local/include/boost/atomic/detail/atomic_flag.hpp \
+ /usr/local/include/boost/atomic/detail/atomic_template.hpp \
+ /usr/local/include/boost/atomic/detail/casts.hpp \
+ /usr/local/include/boost/thread/recursive_mutex.hpp \
+ /usr/local/include/boost/thread/pthread/recursive_mutex.hpp \
+ /usr/local/include/boost/thread/tss.hpp \
+ /usr/local/include/boost/thread/locks.hpp \
+ /usr/local/include/boost/thread/lock_algorithms.hpp \
+ /usr/local/include/boost/thread/barrier.hpp \
+ /usr/local/include/boost/thread/detail/nullary_function.hpp \
+ /usr/local/include/boost/thread/detail/memory.hpp \
+ /usr/local/include/boost/thread/csbl/memory/pointer_traits.hpp \
+ /usr/local/include/boost/thread/csbl/memory/config.hpp \
+ /usr/local/include/boost/thread/csbl/memory/allocator_arg.hpp \
+ /usr/local/include/boost/thread/csbl/memory/allocator_traits.hpp \
+ /usr/local/include/boost/thread/csbl/memory/scoped_allocator.hpp \
+ /usr/local/include/boost/thread/future.hpp \
+ /usr/local/include/boost/thread/exceptional_ptr.hpp \
+ /usr/local/include/boost/exception_ptr.hpp \
+ /usr/local/include/boost/exception/detail/exception_ptr.hpp \
+ /usr/local/include/boost/exception/info.hpp \
+ /usr/local/include/boost/exception/to_string_stub.hpp \
+ /usr/local/include/boost/exception/to_string.hpp \
+ /usr/local/include/boost/exception/detail/is_output_streamable.hpp \
+ /usr/local/include/boost/exception/detail/object_hex_dump.hpp \
+ /usr/local/include/boost/exception/detail/type_info.hpp \
+ /usr/local/include/boost/exception/detail/error_info_impl.hpp \
+ /usr/local/include/boost/exception/diagnostic_information.hpp \
+ /usr/local/include/boost/exception/get_error_info.hpp \
+ /usr/local/include/boost/exception/current_exception_cast.hpp \
+ /usr/local/include/boost/exception/detail/clone_current_exception.hpp \
+ /usr/local/include/boost/thread/detail/invoker.hpp \
+ /usr/local/include/boost/thread/csbl/tuple.hpp \
+ /usr/local/include/boost/thread/detail/variadic_header.hpp \
+ /usr/local/include/boost/thread/detail/variadic_footer.hpp \
+ /usr/local/include/boost/scoped_array.hpp \
+ /usr/local/include/boost/smart_ptr/scoped_array.hpp \
+ /usr/local/include/boost/thread/future_error_code.hpp \
+ /usr/local/include/boost/detail/atomic_undef_macros.hpp \
+ /usr/local/include/boost/detail/atomic_redef_macros.hpp
 
 /usr/include/stdc-predef.h:
 
@@ -4534,6 +4657,12 @@ test_BridgeControl.o: BridgeControl.C /usr/include/stdc-predef.h \
 
 /usr/local/include/Wt/Json/Parser:
 
+/usr/local/include/Wt/WSound:
+
+/usr/local/include/Wt/WMediaPlayer:
+
+/usr/local/include/Wt/WCompositeWidget:
+
 BridgeControl.h:
 
 /usr/local/include/boost/system/system_error.hpp:
@@ -4785,3 +4914,247 @@ Bridge.h:
 Light.h:
 
 BridgeUserIds.h:
+
+/usr/local/include/boost/thread.hpp:
+
+/usr/local/include/boost/thread/thread.hpp:
+
+/usr/local/include/boost/thread/thread_only.hpp:
+
+/usr/local/include/boost/thread/detail/platform.hpp:
+
+/usr/local/include/boost/config/requires_threads.hpp:
+
+/usr/local/include/boost/thread/pthread/thread_data.hpp:
+
+/usr/local/include/boost/thread/detail/config.hpp:
+
+/usr/local/include/boost/thread/exceptions.hpp:
+
+/usr/local/include/boost/thread/lock_guard.hpp:
+
+/usr/local/include/boost/thread/detail/delete.hpp:
+
+/usr/local/include/boost/thread/detail/move.hpp:
+
+/usr/local/include/boost/type_traits/conditional.hpp:
+
+/usr/local/include/boost/type_traits/remove_extent.hpp:
+
+/usr/local/include/boost/thread/detail/lockable_wrapper.hpp:
+
+/usr/local/include/boost/thread/lock_options.hpp:
+
+/usr/local/include/boost/thread/lock_types.hpp:
+
+/usr/local/include/boost/thread/lockable_traits.hpp:
+
+/usr/local/include/boost/thread/thread_time.hpp:
+
+/usr/local/include/boost/chrono/time_point.hpp:
+
+/usr/local/include/boost/chrono/duration.hpp:
+
+/usr/local/include/boost/chrono/config.hpp:
+
+/usr/local/include/boost/chrono/detail/static_assert.hpp:
+
+/usr/local/include/boost/ratio/ratio.hpp:
+
+/usr/local/include/boost/ratio/config.hpp:
+
+/usr/local/include/boost/ratio/detail/mpl/abs.hpp:
+
+/usr/local/include/boost/ratio/detail/mpl/sign.hpp:
+
+/usr/local/include/boost/ratio/detail/mpl/gcd.hpp:
+
+/usr/local/include/boost/mpl/aux_/config/dependent_nttp.hpp:
+
+/usr/local/include/boost/ratio/detail/mpl/lcm.hpp:
+
+/usr/local/include/boost/ratio/ratio_fwd.hpp:
+
+/usr/local/include/boost/ratio/detail/overflow_helpers.hpp:
+
+/usr/local/include/boost/type_traits/common_type.hpp:
+
+/usr/local/include/boost/chrono/detail/is_evenly_divisible_by.hpp:
+
+/usr/local/include/boost/thread/mutex.hpp:
+
+/usr/local/include/boost/thread/pthread/mutex.hpp:
+
+/usr/local/include/boost/core/ignore_unused.hpp:
+
+/usr/local/include/boost/thread/xtime.hpp:
+
+/usr/local/include/boost/thread/pthread/timespec.hpp:
+
+/usr/local/include/boost/thread/pthread/pthread_mutex_scoped_lock.hpp:
+
+/usr/local/include/boost/chrono/system_clocks.hpp:
+
+/usr/local/include/boost/chrono/detail/system.hpp:
+
+/usr/local/include/boost/version.hpp:
+
+/usr/local/include/boost/chrono/clock_string.hpp:
+
+/usr/local/include/boost/chrono/ceil.hpp:
+
+/usr/local/include/boost/thread/pthread/condition_variable_fwd.hpp:
+
+/usr/local/include/boost/thread/cv_status.hpp:
+
+/usr/local/include/boost/core/scoped_enum.hpp:
+
+/usr/local/include/boost/enable_shared_from_this.hpp:
+
+/usr/local/include/boost/smart_ptr/enable_shared_from_this.hpp:
+
+/usr/local/include/boost/thread/detail/thread.hpp:
+
+/usr/local/include/boost/thread/detail/thread_heap_alloc.hpp:
+
+/usr/local/include/boost/thread/pthread/thread_heap_alloc.hpp:
+
+/usr/local/include/boost/thread/detail/make_tuple_indices.hpp:
+
+/usr/local/include/boost/thread/detail/invoke.hpp:
+
+/usr/local/include/boost/thread/detail/is_convertible.hpp:
+
+/usr/local/include/boost/thread/detail/thread_interruption.hpp:
+
+/usr/local/include/boost/thread/v2/thread.hpp:
+
+/usr/local/include/boost/thread/condition_variable.hpp:
+
+/usr/local/include/boost/thread/pthread/condition_variable.hpp:
+
+/usr/local/include/boost/thread/detail/thread_group.hpp:
+
+/usr/local/include/boost/thread/shared_mutex.hpp:
+
+/usr/local/include/boost/thread/pthread/shared_mutex.hpp:
+
+/usr/local/include/boost/thread/once.hpp:
+
+/usr/local/include/boost/thread/pthread/once_atomic.hpp:
+
+/usr/local/include/boost/atomic.hpp:
+
+/usr/local/include/boost/atomic/atomic.hpp:
+
+/usr/local/include/boost/atomic/capabilities.hpp:
+
+/usr/local/include/boost/atomic/detail/config.hpp:
+
+/usr/local/include/boost/atomic/detail/platform.hpp:
+
+/usr/local/include/boost/atomic/detail/int_sizes.hpp:
+
+/usr/local/include/boost/atomic/detail/caps_gcc_atomic.hpp:
+
+/usr/local/include/boost/atomic/fences.hpp:
+
+/usr/local/include/boost/memory_order.hpp:
+
+/usr/local/include/boost/atomic/detail/operations.hpp:
+
+/usr/local/include/boost/atomic/detail/operations_lockfree.hpp:
+
+/usr/local/include/boost/atomic/detail/ops_gcc_atomic.hpp:
+
+/usr/local/include/boost/atomic/detail/storage_type.hpp:
+
+/usr/local/include/boost/atomic/detail/operations_fwd.hpp:
+
+/usr/local/include/boost/atomic/detail/ops_emulated.hpp:
+
+/usr/local/include/boost/atomic/detail/lockpool.hpp:
+
+/usr/local/include/boost/atomic/detail/link.hpp:
+
+/usr/local/include/boost/atomic/atomic_flag.hpp:
+
+/usr/local/include/boost/atomic/detail/atomic_flag.hpp:
+
+/usr/local/include/boost/atomic/detail/atomic_template.hpp:
+
+/usr/local/include/boost/atomic/detail/casts.hpp:
+
+/usr/local/include/boost/thread/recursive_mutex.hpp:
+
+/usr/local/include/boost/thread/pthread/recursive_mutex.hpp:
+
+/usr/local/include/boost/thread/tss.hpp:
+
+/usr/local/include/boost/thread/locks.hpp:
+
+/usr/local/include/boost/thread/lock_algorithms.hpp:
+
+/usr/local/include/boost/thread/barrier.hpp:
+
+/usr/local/include/boost/thread/detail/nullary_function.hpp:
+
+/usr/local/include/boost/thread/detail/memory.hpp:
+
+/usr/local/include/boost/thread/csbl/memory/pointer_traits.hpp:
+
+/usr/local/include/boost/thread/csbl/memory/config.hpp:
+
+/usr/local/include/boost/thread/csbl/memory/allocator_arg.hpp:
+
+/usr/local/include/boost/thread/csbl/memory/allocator_traits.hpp:
+
+/usr/local/include/boost/thread/csbl/memory/scoped_allocator.hpp:
+
+/usr/local/include/boost/thread/future.hpp:
+
+/usr/local/include/boost/thread/exceptional_ptr.hpp:
+
+/usr/local/include/boost/exception_ptr.hpp:
+
+/usr/local/include/boost/exception/detail/exception_ptr.hpp:
+
+/usr/local/include/boost/exception/info.hpp:
+
+/usr/local/include/boost/exception/to_string_stub.hpp:
+
+/usr/local/include/boost/exception/to_string.hpp:
+
+/usr/local/include/boost/exception/detail/is_output_streamable.hpp:
+
+/usr/local/include/boost/exception/detail/object_hex_dump.hpp:
+
+/usr/local/include/boost/exception/detail/type_info.hpp:
+
+/usr/local/include/boost/exception/detail/error_info_impl.hpp:
+
+/usr/local/include/boost/exception/diagnostic_information.hpp:
+
+/usr/local/include/boost/exception/get_error_info.hpp:
+
+/usr/local/include/boost/exception/current_exception_cast.hpp:
+
+/usr/local/include/boost/exception/detail/clone_current_exception.hpp:
+
+/usr/local/include/boost/thread/detail/invoker.hpp:
+
+/usr/local/include/boost/thread/csbl/tuple.hpp:
+
+/usr/local/include/boost/thread/detail/variadic_header.hpp:
+
+/usr/local/include/boost/thread/detail/variadic_footer.hpp:
+
+/usr/local/include/boost/scoped_array.hpp:
+
+/usr/local/include/boost/smart_ptr/scoped_array.hpp:
+
+/usr/local/include/boost/thread/future_error_code.hpp:
+
+/usr/local/include/boost/detail/atomic_undef_macros.hpp:
+
+/usr/local/include/boost/detail/atomic_redef_macros.hpp:
