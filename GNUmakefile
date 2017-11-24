@@ -46,8 +46,8 @@ builddir = .
 
 all: $(builddir)/test
 
-$(builddir)/test: $(builddir)/test_SingleGroupsControl.o $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o
-	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_SingleGroupsControl.o $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
+$(builddir)/test: $(builddir)/test_UserDetailsModel.o $(builddir)/test_RegistrationView.o $(builddir)/test_AuthWidget.o $(builddir)/test_SingleGroupsControl.o $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o
+	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_UserDetailsModel.o $(builddir)/test_RegistrationView.o $(builddir)/test_AuthWidget.o $(builddir)/test_SingleGroupsControl.o $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
 
 $(builddir)/test_HueApp.o: HueApp.C
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread HueApp.C
@@ -70,8 +70,23 @@ $(builddir)/test_BridgeControl.o: BridgeControl.C
 $(builddir)/test_GroupsControl.o: GroupsControl.C
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread GroupsControl.C 
 
-$(builddir)/test_SingleGroupsControl.o: GroupsControl.C
+$(builddir)/test_SingleGroupsControl.o: SingleGroupsControl.C
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread SingleGroupsControl.C 
+
+$(builddir)/test_AuthWidget.o: AuthWidget.C
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread AuthWidget.C 
+
+$(builddir)/test_RegistrationView.o: RegistrationView.C
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread RegistrationView.C 
+
+$(builddir)/test_UserDetailsModel.o: UserDetailsModel.C
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread UserDetailsModel.C 
+
+#$(builddir)/test_CustomAuthWidget.o: CustomAuthWidget.C
+#	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread CustomAuthWidget.C 
+
+#$(builddir)/test_CustomRegistrationWidget.o: CustomRegistrationWidget.C
+#	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread CustomRegistrationWidget.C 
 
 clean:
 	rm -f *.o

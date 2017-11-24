@@ -12,7 +12,7 @@
   <message id="Wt.Auth.confirmmail.body">
 Hello {1},
 
-Thank you for joining the Wt hangman example!
+Thank you for joining our Hue App!
 
 Please click here to confirm your registration or copy and paste the
 following URL into your browser: (Note: be sure to copy the entire
@@ -22,7 +22,7 @@ URL, including any part of it which goes onto a second line.)
 
 Good luck in the game!
 
-The Wt team.
+The NWPD team.
   </message>
 
   <message id="Wt.Auth.confirmmail.htmlbody">
