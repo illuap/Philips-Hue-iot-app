@@ -431,9 +431,9 @@ void LightsControlWidget::sat() {
 
 //Delete the bridge and return to the home page
 void LightsControlWidget::deleteBridge() {
-	//session_->deleteBridge(userID);
-	clear();
-	WApplication::instance()->setInternalPath("/Bridge", true);
+	session_->deleteAllBridgeUserId(ip,port);
+	session_->deleteBridge(ip,port);
+	WApplication::instance()->setInternalPath("/bridge", true);
 }
 
 //changes the transition time

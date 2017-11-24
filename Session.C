@@ -224,17 +224,24 @@ std::string Session::getUserBridgeID(){
 
 void Session::updateBridge(Bridge* newBridge){
   dbo::Transaction transaction(session_);
+  Wt::log("info") << "xxxxxxxx" << newBridge->getIpAddress() << ":" << newBridge->getPortNumber() ;
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
+	  .where("ipAddress = ?").bind(newBridge->getIpAddress())
+	  .where("portNumber = ?").bind(newBridge->getPortNumber());
 
-  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress());
-
-  bridgeObj.modify()->setBridgeName(newBridge->getBridgeName());
-  bridgeObj.modify()->setLocation(newBridge->getLocation());
-  bridgeObj.modify()->setIpAddress(newBridge->getIpAddress());
-  bridgeObj.modify()->setHostName(newBridge->getHostName());
-  bridgeObj.modify()->setUserId(newBridge->getUserId());
-  bridgeObj.modify()->setRegistered(newBridge->getRegistered());
-  bridgeObj.modify()->setPortNumber(newBridge->getPortNumber());
-
+  if (bridgeObj) {
+	  bridgeObj.modify()->setBridgeName(newBridge->getBridgeName());
+	  bridgeObj.modify()->setLocation(newBridge->getLocation());
+	  bridgeObj.modify()->setIpAddress(newBridge->getIpAddress());
+	  bridgeObj.modify()->setHostName(newBridge->getHostName());
+	  bridgeObj.modify()->setUserId(newBridge->getUserId());
+	  bridgeObj.modify()->setRegistered(newBridge->getRegistered());
+	  bridgeObj.modify()->setPortNumber(newBridge->getPortNumber());
+  }
+  else {
+	  Wt::log("info") << "Update failed";
+  }
+ 
   transaction.commit();
 }
 

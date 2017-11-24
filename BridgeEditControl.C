@@ -117,23 +117,27 @@ void BridgeEditControlWidget::handleHttpResponse(boost::system::error_code err, 
 
 			//Get the bridge name, ip address, port number, and location
 			string name = nameEdit_->text().toUTF8();
-			string ip = ipEdit_->text().toUTF8();
-			string port = portEdit_->text().toUTF8();
+			string ipAddr = ipEdit_->text().toUTF8();
+			string portNum = portEdit_->text().toUTF8();
 			string location = locationEdit_->text().toUTF8();
+
+			session_->deleteAllBridgeUserId(ip, port);
+			session_->deleteBridge(ip, port);
 
 			//Creates a new bridge and adds it to the database
 			Bridge *temp = new Bridge();
 			temp->setBridgeName(name);
-			temp->setIpAddress(ip);
-			int x = stoi(port);
+			temp->setIpAddress(ipAddr);
+			int x = stoi(portNum);
 			temp->setPortNumber(x);
 			temp->setUserId(username);
 			temp->setLocation(location);
+		
+			//session_->updateBridge(temp);
 
-
-			//session_->UpdateBridge(temp);
-			//session_->addBridgeUserId(temp, username);
-			update();
+			session_->addBridge(temp);
+			session_->addBridgeUserId(temp, username);
+			//update();
 
 		}
 	}
@@ -147,7 +151,7 @@ void BridgeEditControlWidget::updateEdit() {
 	string portNum = portEdit_->text().toUTF8();
 	string ipNum = ipEdit_->text().toUTF8();
 	//Check if port is a number
-	if (!port.empty() && find_if(port.begin(), port.end(), [](char c) { return !std::isdigit(c); }) == port.end()) {
+	if (!portNum.empty() && find_if(portNum.begin(), portNum.end(), [](char c) { return !std::isdigit(c); }) == portNum.end()) {
 		vector<Bridge> bridges = session_->getBridges();
 		vector<int> ports;
 		bool foundPort = false;
@@ -158,17 +162,21 @@ void BridgeEditControlWidget::updateEdit() {
 
 		//Check if the port number is registered yet
 		for (size_t i = 0; i<ports.size(); i++) {
-			if (ports[i] == stoi(port)) {
+			if (ports[i] == stoi(portNum)) {
 				foundPort = true;
 			}
 		}
 
-		if (foundPort == false) {
+		if (foundPort == false || portNum.compare(port)==0) {
 			Http::Client *client = BridgeEditControlWidget::connect();
 			Http::Message *msg = new Http::Message();
 			msg->addBodyText("{\"devicetype\" : \"danny\"}");
 			client->done().connect(boost::bind(&BridgeEditControlWidget::handleHttpResponse, this, _1, _2));
 			client->post("http://" + ipNum + ":" + portNum + "/api", *msg);
+			//errorText_->setText(tempBridge->getBridgeName()+ tempBridge->getIpAddress()+ to_string(tempBridge->getPortNumber())+ tempBridge->getUserId());
+			//update();
+			//WApplication::instance()->setInternalPath("/bridge", true);
+			errorText_->setText("Bridge Updated.");
 		}
 		else {
 			errorText_->setText("That port number is already taken.");
