@@ -4,7 +4,9 @@
 #include <Wt/Auth/AuthWidget>
 #include <Wt/WWidget>
 #include <Wt/Auth/Identity>
+#include "CustomRegistrationWidget.h"
 
+class CustomRegistrationWidget; 
 class WWidget;
 class Identity;
 

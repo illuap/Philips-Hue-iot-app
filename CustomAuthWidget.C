@@ -20,7 +20,11 @@
 #include <Wt/Auth/Login>
 
 
+
+#include "CustomRegistrationWidget.h"
+
 class RegistrationModel;
+class CustomRegistrationWidget; 
 
 CustomAuthWidget::CustomAuthWidget(Wt::Auth::Login& login, Wt::WContainerWidget *parent)
   : Wt::Auth::AuthWidget(login, parent)
@@ -34,7 +38,7 @@ Wt::WWidget *CustomAuthWidget::createRegistrationView(const Wt::Auth::Identity& 
 
   if (id.isValid())
     model-> registerIdentified(id);
-
+  CustomRegistrationWidget *x = new CustomRegistrationWidget(this);
   Wt::Auth::RegistrationWidget *w = new Wt::Auth::RegistrationWidget(this);
   w->setModel(model);
 

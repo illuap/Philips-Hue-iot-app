@@ -13,6 +13,7 @@
 #include <Wt/Auth/AuthWidget>
 
 #include "HueApp.h"
+#include "CustomAuthWidget.h"
 
 using namespace Wt;
 
@@ -30,7 +31,7 @@ HueApp::HueApp(WContainerWidget *parent):
   authModel->addPasswordAuth(&Session::passwordAuth());
   authModel->addOAuth(Session::oAuth());
 
-  Auth::AuthWidget *authWidget = new Auth::AuthWidget(session_.login());
+  CustomAuthWidget *authWidget = new CustomAuthWidget(session_.login());
   authWidget->setModel(authModel);
   authWidget->setRegistrationEnabled(true);
 
