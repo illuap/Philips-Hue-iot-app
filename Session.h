@@ -48,6 +48,8 @@ public:
    * These methods deal with the currently logged in user
    */
   std::string userName() const;
+  std::string firstName() const;
+  std::string lastName() const;
 
   //-------------------------
   //---------User DB--------
@@ -100,13 +102,16 @@ public:
   static const Wt::Auth::AbstractPasswordService& passwordAuth();
   static const std::vector<const Wt::Auth::OAuthService *>& oAuth();
 
+  Wt::Dbo::ptr<User> user();
+  Wt::Dbo::ptr<User> user(const Wt::Auth::User& authUser);
+
 private:
   Wt::Dbo::backend::Sqlite3 sqlite3_;
   mutable Wt::Dbo::Session session_;
   UserDatabase *users_;
   Wt::Auth::Login login_;
 
-  Wt::Dbo::ptr<User> user();
+  
 };
 
 #endif //SESSION_H_

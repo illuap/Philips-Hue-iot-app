@@ -2,6 +2,8 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/system/system_error.hpp>
 #include <string>
+#include <Wt/WSound>
+
 
 
 #ifndef BRIDGECONTROL_H_
@@ -39,6 +41,7 @@ private:
 	std::string username; 
 	std::string ip; 
 	std::string port; 
+	 Wt::WSound *messageReceived_;
 
 	void test();
 };

@@ -13,6 +13,7 @@
 #include <Wt/Auth/AuthWidget>
 
 #include "HueApp.h"
+#include "AuthWidget.h"
 
 using namespace Wt;
 
@@ -31,7 +32,7 @@ HueApp::HueApp(WContainerWidget *parent):
   authModel->addPasswordAuth(&Session::passwordAuth());
   authModel->addOAuth(Session::oAuth());
 
-  Auth::AuthWidget *authWidget = new Auth::AuthWidget(session_.login());
+  AuthWidget *authWidget = new AuthWidget(session_);
   authWidget->setModel(authModel);
   authWidget->setRegistrationEnabled(true);
 
@@ -85,9 +86,9 @@ void HueApp::handleInternalPath(const std::string &internalPath)
 		  showLights();
 	  else if (internalPath.find("/bridge") == 0)
 		  showBridge();
-	  else if (internalPath.find("/group") == 0)
+	else if (internalPath.find("/group") == 0)
 		  showGroups();
-	  else if (internalPath.find("/singlegroup") == 0)
+	else if (internalPath.find("/singlegroup") == 0)
 		  showSingleGroups();
 	  else if (internalPath.find("/editbridge") == 0)
 		  showBridgeEdit();

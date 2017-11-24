@@ -15,6 +15,8 @@ Wt::WApplication *createApplication(const Wt::WEnvironment& env)
   app->messageResourceBundle().use(app->appRoot() + "templates");
 
   app->useStyleSheet("css/hangman.css");
+  app->useStyleSheet("resource/form.css");
+
 
   new HueApp(app->root());
 

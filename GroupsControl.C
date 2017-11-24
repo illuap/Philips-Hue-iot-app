@@ -1,3 +1,7 @@
+// GroupsControl.C : Defines the GroupsControlWidget Application for creating and listing groups
+// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
+// Date: Nov 28, 2017
+
 #include <boost/lexical_cast.hpp>
 #include <Wt/WText>
 #include <Wt/WTable>
@@ -26,35 +30,50 @@ GroupsControlWidget::GroupsControlWidget(Session *session, WContainerWidget *par
 	setStyleClass("highscores");
 }
 
+// Function Name: update()
+// Parameters: none
+// Return: none
+// Description: generates the Widget
 void GroupsControlWidget::update()
 {
 	clear();
 
-	/*
 	//get URL info
 	string address = WApplication::instance()->internalPath();
-	size_t pos = address.find("user=");						//get userID
+	size_t pos = address.find("user=");								//get userID
 	string subString = address.substr(pos + 5);
 	size_t endPos = subString.find("&");
 	userID = subString.substr(0, endPos);
-	pos = address.find("ip=");								//get ip
+	pos = address.find("ip=");										//get ip
 	subString = address.substr(pos + 3);
 	endPos = subString.find("&");
 	ip = subString.substr(0, endPos);
-	pos = address.find("port=");								//get port
+	pos = address.find("port=");									//get port
 	subString = address.substr(pos + 5);
 	endPos = subString.find("&");
 	port = subString.substr(0, endPos);
-	*/
 
 	one = false;
 	two = false;
 	three = false; 
 
+	//return to lights page
+	WPushButton *lightButton
+		= new WPushButton("Return to My Lights", this);
+	lightButton->setLink("/?_=/lights?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+	lightButton->setMargin(10, Left);
+	
+	//return to bridge page
+	WPushButton *returnButton						
+		= new WPushButton("Return To Bridge", this);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
+	//create a new group
 	this->addWidget(new WText("CREATE A GROUP: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WText("Group name: "));
-	nameEdit_ = new WLineEdit(this);												//input for group name
+	nameEdit_ = new WLineEdit(this);												
 	nameEdit_->setFocus();
 	this->addWidget(new WBreak());
 
@@ -86,19 +105,18 @@ void GroupsControlWidget::update()
 		= new WPushButton("Create Group", this);                  
 	this->addWidget(new WBreak());
 
-	status_ = new WText(this);                           // displays status of creating a group
+	status_ = new WText(this);                           //status of creating a group
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
 	//list groups
 	this->addWidget(new WText("Your Groups: "));
 	this->addWidget(new WBreak());
-	this->addWidget(new WText("Note: \"1- Group 1\" is a default group containing all your lights."));
 	this->addWidget(new WBreak());
 	groups_ = new WText(this);
 	Http::Client *client = GroupsControlWidget::connect();
 	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
-	if (client->get("http://127.0.0.1:8000/api/newdeveloper/groups")) {
+	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/groups")) {
 		WApplication::instance()->deferRendering();
 	}
 
@@ -106,6 +124,7 @@ void GroupsControlWidget::update()
 	twoButton->clicked().connect(this, &GroupsControlWidget::lightTwo);
 	threeButton->clicked().connect(this, &GroupsControlWidget::lightThree);
 	createButton->clicked().connect(this, &GroupsControlWidget::createGroup);
+	returnButton->clicked().connect(this, &GroupsControlWidget::returnBridge);
 
 	(boost::bind(&GroupsControlWidget::handleHttpResponse, this));
 	(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this));
@@ -114,36 +133,48 @@ void GroupsControlWidget::update()
 	(boost::bind(&GroupsControlWidget::lightTwo, this));
 	(boost::bind(&GroupsControlWidget::lightThree, this));
 	(boost::bind(&GroupsControlWidget::createGroup, this));
+	(boost::bind(&GroupsControlWidget::returnBridge, this));
 }
 
-//creates a client
+// Function Name: connect() 
+// Parameters: none
+// Return: none
+// Description: creates an Http client
 Http::Client * GroupsControlWidget::connect() {
 	Http::Client *client = new Http::Client(this);
 	client->setTimeout(15);
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-//handle request (does nothing withthe response) - for creating a group
+// Function Name: handleHttpResponseVOID()
+// Parameters: none
+// Return: none
+// Description: reloads the same Widget with changes to the group list
 void GroupsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
 	update();
 }
 
-//handles get groups
+// Function Name: handleHttpResponse()
+// Parameters: none
+// Return: none
+// Description: displays the list of groups as buttons 
 void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
 		//find number of groups
-		size_t pos = response.body().find_last_of(",");
-		string subString = response.body().substr(pos + 2);
+		size_t pos = response.body().find_last_of("{");
+		string subString = response.body().substr(pos - 3);
 		size_t endPos = subString.find("\"");
 		string num = subString.substr(0, endPos);
 		int n = atoi(num.c_str());
 		if (n <= 0) {
 			n = 1;
 		}
+
+		//create a button for each group that leads to the ability to edit that specific group
 		for (int i = 0; i < n; i++) {
 			string groups = response.body();
-			if (groups.find("\"" + to_string(i + 1) + "\"") != string::npos) {
+			if (groups.find("\"" + to_string(i + 1) + "\":") != string::npos) {
 				size_t pos = groups.find("\"" + to_string(i + 1) + "\"");
 				string subString;
 				if ( (i + 1) >= 10) {
@@ -155,13 +186,16 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 				string name = subString.substr(0, endPos);
 				WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
 				currentButton->setMargin(5, Left);
-				//currentButton->setLink("/?_=/lights?user=" + x.getUserId() + "%26ip=" + x.getIpAddress() + "%26port=" + std::to_string(x.getPortNumber()));
+				currentButton->setLink("/?_=/singlegroup?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + to_string(i+1));
 			}
 		}
 	}
 }
 
-//selects light 1
+// Function Name: lightOne()
+// Parameters: none
+// Return: none
+// Description: selects light 1 to be added/removed as part of the new group
 void GroupsControlWidget::lightOne() {
 	if (!one) {
 		one = true;
@@ -172,7 +206,10 @@ void GroupsControlWidget::lightOne() {
 	}
 }
 
-//selects light 2
+// Function Name: lightTwo()
+// Parameters: none
+// Return: none
+// Description: selects light 2 to be added/removed as part of the new group
 void GroupsControlWidget::lightTwo() {
 	if (!two) {
 		two = true;
@@ -183,7 +220,10 @@ void GroupsControlWidget::lightTwo() {
 	}
 }
 
-//selects light 3
+// Function Name: lightThree()
+// Parameters: none
+// Return: none
+// Description: selects light 3 to be added/removed as part of the new group
 void GroupsControlWidget::lightThree() {
 	if (!three) {
 		three = true;
@@ -194,8 +234,12 @@ void GroupsControlWidget::lightThree() {
 	}
 }
 
-//creates group
+// Function Name: createGroup()
+// Parameters: none
+// Return: none
+// Description: creates a new group
 void GroupsControlWidget::createGroup() {
+	//determine which lights have been chosen
 	if (!one && !two && !three) {
 		status_->setText("Select as least 1 light to be in your group");
 	} else {
@@ -233,7 +277,16 @@ void GroupsControlWidget::createGroup() {
 			msg->addBodyText("{\"lights\" : " + selectedLights + ", \"name\" : \"" + nameEdit_->text().toUTF8() + "\", \"type\" : \"LightGroup\" }");
 			Http::Client *client = GroupsControlWidget::connect();
 			client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
-			client->post("http://127.0.0.1:8000/api/newdeveloper/groups", *msg);
+			client->post("http://" + ip + ":" + port + "/api/" + userID + "/groups", *msg);
 		}
 	}
+}
+
+// Function Name: returnBridge()
+// Parameters: none
+// Return: none
+// Description: goes back to bridge page
+void GroupsControlWidget::returnBridge() {
+	clear();
+	WApplication::instance()->setInternalPath("/Bridge", true);
 }

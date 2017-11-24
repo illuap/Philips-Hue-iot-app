@@ -1,3 +1,7 @@
+// LightsControl.C : Defines the LightsControlWidget Application for altering states of individual lights
+// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
+// Date: Nov 28, 2017
+
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <Wt/WText>
@@ -15,7 +19,6 @@
 #include "LightsControl.h"
 #include "Session.h"
 
-
 using namespace Wt;
 using namespace std; 
 
@@ -27,11 +30,15 @@ LightsControlWidget::LightsControlWidget(Session *session, WContainerWidget *par
   setStyleClass("highscores");
 }
 
+// Function Name: update()
+// Parameters: none
+// Return: none
+// Description: generates the Widget
 void LightsControlWidget::update()
 {
   clear();
   
-  //get URL info
+  //get user info from URL
   string address = WApplication::instance()->internalPath();
   size_t pos = address.find("user=");						//get userID
   string subString = address.substr(pos + 5);
@@ -46,13 +53,14 @@ void LightsControlWidget::update()
   endPos = subString.find("&");
   port = subString.substr(0, endPos);
 
-  //get group info to display 
+  //get lights information to display 
   Http::Client *client = LightsControlWidget::connect();
   client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseName, this, _1, _2));
   if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/")) {
 	  WApplication::instance()->deferRendering();
   }
 
+  //select the light to be changed
   this->addWidget(new WText("Select the light to be changed: "));
   this->addWidget(new WBreak());
   WPushButton *oneButton  = new WPushButton("Light 1", this);                   // 1st light button
@@ -63,7 +71,7 @@ void LightsControlWidget::update()
   twoButton->setMargin(10, Left);
   twoLight_ = new WText(this);
   this->addWidget(new WBreak());
-  WPushButton *threeButton = new WPushButton("Light 3", this);                   // 3rd light button
+  WPushButton *threeButton = new WPushButton("Light 3", this);                  // 3rd light button
   threeButton->setMargin(10, Left);
   threeLight_ = new WText(this);
   this->addWidget(new WBreak());
@@ -73,10 +81,10 @@ void LightsControlWidget::update()
 
   //change name
   this->addWidget(new WText("Set New Name: "));
-  nameEdit_ = new WLineEdit(this);												// user text input
+  nameEdit_ = new WLineEdit(this);												
   nameEdit_->setFocus();															
   WPushButton *nameButton
-	  = new WPushButton("Change", this);										// submit button
+	  = new WPushButton("Change", this);										
   nameButton->setMargin(5, Left);											
   this->addWidget(new WBreak());												
   this->addWidget(new WBreak());
@@ -84,12 +92,12 @@ void LightsControlWidget::update()
   //turn on
   this->addWidget(new WText("Light on/off: "));
   WPushButton *onButton
-    = new WPushButton("ON", this);                      // ON button
+    = new WPushButton("ON", this);                     
   onButton->setMargin(5, Left);                         
 
   //turn off
   WPushButton *offButton
-    = new WPushButton("OFF", this);                     // OFF button
+    = new WPushButton("OFF", this);                 
   offButton->setMargin(5, Left);                         
   this->addWidget(new WBreak());                     
   this->addWidget(new WBreak());
@@ -98,7 +106,7 @@ void LightsControlWidget::update()
   this->addWidget(new WText("Hue: "));
   this->addWidget(new WBreak());
   this->addWidget(new WText("0  "));
-  hueScaleSlider_ = new WSlider(this);					 //slider bar
+  hueScaleSlider_ = new WSlider(this);					
   hueScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   hueScaleSlider_->setMinimum(0);
   hueScaleSlider_->setMaximum(65535);
@@ -114,7 +122,7 @@ void LightsControlWidget::update()
   this->addWidget(new WText("Brightness: "));
   this->addWidget(new WBreak());
   this->addWidget(new WText("1  ")); 
-  briScaleSlider_ = new WSlider(this);					 //slider bar
+  briScaleSlider_ = new WSlider(this);					
   briScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   briScaleSlider_->setMinimum(1);
   briScaleSlider_->setMaximum(254);
@@ -130,7 +138,7 @@ void LightsControlWidget::update()
   this->addWidget(new WText("Saturation: "));
   this->addWidget(new WBreak());
   this->addWidget(new WText("0  "));
-  satScaleSlider_ = new WSlider(this);					//slider bar
+  satScaleSlider_ = new WSlider(this);				
   satScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   satScaleSlider_->setMinimum(0);
   satScaleSlider_->setMaximum(254);
@@ -146,7 +154,7 @@ void LightsControlWidget::update()
   this->addWidget(new WText("Transition Time: (multiple of 100ms) "));
   this->addWidget(new WBreak());
   this->addWidget(new WText("1  (100ms)"));
-  transitionScaleSlider_ = new WSlider(this);					 //slider bar
+  transitionScaleSlider_ = new WSlider(this);					 
   transitionScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   transitionScaleSlider_->setMinimum(1);
   transitionScaleSlider_->setMaximum(20);
@@ -156,17 +164,21 @@ void LightsControlWidget::update()
   transitionScaleSlider_->resize(300, 50);
   this->addWidget(new WText("  20 (2 seconds)"));
 
-
-  this->addWidget(new WBreak());
-  this->addWidget(new WBreak());
   this->addWidget(new WBreak());                       
   this->addWidget(new WBreak());
   light_ = new WText(this);                           // displays which light is being changed
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
   this->addWidget(new WBreak());
-  this->addWidget(new WBreak());
-  WPushButton *returnButton							//go back to bridge
+
+  //go to the groups page
+  WPushButton *groupButton						
+	  = new WPushButton("Go to My Groups", this);
+  groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+  groupButton->setMargin(10, Left);
+
+  //go back to bridge page
+  WPushButton *returnButton							
 	  = new WPushButton("Return To Bridge", this);
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
@@ -189,11 +201,10 @@ void LightsControlWidget::update()
   transitionScaleSlider_->valueChanged().connect(this, &LightsControlWidget::transition);
   deleteButton->clicked().connect(this, &LightsControlWidget::deleteBridge);
 
-
+  (boost::bind(&LightsControlWidget::transition, this));
   (boost::bind(&LightsControlWidget::hue, this));
   (boost::bind(&LightsControlWidget::name, this));
   (boost::bind(&LightsControlWidget::bright, this));
-  (boost::bind(&LightsControlWidget::transition, this));
   (boost::bind(&LightsControlWidget::sat, this));
   (boost::bind(&LightsControlWidget::on, this));
   (boost::bind(&LightsControlWidget::off, this));
@@ -207,14 +218,20 @@ void LightsControlWidget::update()
   (boost::bind(&LightsControlWidget::deleteBridge, this));
 }
 
-//creates a client
+// Function Name: connect() 
+// Parameters: none
+// Return: none
+// Description: creates an Http client
 Http::Client * LightsControlWidget::connect() {
 	Http::Client *client = new Http::Client(this);
 	client->setTimeout(15);
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-//handle request (does nothing withthe response) - for changing the light state
+// Function Name: handleHttpResponseName()
+// Parameters: none
+// Return: none
+// Description: dislays changes in a light's name
 void LightsControlWidget::handleHttpResponseName(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
@@ -245,24 +262,30 @@ void LightsControlWidget::handleHttpResponseName(boost::system::error_code err, 
 
 }
 
-//handle request (does nothing withthe response) - for changing the light state
+// Function Name: handleHttpResponseVOID()
+// Parameters: none
+// Return: none
+// Description: empty function for responses that don't need to be processed (for on/off/hue/sat/bri/transition changes)
 void LightsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
 }
 
-//handles get lights request
+// Function Name: handleHttpResponse()
+// Parameters: none
+// Return: none
+// Description: parses and displays light information when a light is chosen
 void LightsControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
 		Json::Object result;
 		Json::parse(response.body(), result);
 
-		//get sat
+		//get saturation
 		size_t pos = response.body().find("sat");
 		string subString = response.body().substr(pos + 5);
 		size_t endPos = subString.find(",");
 		string sat = subString.substr(0, endPos);
 
-		//get bri
+		//get brightness
 		pos = response.body().find("bri");
 		subString = response.body().substr(pos + 5);
 		endPos = subString.find(",");
@@ -274,23 +297,17 @@ void LightsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		endPos = subString.find(",");
 		string hue = subString.substr(0, endPos);
 
-		/*
-		//get transition
-		pos = response.body().find("transitiontime");
-		subString = response.body().substr(pos + 16);
-		endPos = subString.find(",");
-		string trans = subString.substr(0, endPos);
-		*/
-
+		//show light's values on the sliders
 		hueScaleSlider_->setValue(stoi(hue));
 		satScaleSlider_->setValue(stoi(sat));
 		briScaleSlider_->setValue(stoi(bri));
-		//transitionScaleSlider_->setValue(stoi(trans));
 	}
 }
 
-
-//selects light 1 to change
+// Function Name: lightOne()
+// Parameters: none
+// Return: none
+// Description: selects light 1 to change
 void LightsControlWidget::lightOne() {
 	currentLight = "1";
 	light_->setText("You are changing Light 1     " + oneLight_->text());
@@ -302,7 +319,10 @@ void LightsControlWidget::lightOne() {
 	}
 }
 
-//selects light 2 to change
+// Function Name: lightTwo()
+// Parameters: none
+// Return: none
+// Description: selects light 2 to change
 void LightsControlWidget::lightTwo() {
 	currentLight = "2";
 	light_->setText("You are changing Light 2     " + twoLight_->text());
@@ -314,7 +334,10 @@ void LightsControlWidget::lightTwo() {
 	}
 }
 
-//selects light 3 to change
+// Function Name: lightThree()
+// Parameters: none
+// Return: none
+// Description: selects light 3 to change
 void LightsControlWidget::lightThree() {
 	currentLight = "3";
 	light_->setText("You are changing Light 3     " + threeLight_->text());
@@ -326,7 +349,10 @@ void LightsControlWidget::lightThree() {
 	}
 }
 
-//changes the name
+// Function Name: name()
+// Parameters: none
+// Return: none
+// Description: changes a light's name
 void LightsControlWidget::name() {
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
@@ -350,8 +376,10 @@ void LightsControlWidget::name() {
 	}
 }
 
-
-//turns light on
+// Function Name: on()
+// Parameters: none
+// Return: none
+// Description: turns light on
 void LightsControlWidget::on() {
 	change_->setText("");
 	if (currentLight.compare("0") == 0) {
@@ -366,7 +394,10 @@ void LightsControlWidget::on() {
 	}
 }
 
-//turns light off
+// Function Name: off()
+// Parameters: none
+// Return: none
+// Description: turns light off
 void LightsControlWidget::off() {
 	change_->setText("");
 	if (currentLight.compare("0") == 0) {
@@ -381,7 +412,10 @@ void LightsControlWidget::off() {
 	}
 }
 
-//changes the hue 
+// Function Name: hue()
+// Parameters: none
+// Return: none
+// Description: changes a light's hue
 void LightsControlWidget::hue() {
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
@@ -397,7 +431,10 @@ void LightsControlWidget::hue() {
 	}
 }
 
-//changes the brightness
+// Function Name: bright()
+// Parameters: none
+// Return: none
+// Description: changes a light's brightness
 void LightsControlWidget::bright() {
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
@@ -413,7 +450,10 @@ void LightsControlWidget::bright() {
 	}
 }
 
-//changes the saturation
+// Function Name: sat()
+// Parameters: none
+// Return: none
+// Description: changes a light's saturation
 void LightsControlWidget::sat() {
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
@@ -436,13 +476,15 @@ void LightsControlWidget::deleteBridge() {
 	WApplication::instance()->setInternalPath("/bridge", true);
 }
 
-//changes the transition time
+// Function Name: transition()
+// Parameters: none
+// Return: none
+// Description: changes a light's transition time
 void LightsControlWidget::transition() {
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 		change_->setText("");
-	}
-	else {
+	} else {
 		int input = transitionScaleSlider_->value();
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -453,6 +495,10 @@ void LightsControlWidget::transition() {
 	}
 }
 
+// Function Name: returnBridge()
+// Parameters: none
+// Return: none
+// Description: goes back to bridge page
 void LightsControlWidget::returnBridge()
 {
 	clear();
