@@ -1,6 +1,11 @@
-// LightsControl.C : Defines the LightsControlWidget Application for altering states of individual lights
-// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
-// Date: Nov 28, 2017
+/** @file LightsControl.C
+*  @brief Application for altering states of individual lights
+*  @author Nicole Chow
+*  @author Weija Zhou
+*  @author Paul Li
+*  @author Daniel Le
+*  @date Nov 28, 2017
+*/
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
