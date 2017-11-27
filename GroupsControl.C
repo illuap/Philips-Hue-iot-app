@@ -113,7 +113,6 @@ void GroupsControlWidget::update()
 	this->addWidget(new WText("Your Groups: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
-	groups_ = new WText(this);
 	Http::Client *client = GroupsControlWidget::connect();
 	client->done().connect(boost::bind(&GroupsControlWidget::handleHttpResponse, this, _1, _2));
 	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/groups")) {

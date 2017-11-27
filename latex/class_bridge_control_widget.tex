@@ -1,0 +1,220 @@
+\hypertarget{class_bridge_control_widget}{}\section{Bridge\+Control\+Widget Class Reference}
+\label{class_bridge_control_widget}\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+
+
+{\ttfamily \#include $<$Bridge\+Control.\+h$>$}
+
+Inheritance diagram for Bridge\+Control\+Widget\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_bridge_control_widget}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_bridge_control_widget_af09e7c2a5993cd307c99ad8c9f964542}{Bridge\+Control\+Widget} (\hyperlink{class_session}{Session} $\ast$session, W\+Container\+Widget $\ast$parent)
+\item 
+void \hyperlink{class_bridge_control_widget_af8533ce9fe9765ff317d9215fb6aa4da}{update} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{class_bridge_control_widget_a894337cd809042fcae667a8caa3f9451}{handle\+Http\+Response} (boost\+::system\+::error\+\_\+code err, const Wt\+::\+Http\+::\+Message \&response)
+\item 
+Wt\+::\+Http\+::\+Client $\ast$ \hyperlink{class_bridge_control_widget_aaab68c6bb33f44c2edeea7942e190ec6}{connect} ()
+\item 
+void \hyperlink{class_bridge_control_widget_a23d4fac71d031ec1c4783af139962754}{register\+Bridge} ()
+\item 
+void \hyperlink{class_bridge_control_widget_ae1204ba0a72cf3a6719fda099532f939}{show\+Lights} ()
+\item 
+void \hyperlink{class_bridge_control_widget_a5cabafd79c446bbdd5a75a4eee9b316a}{test} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_session}{Session} $\ast$ \hyperlink{class_bridge_control_widget_a8515acd4aba4adfc0ca0f303cc774714}{session\+\_\+}
+\item 
+Wt\+::\+W\+Text $\ast$ \hyperlink{class_bridge_control_widget_aade9df1dc99afdac9fe1aca212957556}{user\+\_\+}
+\item 
+Wt\+::\+W\+Text $\ast$ \hyperlink{class_bridge_control_widget_a0976b686d1bee46834e28b70220a9bbc}{ip\+\_\+}
+\item 
+Wt\+::\+W\+Line\+Edit $\ast$ \hyperlink{class_bridge_control_widget_a853916f1753968ac0a897ebaa5c0cbcc}{ip\+Edit\+\_\+}
+\item 
+Wt\+::\+W\+Text $\ast$ \hyperlink{class_bridge_control_widget_a0eae40d451b31b92112ec212516372cb}{port\+\_\+}
+\item 
+Wt\+::\+W\+Line\+Edit $\ast$ \hyperlink{class_bridge_control_widget_a41af1fb420ff88d4e4d3981b3c6e5c04}{port\+Edit\+\_\+}
+\item 
+Wt\+::\+W\+Text $\ast$ \hyperlink{class_bridge_control_widget_ad3a9a0bd678c760b74ef61b5c78bbea3}{location\+\_\+}
+\item 
+Wt\+::\+W\+Line\+Edit $\ast$ \hyperlink{class_bridge_control_widget_a69f59affca4084dd6be95e637e4d0a37}{location\+Edit\+\_\+}
+\item 
+Wt\+::\+W\+Line\+Edit $\ast$ \hyperlink{class_bridge_control_widget_a34ffd7c6178a84184d43b1f403fd1945}{name\+\_\+}
+\item 
+Wt\+::\+W\+Push\+Button $\ast$ \hyperlink{class_bridge_control_widget_ae44e24e9f180d7d8727a5989467a627e}{button}
+\item 
+Wt\+::\+W\+Text $\ast$ \hyperlink{class_bridge_control_widget_a3a1af1bc24a550a4bff633f62cb54b00}{error\+Text\+\_\+}
+\item 
+Wt\+::\+W\+Text $\ast$ \hyperlink{class_bridge_control_widget_a8fc1ea20843b3715ddbf72ef4aa84c6c}{confirm\+\_\+}
+\item 
+std\+::string \hyperlink{class_bridge_control_widget_ac195eb9bda89539ad76dcb68c183d7d3}{username}
+\item 
+std\+::string \hyperlink{class_bridge_control_widget_a0d2312d2fd67c2ed6a285d6c2e336d29}{ip}
+\item 
+std\+::string \hyperlink{class_bridge_control_widget_a1c8a761d43d554385f1d5416c611665c}{port}
+\item 
+Wt\+::\+W\+Sound $\ast$ \hyperlink{class_bridge_control_widget_a95671fff1cc255ba4d5eaaab4c1a8277}{message\+Received\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_bridge_control_widget_af09e7c2a5993cd307c99ad8c9f964542}\label{class_bridge_control_widget_af09e7c2a5993cd307c99ad8c9f964542}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{Bridge\+Control\+Widget()}{BridgeControlWidget()}}
+{\footnotesize\ttfamily Bridge\+Control\+Widget\+::\+Bridge\+Control\+Widget (\begin{DoxyParamCaption}\item[{\hyperlink{class_session}{Session} $\ast$}]{session,  }\item[{W\+Container\+Widget $\ast$}]{parent }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_bridge_control_widget_aaab68c6bb33f44c2edeea7942e190ec6}\label{class_bridge_control_widget_aaab68c6bb33f44c2edeea7942e190ec6}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!connect@{connect}}
+\index{connect@{connect}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{connect()}{connect()}}
+{\footnotesize\ttfamily Http\+::\+Client $\ast$ Bridge\+Control\+Widget\+::connect (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a894337cd809042fcae667a8caa3f9451}\label{class_bridge_control_widget_a894337cd809042fcae667a8caa3f9451}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!handle\+Http\+Response@{handle\+Http\+Response}}
+\index{handle\+Http\+Response@{handle\+Http\+Response}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{handle\+Http\+Response()}{handleHttpResponse()}}
+{\footnotesize\ttfamily void Bridge\+Control\+Widget\+::handle\+Http\+Response (\begin{DoxyParamCaption}\item[{boost\+::system\+::error\+\_\+code}]{err,  }\item[{const Wt\+::\+Http\+::\+Message \&}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a23d4fac71d031ec1c4783af139962754}\label{class_bridge_control_widget_a23d4fac71d031ec1c4783af139962754}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!register\+Bridge@{register\+Bridge}}
+\index{register\+Bridge@{register\+Bridge}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{register\+Bridge()}{registerBridge()}}
+{\footnotesize\ttfamily void Bridge\+Control\+Widget\+::register\+Bridge (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_ae1204ba0a72cf3a6719fda099532f939}\label{class_bridge_control_widget_ae1204ba0a72cf3a6719fda099532f939}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!show\+Lights@{show\+Lights}}
+\index{show\+Lights@{show\+Lights}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{show\+Lights()}{showLights()}}
+{\footnotesize\ttfamily void Bridge\+Control\+Widget\+::show\+Lights (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a5cabafd79c446bbdd5a75a4eee9b316a}\label{class_bridge_control_widget_a5cabafd79c446bbdd5a75a4eee9b316a}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!test@{test}}
+\index{test@{test}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{test()}{test()}}
+{\footnotesize\ttfamily void Bridge\+Control\+Widget\+::test (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_af8533ce9fe9765ff317d9215fb6aa4da}\label{class_bridge_control_widget_af8533ce9fe9765ff317d9215fb6aa4da}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!update@{update}}
+\index{update@{update}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Bridge\+Control\+Widget\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_bridge_control_widget_ae44e24e9f180d7d8727a5989467a627e}\label{class_bridge_control_widget_ae44e24e9f180d7d8727a5989467a627e}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!button@{button}}
+\index{button@{button}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{button}{button}}
+{\footnotesize\ttfamily Wt\+::\+W\+Push\+Button$\ast$ Bridge\+Control\+Widget\+::button\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a8fc1ea20843b3715ddbf72ef4aa84c6c}\label{class_bridge_control_widget_a8fc1ea20843b3715ddbf72ef4aa84c6c}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!confirm\+\_\+@{confirm\+\_\+}}
+\index{confirm\+\_\+@{confirm\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{confirm\+\_\+}{confirm\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Text$\ast$ Bridge\+Control\+Widget\+::confirm\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a3a1af1bc24a550a4bff633f62cb54b00}\label{class_bridge_control_widget_a3a1af1bc24a550a4bff633f62cb54b00}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!error\+Text\+\_\+@{error\+Text\+\_\+}}
+\index{error\+Text\+\_\+@{error\+Text\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{error\+Text\+\_\+}{errorText\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Text$\ast$ Bridge\+Control\+Widget\+::error\+Text\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a0d2312d2fd67c2ed6a285d6c2e336d29}\label{class_bridge_control_widget_a0d2312d2fd67c2ed6a285d6c2e336d29}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!ip@{ip}}
+\index{ip@{ip}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{ip}{ip}}
+{\footnotesize\ttfamily std\+::string Bridge\+Control\+Widget\+::ip\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a0976b686d1bee46834e28b70220a9bbc}\label{class_bridge_control_widget_a0976b686d1bee46834e28b70220a9bbc}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!ip\+\_\+@{ip\+\_\+}}
+\index{ip\+\_\+@{ip\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{ip\+\_\+}{ip\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Text$\ast$ Bridge\+Control\+Widget\+::ip\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a853916f1753968ac0a897ebaa5c0cbcc}\label{class_bridge_control_widget_a853916f1753968ac0a897ebaa5c0cbcc}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!ip\+Edit\+\_\+@{ip\+Edit\+\_\+}}
+\index{ip\+Edit\+\_\+@{ip\+Edit\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{ip\+Edit\+\_\+}{ipEdit\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Line\+Edit$\ast$ Bridge\+Control\+Widget\+::ip\+Edit\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_ad3a9a0bd678c760b74ef61b5c78bbea3}\label{class_bridge_control_widget_ad3a9a0bd678c760b74ef61b5c78bbea3}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!location\+\_\+@{location\+\_\+}}
+\index{location\+\_\+@{location\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{location\+\_\+}{location\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Text$\ast$ Bridge\+Control\+Widget\+::location\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a69f59affca4084dd6be95e637e4d0a37}\label{class_bridge_control_widget_a69f59affca4084dd6be95e637e4d0a37}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!location\+Edit\+\_\+@{location\+Edit\+\_\+}}
+\index{location\+Edit\+\_\+@{location\+Edit\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{location\+Edit\+\_\+}{locationEdit\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Line\+Edit$\ast$ Bridge\+Control\+Widget\+::location\+Edit\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a95671fff1cc255ba4d5eaaab4c1a8277}\label{class_bridge_control_widget_a95671fff1cc255ba4d5eaaab4c1a8277}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!message\+Received\+\_\+@{message\+Received\+\_\+}}
+\index{message\+Received\+\_\+@{message\+Received\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{message\+Received\+\_\+}{messageReceived\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Sound$\ast$ Bridge\+Control\+Widget\+::message\+Received\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a34ffd7c6178a84184d43b1f403fd1945}\label{class_bridge_control_widget_a34ffd7c6178a84184d43b1f403fd1945}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!name\+\_\+@{name\+\_\+}}
+\index{name\+\_\+@{name\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{name\+\_\+}{name\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Line\+Edit$\ast$ Bridge\+Control\+Widget\+::name\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a1c8a761d43d554385f1d5416c611665c}\label{class_bridge_control_widget_a1c8a761d43d554385f1d5416c611665c}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!port@{port}}
+\index{port@{port}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily std\+::string Bridge\+Control\+Widget\+::port\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a0eae40d451b31b92112ec212516372cb}\label{class_bridge_control_widget_a0eae40d451b31b92112ec212516372cb}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!port\+\_\+@{port\+\_\+}}
+\index{port\+\_\+@{port\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{port\+\_\+}{port\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Text$\ast$ Bridge\+Control\+Widget\+::port\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a41af1fb420ff88d4e4d3981b3c6e5c04}\label{class_bridge_control_widget_a41af1fb420ff88d4e4d3981b3c6e5c04}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!port\+Edit\+\_\+@{port\+Edit\+\_\+}}
+\index{port\+Edit\+\_\+@{port\+Edit\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{port\+Edit\+\_\+}{portEdit\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Line\+Edit$\ast$ Bridge\+Control\+Widget\+::port\+Edit\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_a8515acd4aba4adfc0ca0f303cc774714}\label{class_bridge_control_widget_a8515acd4aba4adfc0ca0f303cc774714}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!session\+\_\+@{session\+\_\+}}
+\index{session\+\_\+@{session\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{session\+\_\+}{session\_}}
+{\footnotesize\ttfamily \hyperlink{class_session}{Session}$\ast$ Bridge\+Control\+Widget\+::session\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_aade9df1dc99afdac9fe1aca212957556}\label{class_bridge_control_widget_aade9df1dc99afdac9fe1aca212957556}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!user\+\_\+@{user\+\_\+}}
+\index{user\+\_\+@{user\+\_\+}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{user\+\_\+}{user\_}}
+{\footnotesize\ttfamily Wt\+::\+W\+Text$\ast$ Bridge\+Control\+Widget\+::user\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_bridge_control_widget_ac195eb9bda89539ad76dcb68c183d7d3}\label{class_bridge_control_widget_ac195eb9bda89539ad76dcb68c183d7d3}} 
+\index{Bridge\+Control\+Widget@{Bridge\+Control\+Widget}!username@{username}}
+\index{username@{username}!Bridge\+Control\+Widget@{Bridge\+Control\+Widget}}
+\subsubsection{\texorpdfstring{username}{username}}
+{\footnotesize\ttfamily std\+::string Bridge\+Control\+Widget\+::username\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_bridge_control_8h}{Bridge\+Control.\+h}\item 
+\hyperlink{_bridge_control_8_c}{Bridge\+Control.\+C}\end{DoxyCompactItemize}

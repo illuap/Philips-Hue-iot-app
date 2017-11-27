@@ -1,0 +1,61 @@
+\hypertarget{_bridge_control_8_c}{}\section{Bridge\+Control.\+C File Reference}
+\label{_bridge_control_8_c}\index{Bridge\+Control.\+C@{Bridge\+Control.\+C}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$Wt/\+W\+Application$>$}\newline
+{\ttfamily \#include $<$Wt/\+W\+Break$>$}\newline
+{\ttfamily \#include $<$Wt/\+W\+Container\+Widget$>$}\newline
+{\ttfamily \#include $<$Wt/\+W\+Line\+Edit$>$}\newline
+{\ttfamily \#include $<$Wt/\+W\+Push\+Button$>$}\newline
+{\ttfamily \#include $<$Wt/\+W\+Text$>$}\newline
+{\ttfamily \#include $<$Wt/\+Http/\+Message$>$}\newline
+{\ttfamily \#include $<$Wt/\+Http/\+Client$>$}\newline
+{\ttfamily \#include $<$Wt/\+Json/\+Value$>$}\newline
+{\ttfamily \#include $<$Wt/\+Json/\+Object$>$}\newline
+{\ttfamily \#include $<$Wt/\+Json/\+Parser$>$}\newline
+{\ttfamily \#include $<$Wt/\+W\+Logger$>$}\newline
+{\ttfamily \#include $<$Wt/\+W\+Sound$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include \char`\"{}Bridge\+Control.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Session.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Bridge\+User\+Ids.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$boost/thread.\+hpp$>$}\newline
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+boost\+::mutex \hyperlink{_bridge_control_8_c_a0ba51deb3be6dd78d799c654b3120e71}{mutex}
+\item 
+string \hyperlink{_bridge_control_8_c_a7233c697d6e7c8ac9c9223c57144dc6e}{ip\+Address} = \char`\"{}ip\char`\"{}
+\item 
+string \hyperlink{_bridge_control_8_c_ae969f7204a7e846b98a88497dd85f672}{port} = \char`\"{}port\char`\"{}
+\item 
+string \hyperlink{_bridge_control_8_c_a8ccf841cb59e451791bcb2e1ac4f1edc}{name} = \char`\"{}\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{_bridge_control_8_c_a7233c697d6e7c8ac9c9223c57144dc6e}\label{_bridge_control_8_c_a7233c697d6e7c8ac9c9223c57144dc6e}} 
+\index{Bridge\+Control.\+C@{Bridge\+Control.\+C}!ip\+Address@{ip\+Address}}
+\index{ip\+Address@{ip\+Address}!Bridge\+Control.\+C@{Bridge\+Control.\+C}}
+\subsubsection{\texorpdfstring{ip\+Address}{ipAddress}}
+{\footnotesize\ttfamily string ip\+Address = \char`\"{}ip\char`\"{}}
+
+\mbox{\Hypertarget{_bridge_control_8_c_a0ba51deb3be6dd78d799c654b3120e71}\label{_bridge_control_8_c_a0ba51deb3be6dd78d799c654b3120e71}} 
+\index{Bridge\+Control.\+C@{Bridge\+Control.\+C}!mutex@{mutex}}
+\index{mutex@{mutex}!Bridge\+Control.\+C@{Bridge\+Control.\+C}}
+\subsubsection{\texorpdfstring{mutex}{mutex}}
+{\footnotesize\ttfamily boost\+::mutex mutex}
+
+\mbox{\Hypertarget{_bridge_control_8_c_a8ccf841cb59e451791bcb2e1ac4f1edc}\label{_bridge_control_8_c_a8ccf841cb59e451791bcb2e1ac4f1edc}} 
+\index{Bridge\+Control.\+C@{Bridge\+Control.\+C}!name@{name}}
+\index{name@{name}!Bridge\+Control.\+C@{Bridge\+Control.\+C}}
+\subsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily string name = \char`\"{}\char`\"{}}
+
+\mbox{\Hypertarget{_bridge_control_8_c_ae969f7204a7e846b98a88497dd85f672}\label{_bridge_control_8_c_ae969f7204a7e846b98a88497dd85f672}} 
+\index{Bridge\+Control.\+C@{Bridge\+Control.\+C}!port@{port}}
+\index{port@{port}!Bridge\+Control.\+C@{Bridge\+Control.\+C}}
+\subsubsection{\texorpdfstring{port}{port}}
+{\footnotesize\ttfamily string port = \char`\"{}port\char`\"{}}
+

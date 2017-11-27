@@ -1,0 +1,235 @@
+\hypertarget{class_light}{}\section{Light Class Reference}
+\label{class_light}\index{Light@{Light}}
+
+
+{\ttfamily \#include $<$Light.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_light_aaeb13d35d2c08e223ca32e8382e83452}{Light} (std\+::string n\+Name, std\+::string n\+Type, int n\+Bri, int n\+Hue, int n\+Sat, bool n\+On, int n\+Trans)
+\item 
+\hyperlink{class_light_aeb5df09a25a32f19fdffa761268ba24f}{Light} ()
+\item 
+\hyperlink{class_light_ad0e59fad13bb6cfadc25b2c477e9ddc7}{$\sim$\+Light} ()
+\item 
+std\+::string \hyperlink{class_light_a768a0219abfdc1684e90513995280b08}{get\+Name} (void)
+\item 
+std\+::string \hyperlink{class_light_a8dfd61470ed66935ef3ea2de76d7049a}{get\+Type} (void)
+\item 
+int \hyperlink{class_light_ad512a50c53993d50ef98731d7b1d6653}{get\+Brightness} (void)
+\item 
+int \hyperlink{class_light_abc39a64bfcc5b43088cefcd662956cb8}{get\+Hue} (void)
+\item 
+int \hyperlink{class_light_ab654f1c6ffbc3f79fc88d487449dd744}{get\+Saturation} (void)
+\item 
+bool \hyperlink{class_light_a4145a367202562504ccf4314f489d0eb}{get\+On} (void)
+\item 
+int \hyperlink{class_light_ab38069befb7f7ba10b8ee0cffaf89d57}{get\+Transition} (void)
+\item 
+void \hyperlink{class_light_acbb28a74fceea5fc98568b315e328eac}{set\+Name} (std\+::string new\+Name)
+\item 
+void \hyperlink{class_light_a9bc02e6694d481e938e2b9710fd3ff9f}{set\+Type} (std\+::string new\+Type)
+\item 
+void \hyperlink{class_light_a26ebe8e6574a11c2e2a50c00378a3cea}{set\+Brightness} (int new\+Bri)
+\item 
+void \hyperlink{class_light_a1120d4aff3fcb5a1df425f7d08224691}{set\+Hue} (int new\+Hue)
+\item 
+void \hyperlink{class_light_a81c65b7b6a3cb135a69591c0640cd5e9}{set\+Saturation} (int new\+Sat)
+\item 
+void \hyperlink{class_light_abebbcc06640fed324f219f97bbe9ebc8}{set\+On} (bool new\+On)
+\item 
+void \hyperlink{class_light_a2daccaa69755e4397a85a830c7caaba1}{set\+Transition} (int new\+Trans)
+\item 
+{\footnotesize template$<$class Action $>$ }\\void \hyperlink{class_light_a2c527298bf267abdca3b30d3ebbf785e}{persist} (Action \&a)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::string \hyperlink{class_light_aed2e518d1e739c50c31ae77a865f51ed}{name}
+\item 
+std\+::string \hyperlink{class_light_a2825ae88a1158e927a6d16bea9175e56}{type}
+\item 
+bool \hyperlink{class_light_a37ee0b241dbdaff4a13cc269de33a8bf}{on}
+\item 
+int \hyperlink{class_light_a34001347a7ae6d2b3e0b12cfedc9aadf}{bri}
+\item 
+int \hyperlink{class_light_ae488614d58a7f0dec6ed59b59c6c37e9}{hue}
+\item 
+int \hyperlink{class_light_afbfb00988ab1c1e0a07fa20941c6f2bf}{sat}
+\item 
+int \hyperlink{class_light_abd73358fde9001da39f147d878f9dab8}{transition\+Time}
+\item 
+Wt\+::\+Dbo\+::ptr$<$ \hyperlink{class_bridge}{Bridge} $>$ \hyperlink{class_light_ab1491281b58c62b7031fc668e9e5b506}{bridge}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_light_aaeb13d35d2c08e223ca32e8382e83452}\label{class_light_aaeb13d35d2c08e223ca32e8382e83452}} 
+\index{Light@{Light}!Light@{Light}}
+\index{Light@{Light}!Light@{Light}}
+\subsubsection{\texorpdfstring{Light()}{Light()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Light\+::\+Light (\begin{DoxyParamCaption}\item[{std\+::string}]{n\+Name,  }\item[{std\+::string}]{n\+Type,  }\item[{int}]{n\+Bri,  }\item[{int}]{n\+Hue,  }\item[{int}]{n\+Sat,  }\item[{bool}]{n\+On,  }\item[{int}]{n\+Trans }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_aeb5df09a25a32f19fdffa761268ba24f}\label{class_light_aeb5df09a25a32f19fdffa761268ba24f}} 
+\index{Light@{Light}!Light@{Light}}
+\index{Light@{Light}!Light@{Light}}
+\subsubsection{\texorpdfstring{Light()}{Light()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Light\+::\+Light (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_ad0e59fad13bb6cfadc25b2c477e9ddc7}\label{class_light_ad0e59fad13bb6cfadc25b2c477e9ddc7}} 
+\index{Light@{Light}!````~Light@{$\sim$\+Light}}
+\index{````~Light@{$\sim$\+Light}!Light@{Light}}
+\subsubsection{\texorpdfstring{$\sim$\+Light()}{~Light()}}
+{\footnotesize\ttfamily Light\+::$\sim$\+Light (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_light_ad512a50c53993d50ef98731d7b1d6653}\label{class_light_ad512a50c53993d50ef98731d7b1d6653}} 
+\index{Light@{Light}!get\+Brightness@{get\+Brightness}}
+\index{get\+Brightness@{get\+Brightness}!Light@{Light}}
+\subsubsection{\texorpdfstring{get\+Brightness()}{getBrightness()}}
+{\footnotesize\ttfamily int Light\+::get\+Brightness (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_abc39a64bfcc5b43088cefcd662956cb8}\label{class_light_abc39a64bfcc5b43088cefcd662956cb8}} 
+\index{Light@{Light}!get\+Hue@{get\+Hue}}
+\index{get\+Hue@{get\+Hue}!Light@{Light}}
+\subsubsection{\texorpdfstring{get\+Hue()}{getHue()}}
+{\footnotesize\ttfamily int Light\+::get\+Hue (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a768a0219abfdc1684e90513995280b08}\label{class_light_a768a0219abfdc1684e90513995280b08}} 
+\index{Light@{Light}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!Light@{Light}}
+\subsubsection{\texorpdfstring{get\+Name()}{getName()}}
+{\footnotesize\ttfamily std\+::string Light\+::get\+Name (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a4145a367202562504ccf4314f489d0eb}\label{class_light_a4145a367202562504ccf4314f489d0eb}} 
+\index{Light@{Light}!get\+On@{get\+On}}
+\index{get\+On@{get\+On}!Light@{Light}}
+\subsubsection{\texorpdfstring{get\+On()}{getOn()}}
+{\footnotesize\ttfamily bool Light\+::get\+On (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_ab654f1c6ffbc3f79fc88d487449dd744}\label{class_light_ab654f1c6ffbc3f79fc88d487449dd744}} 
+\index{Light@{Light}!get\+Saturation@{get\+Saturation}}
+\index{get\+Saturation@{get\+Saturation}!Light@{Light}}
+\subsubsection{\texorpdfstring{get\+Saturation()}{getSaturation()}}
+{\footnotesize\ttfamily int Light\+::get\+Saturation (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_ab38069befb7f7ba10b8ee0cffaf89d57}\label{class_light_ab38069befb7f7ba10b8ee0cffaf89d57}} 
+\index{Light@{Light}!get\+Transition@{get\+Transition}}
+\index{get\+Transition@{get\+Transition}!Light@{Light}}
+\subsubsection{\texorpdfstring{get\+Transition()}{getTransition()}}
+{\footnotesize\ttfamily int Light\+::get\+Transition (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a8dfd61470ed66935ef3ea2de76d7049a}\label{class_light_a8dfd61470ed66935ef3ea2de76d7049a}} 
+\index{Light@{Light}!get\+Type@{get\+Type}}
+\index{get\+Type@{get\+Type}!Light@{Light}}
+\subsubsection{\texorpdfstring{get\+Type()}{getType()}}
+{\footnotesize\ttfamily std\+::string Light\+::get\+Type (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a2c527298bf267abdca3b30d3ebbf785e}\label{class_light_a2c527298bf267abdca3b30d3ebbf785e}} 
+\index{Light@{Light}!persist@{persist}}
+\index{persist@{persist}!Light@{Light}}
+\subsubsection{\texorpdfstring{persist()}{persist()}}
+{\footnotesize\ttfamily template$<$class Action $>$ \\
+void Light\+::persist (\begin{DoxyParamCaption}\item[{Action \&}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a26ebe8e6574a11c2e2a50c00378a3cea}\label{class_light_a26ebe8e6574a11c2e2a50c00378a3cea}} 
+\index{Light@{Light}!set\+Brightness@{set\+Brightness}}
+\index{set\+Brightness@{set\+Brightness}!Light@{Light}}
+\subsubsection{\texorpdfstring{set\+Brightness()}{setBrightness()}}
+{\footnotesize\ttfamily void Light\+::set\+Brightness (\begin{DoxyParamCaption}\item[{int}]{new\+Bri }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a1120d4aff3fcb5a1df425f7d08224691}\label{class_light_a1120d4aff3fcb5a1df425f7d08224691}} 
+\index{Light@{Light}!set\+Hue@{set\+Hue}}
+\index{set\+Hue@{set\+Hue}!Light@{Light}}
+\subsubsection{\texorpdfstring{set\+Hue()}{setHue()}}
+{\footnotesize\ttfamily void Light\+::set\+Hue (\begin{DoxyParamCaption}\item[{int}]{new\+Hue }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_acbb28a74fceea5fc98568b315e328eac}\label{class_light_acbb28a74fceea5fc98568b315e328eac}} 
+\index{Light@{Light}!set\+Name@{set\+Name}}
+\index{set\+Name@{set\+Name}!Light@{Light}}
+\subsubsection{\texorpdfstring{set\+Name()}{setName()}}
+{\footnotesize\ttfamily void Light\+::set\+Name (\begin{DoxyParamCaption}\item[{std\+::string}]{new\+Name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_abebbcc06640fed324f219f97bbe9ebc8}\label{class_light_abebbcc06640fed324f219f97bbe9ebc8}} 
+\index{Light@{Light}!set\+On@{set\+On}}
+\index{set\+On@{set\+On}!Light@{Light}}
+\subsubsection{\texorpdfstring{set\+On()}{setOn()}}
+{\footnotesize\ttfamily void Light\+::set\+On (\begin{DoxyParamCaption}\item[{bool}]{new\+On }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a81c65b7b6a3cb135a69591c0640cd5e9}\label{class_light_a81c65b7b6a3cb135a69591c0640cd5e9}} 
+\index{Light@{Light}!set\+Saturation@{set\+Saturation}}
+\index{set\+Saturation@{set\+Saturation}!Light@{Light}}
+\subsubsection{\texorpdfstring{set\+Saturation()}{setSaturation()}}
+{\footnotesize\ttfamily void Light\+::set\+Saturation (\begin{DoxyParamCaption}\item[{int}]{new\+Sat }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a2daccaa69755e4397a85a830c7caaba1}\label{class_light_a2daccaa69755e4397a85a830c7caaba1}} 
+\index{Light@{Light}!set\+Transition@{set\+Transition}}
+\index{set\+Transition@{set\+Transition}!Light@{Light}}
+\subsubsection{\texorpdfstring{set\+Transition()}{setTransition()}}
+{\footnotesize\ttfamily void Light\+::set\+Transition (\begin{DoxyParamCaption}\item[{int}]{new\+Trans }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_light_a9bc02e6694d481e938e2b9710fd3ff9f}\label{class_light_a9bc02e6694d481e938e2b9710fd3ff9f}} 
+\index{Light@{Light}!set\+Type@{set\+Type}}
+\index{set\+Type@{set\+Type}!Light@{Light}}
+\subsubsection{\texorpdfstring{set\+Type()}{setType()}}
+{\footnotesize\ttfamily void Light\+::set\+Type (\begin{DoxyParamCaption}\item[{std\+::string}]{new\+Type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_light_a34001347a7ae6d2b3e0b12cfedc9aadf}\label{class_light_a34001347a7ae6d2b3e0b12cfedc9aadf}} 
+\index{Light@{Light}!bri@{bri}}
+\index{bri@{bri}!Light@{Light}}
+\subsubsection{\texorpdfstring{bri}{bri}}
+{\footnotesize\ttfamily int Light\+::bri\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_light_ab1491281b58c62b7031fc668e9e5b506}\label{class_light_ab1491281b58c62b7031fc668e9e5b506}} 
+\index{Light@{Light}!bridge@{bridge}}
+\index{bridge@{bridge}!Light@{Light}}
+\subsubsection{\texorpdfstring{bridge}{bridge}}
+{\footnotesize\ttfamily Wt\+::\+Dbo\+::ptr$<$\hyperlink{class_bridge}{Bridge}$>$ Light\+::bridge\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_light_ae488614d58a7f0dec6ed59b59c6c37e9}\label{class_light_ae488614d58a7f0dec6ed59b59c6c37e9}} 
+\index{Light@{Light}!hue@{hue}}
+\index{hue@{hue}!Light@{Light}}
+\subsubsection{\texorpdfstring{hue}{hue}}
+{\footnotesize\ttfamily int Light\+::hue\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_light_aed2e518d1e739c50c31ae77a865f51ed}\label{class_light_aed2e518d1e739c50c31ae77a865f51ed}} 
+\index{Light@{Light}!name@{name}}
+\index{name@{name}!Light@{Light}}
+\subsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily std\+::string Light\+::name\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_light_a37ee0b241dbdaff4a13cc269de33a8bf}\label{class_light_a37ee0b241dbdaff4a13cc269de33a8bf}} 
+\index{Light@{Light}!on@{on}}
+\index{on@{on}!Light@{Light}}
+\subsubsection{\texorpdfstring{on}{on}}
+{\footnotesize\ttfamily bool Light\+::on\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_light_afbfb00988ab1c1e0a07fa20941c6f2bf}\label{class_light_afbfb00988ab1c1e0a07fa20941c6f2bf}} 
+\index{Light@{Light}!sat@{sat}}
+\index{sat@{sat}!Light@{Light}}
+\subsubsection{\texorpdfstring{sat}{sat}}
+{\footnotesize\ttfamily int Light\+::sat\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_light_abd73358fde9001da39f147d878f9dab8}\label{class_light_abd73358fde9001da39f147d878f9dab8}} 
+\index{Light@{Light}!transition\+Time@{transition\+Time}}
+\index{transition\+Time@{transition\+Time}!Light@{Light}}
+\subsubsection{\texorpdfstring{transition\+Time}{transitionTime}}
+{\footnotesize\ttfamily int Light\+::transition\+Time\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{class_light_a2825ae88a1158e927a6d16bea9175e56}\label{class_light_a2825ae88a1158e927a6d16bea9175e56}} 
+\index{Light@{Light}!type@{type}}
+\index{type@{type}!Light@{Light}}
+\subsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily std\+::string Light\+::type\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{_light_8h}{Light.\+h}\end{DoxyCompactItemize}
