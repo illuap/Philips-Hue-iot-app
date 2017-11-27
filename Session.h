@@ -66,9 +66,10 @@ public:
   BridgeUserIds* getBridgeUserId(std::string ip, std::string port); //get from specific bridge of currently logged in user
   BridgeUserIds* getBridgeUserId(Bridge *bridgeObj);                //get from specific bridge of currently logged in user
 
-  std::vector<BridgeUserIds> getAllBridgeUserId();                                //NOT IMPLEMENTEDDDDDDD
-  std::vector<BridgeUserIds> getAllBridgeUserId(std::string ip, std::string port);//NOT IMPLEMENTEDDDDDDD
-  std::vector<BridgeUserIds> getAllBridgeUserId(Bridge *bridgeObj);               //NOT IMPLEMENTEDDDDDDD
+  std::vector<BridgeUserIds> getAllBridgeUserId();                                
+  std::vector<BridgeUserIds> getAllBridgeUserId(std::string ip, std::string port);
+  std::vector<BridgeUserIds> getAllBridgeUserId(Bridge *bridgeObj);
+  void updateBridgeUserId(std::string ip, std::string port, std::string newBridgeUserId);
   // DELETE
   void deleteBridgeUserId();
   void deleteBridgeUserId(std::string ip, std::string port);

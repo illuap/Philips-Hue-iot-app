@@ -534,6 +534,31 @@ std::vector<BridgeUserIds> Session::getAllBridgeUserId(Bridge *bridgeObj){
   return x;
 }
 
+void Session::updateBridgeUserId(std::string ip, std::string port, std::string newBridgeUserId){
+
+  dbo::Transaction transaction(session_);
+  Wt::log("info") << "Function getBridgeUserId was called";
+  BridgePtr temp_bridge = session_.find<Bridge>()
+            .where("ipAddress = ?").bind(ip)
+            .where("portNumber = ?").bind(port);
+
+  dbo::ptr<User> current_user = this->user();
+
+  Wt::log("info") << "Bridge ID obtained: " << temp_bridge.id();
+  Wt::log("info") << "User ID obtained: "<< current_user.id();
+
+  BridgeUserIds_Ptr y = session_.find<BridgeUserIds>()
+                            .where("bridgeID_id = ?").bind(temp_bridge.id())
+                            .where("userID_id = ?").bind(current_user.id());
+
+  Wt::log("info") << "BridgeUserId obtained: "<< y.modify()->bridgeUserID;
+
+  y.modify()->bridgeUserID = newBridgeUserId;
+
+  Wt::log("info") << "New BridgeUserId: "<< y.modify()->bridgeUserID;
+                            
+  transaction.commit();
+}
 
 void Session::deleteBridgeUserId(){
   dbo::Transaction transaction(session_);
