@@ -1,6 +1,11 @@
-// SingleGroupsControl.C : Defines the SingleGroupsControlWidget Application for deleting and altering states of individual groups
-// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
-// Date: Nov 28, 2017
+/** @file SingleGroupsControl.C
+*  @brief Application for deleting and altering states of individual groups
+*  @author Nicole Chow
+*  @author Weija Zhou
+*  @author Paul Li
+*  @author Daniel Le
+*  @date Nov 28, 2017
+*/
 
 #include <unistd.h>
 #include <iostream>

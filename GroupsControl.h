@@ -1,4 +1,5 @@
 /** @file GroupsControl.h
+*  @class GroupsControl
 *  @brief Function prototypes for the GroupsControl class that manages the creation and listing of groups
 *  @author Nicole Chow
 *  @author Weija Zhou
@@ -21,14 +22,16 @@ class GroupsControlWidget: public Wt::WContainerWidget
 {
 public:
 
-	/** @brief creates a GroupsControlWidget
+	/** @fn GroupsControlWidget(Session *session, Wt::WContainerWidget *parent = 0)
+	*  @brief creates a GroupsControlWidget
 	*  @param session the database session
 	*  @param parent the parent Widget Container
 	*  @return GroupsControlWidget
 	*/
-	GroupsControlWidget(Session *session, Wt::WContainerWidget *parent = 0);
+	GroupsControlWidget(Session *session /*!< database session */, Wt::WContainerWidget *parent = 0 /*!< parent Widget Container */);
 	
-	/** @brief loads SingleGroupsControlWidget page
+	/** @fn void update()
+	* @brief loads SingleGroupsControlWidget page
 	*  @return Void
 	*/
 	void update();
@@ -47,49 +50,57 @@ private:
 	Wt::WText *light3_;										/*!< displays whether light 3 is part of the new group */
 	Wt::WText *status_;										/*!< status of creating a group */
 
-	/** @brief creates an HTTP Client
+	/** @fn Wt::Http::Client * connect()
+	*  @brief creates an HTTP Client
 	*  @return Http::Client
 	*/
 	Wt::Http::Client * connect();
 
-	/** @brief selects light 1 to be added to the group
+	/** @fn void lightOne()
+	*  @brief selects light 1 to be added to the group
 	*  @return Void
 	*/
 	void lightOne();
 
-	/** @brief selects light 2 to be added to the group
+	/** @fn void lightTwo()
+	*  @brief selects light 2 to be added to the group
 	*  @return Void
 	*/
 	void lightTwo();
 
-	/** @brief selects light 3 to be added to the group
+	/** @fn void lightThree()
+	*  @brief selects light 3 to be added to the group
 	*  @return Void
 	*/
 	void lightThree();
 
-	/** @brief creates a new group
+	/** @fn void createGroup() 
+	*  @brief creates a new group
 	*  @return Void
 	*/
 	void createGroup();
 
-	/** @brief returns user to bridge page
+	/** @fn void returnBridge()
+	*  @brief returns user to bridge page
 	*  @return Void
 	*/
 	void returnBridge();
 
-	/** @brief handles response and displays group information
+	/** @fn handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response)
+	*  @brief handles response and displays group information
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
+	void handleHttpResponse(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
 
-	/** @brief handles response and does nothing
+	/** @fn void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response)
+	*  @brief handles response and does nothing
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
+	void handleHttpResponseVOID(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
 };
 
 #endif

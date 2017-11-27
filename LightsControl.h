@@ -1,4 +1,5 @@
 /** @file LightsControl.h
+*  @class LightsControl
 *  @brief Function prototypes for the LightsControl class that manages the states and changes of states in lights
 *  @author Nicole Chow
 *  @author Weija Zhou
@@ -21,14 +22,16 @@ class LightsControlWidget: public Wt::WContainerWidget
 {
 public:
 
-  /** @brief creates a LightsControlWidget
+  /** @fn LightsControlWidget(Session *session, Wt::WContainerWidget *parent = 0)
+  *  @brief creates a LightsControlWidget
   *  @param session the database session
   *  @param parent the parent Widget Container
   *  @return LightsControlWidget
   */
   LightsControlWidget(Session *session /*!< database session */, Wt::WContainerWidget *parent = 0 /*!< parent Widget Container */);									
   
-  /** @brief loads LightsControlWidget page
+  /** @fn void update()
+  *  @brief loads LightsControlWidget page
   *  @return Void
   */
   void update();												
@@ -50,81 +53,102 @@ private:
 	Wt::WText *change_;									/*!< status of a light change */
 	Wt::WText *light_;									/*!< displays the light being changed */
 	
-	/** @brief creates an HTTP client
+	/** @fn Wt::Http::Client * connect()
+	*  @brief creates an HTTP client
 	*  @return Http::Client
 	*/
 	Wt::Http::Client * connect();
 
-	/** @brief turns a light on
+	/** @fn	void on()
+	*  @brief turns a light on
 	*  @return Void
 	*/
 	void on();
 
-	/** @brief turns a light off
+	/** @fn void off()
+	*  @brief turns a light off
 	*  @return Void
 	*/
 	void off();	
 
-	/** @brief changes a light's hue
+	/** @fn void hue()
+	*  @brief changes a light's hue
 	*  @return Void
 	*/
 	void hue();	
 
-	/** @brief changes a light's brightness
+	/** @fn void bright()	
+	*  @brief changes a light's brightness
 	*  @return Void
 	*/
 	void bright();	
 
-	/** @brief changes a light's saturation
+	/** @fn void sat()	
+	*  @brief changes a light's saturation
 	*  @return Void
 	*/
 	void sat();	
 
-	/** @brief changes a light's name
+	/** @fn void name()
+	*  @brief changes a light's name
 	*  @return Void
 	*/
 	void name();
 
-	/** @brief changes a light's transition time
+	/** @fn void transition() 
+	*  @brief changes a light's transition time
 	*  @return Void
 	*/
 	void transition();	
 
-	/** @brief selects light 1 to change
+	/** @fn void lightOne()
+	*  @brief selects light 1 to change
 	*  @return Void
 	*/
 	void lightOne();
 
-	/** @brief selects light 2 to change
+	/** @fn void lightTwo()
+	*  @brief selects light 2 to change
 	*  @return Void
 	*/
 	void lightTwo();
 
-	/** @brief selects light 3 to change
+	/** @fn void lightThree()
+	*  @brief selects light 3 to change
 	*  @return Void
 	*/
 	void lightThree();
 
-	/** @brief returns user to the bridge page
+	/** @fn void returnBridge()
+	*  @brief returns user to the bridge page
 	*  @return Void
 	*/
 	void returnBridge();
+
+	/** @fn void deleteBridge()
+	*  @brief deletes a bridge
+	*  @return Void
+	*/
 	void deleteBridge();
-	/** @brief handles response and displays light information
+
+	/** @fn void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response)
+	*  @brief handles response and displays light information
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
 	*/
 	void handleHttpResponse(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
 	
-	/** @brief handles response for light name changes
+	/** @fn void handleHttpResponseName(boost::system::error_code err, const Wt::Http::Message& response)
+	*  @brief handles response for light name changes
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
 	*/
 	void handleHttpResponseName(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
 	
-	/** @brief handles response and does nothing
+	/** @fn void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response)
+	*  @brief handles response and does nothing
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void

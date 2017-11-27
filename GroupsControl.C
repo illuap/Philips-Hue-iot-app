@@ -1,6 +1,11 @@
-// GroupsControl.C : Defines the GroupsControlWidget Application for creating and listing groups
-// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
-// Date: Nov 28, 2017
+/** @file GroupsControl.C
+*  @brief Application for creating and listing groups
+*  @author Nicole Chow
+*  @author Weija Zhou
+*  @author Paul Li
+*  @author Daniel Le
+*  @date Nov 28, 2017
+*/
 
 #include <boost/lexical_cast.hpp>
 #include <Wt/WText>
