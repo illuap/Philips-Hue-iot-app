@@ -83,7 +83,7 @@ public:
   std::vector<Bridge> getAllBridges();  // all user's bridges
 
   Bridge* getBridge(std::string ip, std::string port);
-  void updateBridge(Bridge* newBridge);
+  void updateBridge(Bridge* oldBridge, Bridge* newBridge);
   bool addBridge(Bridge* newBridge);
   bool deleteBridge(std::string ip, std::string port);
 

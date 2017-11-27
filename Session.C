@@ -236,34 +236,12 @@ bool Session::deleteBridge(std::string ip, std::string port){
   transaction.commit();
 }
 
-/*
-void Session::addUserBridgeID(std::string newBridgeUserId){
+void Session::updateBridge(Bridge* oldBridge, Bridge* newBridge){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<User> u = user();
-  if (u) {
-    u.modify()->name = userName();
-    u.modify()->bridgeUserID = newBridgeUserId;
-  }
-
-  transaction.commit();
-}
-
-std::string Session::getUserBridgeID(){
-
-  dbo::ptr<User> u = user();
-  if (u) {
-
-    return u.modify()->bridgeUserID;
-  }
-
-}
-*/
-
-void Session::updateBridge(Bridge* newBridge){
-  dbo::Transaction transaction(session_);
-
-  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress());
+  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
+                .where("ipAddress = ?").bind(oldBridge->getIpAddress())
+                .where("portNumber = ?").bind(oldBridge->getIpAddress());
 
   bridgeObj.modify()->setBridgeName(newBridge->getBridgeName());
   bridgeObj.modify()->setLocation(newBridge->getLocation());
