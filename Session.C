@@ -1,5 +1,6 @@
-#include "Session.h"
 
+
+#include "Session.h"
 
 #include "Wt/Auth/AuthService"
 #include "Wt/Auth/HashFunction"
@@ -16,7 +17,7 @@
 #ifndef WT_WIN32
 #include <unistd.h>
 #endif
-
+//check if crypting is avalible
 #if !defined(WT_WIN32) && !defined(__CYGWIN__) && !defined(ANDROID)
 #define HAVE_CRYPT
 #endif
@@ -64,13 +65,12 @@ class UnixCryptHashFunction : public Auth::HashFunction
   Auth::PasswordService myPasswordService(myAuthService);
   MyOAuth myOAuthServices;
 }
-
+//
 void Session::configureAuth()
 {
   myAuthService.setAuthTokensEnabled(true, "hueappcookie");
   myAuthService.setEmailVerificationEnabled(true);
   myAuthService.setIdentityPolicy(Wt::Auth::IdentityPolicy::EmailAddressIdentity);
-  //myAuthService.setEmailPolicy(Wt::Auth::EmailPolicy::Mandatory)
 
   Auth::PasswordVerifier *verifier = new Auth::PasswordVerifier();
   verifier->addHashFunction(new Auth::BCryptHashFunction(7));
@@ -85,6 +85,7 @@ void Session::configureAuth()
   if (Auth::GoogleService::configured())
     myOAuthServices.push_back(new Auth::GoogleService(myAuthService));
 }
+
 
 Session::Session()
   : sqlite3_(WApplication::instance()->appRoot() + "hueApp.db")
@@ -176,7 +177,10 @@ dbo::ptr<User> Session::user(const Wt::Auth::User& authUser)
   return user;
 }
 
-
+// Function Name: userName()
+// Parameters: none
+// Return: string
+// Description: get the username of the currently logged in user.
 std::string Session::userName() const
 {
   if (login_.loggedIn())
@@ -185,6 +189,10 @@ std::string Session::userName() const
     return std::string();
 }
 
+// Function Name: firstName()
+// Parameters: none
+// Return: string
+// Description: get the first name of the currently logged in user.
 std::string Session::firstName() const
 {
   if (login_.loggedIn()) {
@@ -196,6 +204,10 @@ std::string Session::firstName() const
     return std::string();
 }
 
+// Function Name: lastName()
+// Parameters: none
+// Return: string
+// Description: get the last name of the currently logged in user.
 std::string Session::lastName() const
 {
   if (login_.loggedIn()) {
@@ -208,6 +220,10 @@ std::string Session::lastName() const
 }
 //---------------------
 
+// Function Name: getBridge()
+// Parameters: string of ip and string of port for desired bridge in db
+// Return: Bridge Object
+// Description: Get a bridge from the database with a given ip address and port number.
 Bridge* Session::getBridge(std::string ip, std::string port){
   dbo::Transaction transaction(session_);
 
@@ -220,6 +236,10 @@ Bridge* Session::getBridge(std::string ip, std::string port){
   transaction.commit();
 }
 
+// Function Name: deleteBridge()
+// Parameters: string of ip and string of port for desired bridge in db
+// Return: boolean if it deleted or not
+// Description: Delete a bridge from the database with a given ip address and port number.
 bool Session::deleteBridge(std::string ip, std::string port){
   dbo::Transaction transaction(session_);
 
@@ -236,12 +256,16 @@ bool Session::deleteBridge(std::string ip, std::string port){
   transaction.commit();
 }
 
+// Function Name: updateBridge()
+// Parameters: old bridge object holding the ip/port to change + the newBridge information
+// Return: none
+// Description: Changes attributes in the ip/port of old bridge with all new attributes from newBridge
 void Session::updateBridge(Bridge* oldBridge, Bridge* newBridge){
   dbo::Transaction transaction(session_);
 
   dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
                 .where("ipAddress = ?").bind(oldBridge->getIpAddress())
-                .where("portNumber = ?").bind(oldBridge->getIpAddress());
+                .where("portNumber = ?").bind(std::to_string(oldBridge->getPortNumber()));
 
   bridgeObj.modify()->setBridgeName(newBridge->getBridgeName());
   bridgeObj.modify()->setLocation(newBridge->getLocation());
@@ -254,14 +278,12 @@ void Session::updateBridge(Bridge* oldBridge, Bridge* newBridge){
   transaction.commit();
 }
 
+// Function Name: getAllBridges()
+// Parameters: none
+// Return: a vector of bridge objects
+// Description: Get all the bridges in the database.
 std::vector<Bridge> Session::getAllBridges(){
   dbo::Transaction transaction(session_);
-
-
-  dbo::ptr<User> u = user();
-  if (u && u.modify()->name == "") {
-    u.modify()->name = userName();
-  }
 
   Wt::Dbo::Query<BridgePtr> query = session_.find<Bridge>();
   Bridges_Collection bridges = query.resultList();
@@ -275,6 +297,10 @@ std::vector<Bridge> Session::getAllBridges(){
   return x;
 }
 
+// Function Name: getBridges()
+// Parameters: none
+// Return: a vector of bridge objects
+// Description: Get the currently logged in user's bridges in the database.
 std::vector<Bridge> Session::getBridges(){
   dbo::Transaction transaction(session_);
 
@@ -294,6 +320,10 @@ std::vector<Bridge> Session::getBridges(){
   return x;
 }
 
+// Function Name: addBridge()
+// Parameters: bridge object to be inserted
+// Return: boolean of it failed or not
+// Description: add a bridge to the database
 bool Session::addBridge(Bridge* newBridge){
   
   dbo::Transaction transaction(session_);
@@ -315,7 +345,10 @@ bool Session::addBridge(Bridge* newBridge){
   transaction.commit();
 }
 
-
+// Function Name: updateUser()
+// Parameters: User object to replace/alter the current one
+// Return: none
+// Description: updates the current logged in user with a new info.
 void Session::updateUser(User* newUser){
   dbo::Transaction transaction(session_);
 
@@ -325,26 +358,13 @@ void Session::updateUser(User* newUser){
   user.modify()->lastName = newUser->lastName;
   user.modify()->email = newUser->email;
   user.modify()->bridgeUserID = newUser->bridgeUserID;
-  //user.modify()->bridge = newUser->bridge; 
 
   transaction.commit();
 }
-/*
-void Session::setUserBelongsTo(Bridge* x){
-  dbo::Transaction transaction(session_);
-  dbo::ptr<Bridge> aBridge =  session_.add(x);
-  //dbo::ptr<Bridge> aBridge = session_.find<Bridge>().where("ipAddress = ?").bind(x->getIpAddress())
-  //.where("portNumber = ?").bind(x->getPortNumber());
-  dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
-
-  if(aBridge && user){
-    user.modify()->bridges.insert(aBridge);
-  }
-
-  transaction.commit();
-}
-*/
-
+// Function Name: getAllBridges()
+// Parameters: none
+// Return: User object of currently logged in user
+// Description: Getter function for the user object of the currently logged in user.
 User* Session::getUser(){
   dbo::Transaction transaction(session_);
   dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
@@ -355,7 +375,10 @@ User* Session::getUser(){
   //-------------------------------------
   //---------Bridge With Users DB--------
   //-------------------------------------
-// doesn't check for duplicate user + bridge
+// Function Name: getAllBridges()
+// Parameters: none
+// Return: a vector of bridge objects
+// Description: Get all the bridges in the database.
 void Session::addBridgeUserId(Bridge *y, std::string bridgeUserId){
   dbo::Transaction transaction(session_);
   
@@ -385,6 +408,10 @@ void Session::addBridgeUserId(Bridge *y, std::string bridgeUserId){
 }
 
 //======GETTERS======
+// Function Name: getBridgeUserId()
+// Parameters: none
+// Return: a vector of bridgeUserIds objects
+// Description: get a vector of all the BridgeUserIds for the currently logged in user.
 std::vector<BridgeUserIds> Session::getBridgeUserId(){
   dbo::Transaction transaction(session_);
   Wt::Dbo::Query<BridgeUserIds_Ptr> query = session_.find<BridgeUserIds>()
@@ -405,6 +432,10 @@ std::vector<BridgeUserIds> Session::getBridgeUserId(){
   return x;
 }
 
+// Function Name: getBridgeUserId()
+// Parameters: string of ip and the string of the port of a desired bridge
+// Return: a bridgeUserIds objects
+// Description: Get the object of a specific bridgeUserId for currently logged in user.
 BridgeUserIds* Session::getBridgeUserId(std::string ip, std::string port){
 
   dbo::Transaction transaction(session_);
@@ -427,6 +458,11 @@ BridgeUserIds* Session::getBridgeUserId(std::string ip, std::string port){
   transaction.commit();
   return y.modify();
 }
+
+// Function Name: getBridgeUserId()
+// Parameters: bridge object of desired bridge
+// Return: a bridgeUserIds objects
+// Description: Get the object of a specific bridgeUserId for currently logged in user.
 BridgeUserIds* Session::getBridgeUserId(Bridge *bridgeObj){
 
   dbo::Transaction transaction(session_);
@@ -449,7 +485,6 @@ BridgeUserIds* Session::getBridgeUserId(Bridge *bridgeObj){
   transaction.commit();
   return y.modify();
 }
-
 
 std::vector<BridgeUserIds> Session::getAllBridgeUserId(){
   dbo::Transaction transaction(session_);
@@ -707,66 +742,7 @@ bool Session::addLight(Light* newLight){
 
   transaction.commit();
 }
-/*
-bool Session::addLight(Light* newLight, std::string bridgeIP){
-  
-  dbo::Transaction transaction(session_);
 
-  dbo::ptr<Light> lightObj;
-  dbo::ptr<Bridge> bridgeObj;
-    lightObj = session_.find<Light>().where("name = ?").bind(newLight->getName());
-    bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(bridgeIP);
-    if(!lightObj && !bridgeObj ){
-      lightObj->
-      lightObj = session_.add(newLight);
-      return true;
-    }else{
-      std::cerr << "Error adding newLight to DB (might exist already)" << std::endl;
-      return false;
-    }
-
-  transaction.commit();
-}*/
-
-//---------------------
-/*
-std::vector<User> Session::topUsers(int limit){
-  dbo::Transaction transaction(session_);
-
-  Users top = session_.find<User>().orderBy("score desc").limit(limit);
-
-  std::vector<User> result;
-  for (Users::const_iterator i = top.begin(); i != top.end(); ++i) {
-    dbo::ptr<User> user = *i;
-    result.push_back(*user);
- 
-    dbo::ptr<AuthInfo> auth = *user->authInfos.begin();
-    std::string name = auth->identity(Auth::Identity::LoginName).toUTF8();
-
-    result.back().name = name;
-  }
-
-  transaction.commit();
-
-  return result;
-}
-
-int Session::findRanking()
-{
-  dbo::Transaction transaction(session_);
-  
-  dbo::ptr<User> u = user();
-  int ranking = -1;
-
-  if (u)
-    ranking = session_.query<int>("select distinct count(score) from user")
-      .where("score > ?").bind(u->score);
-
-  transaction.commit();
-  
-  return ranking + 1;
-}
-*/
 Auth::AbstractUserDatabase& Session::users()
 {
   return *users_;
