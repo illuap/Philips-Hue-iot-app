@@ -114,22 +114,6 @@ Session::Session()
     guestUser.addIdentity(Auth::Identity::LoginName, "guest");
     myPasswordService.updatePassword(guestUser, "guest");
 
-    Bridge *bridgeObj = new Bridge();
-    bridgeObj->setIpAddress("127.0.0.1");
-    bridgeObj->setPortNumber(8000);
-    Bridge *bridgeObj2 = new Bridge();
-    bridgeObj2->setIpAddress("127.0.0.1");
-    bridgeObj2->setPortNumber(8001);
-    Bridge *bridgeObj3 = new Bridge();
-    bridgeObj3->setIpAddress("127.0.0.1");
-    bridgeObj3->setPortNumber(8002);
-
-    this->addBridge(bridgeObj);
-    this->addBridge(bridgeObj2);
-    this->addBridge(bridgeObj3);
-
-    Light *light1 = new Light("name1","type1",200,201,202,true,203);
-    dbo::ptr<Light> light1ptr = session_.add(light1);
 
     Wt::log("info") << "Database created";
   } catch (...) {
