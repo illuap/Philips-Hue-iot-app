@@ -222,10 +222,7 @@ bool Session::deleteBridge(std::string ip, std::string port){
 void Session::updateBridge(Bridge* oldBridge, Bridge* newBridge){
   dbo::Transaction transaction(session_);
   Wt::log("info") << "xxxxxxxx" << newBridge->getIpAddress() << ":" << newBridge->getPortNumber() ;
-  dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
-	  .where("ipAddress = ?").bind(newBridge->getIpAddress())
-	  .where("portNumber = ?").bind(newBridge->getPortNumber());
-
+ 
   dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
                 .where("ipAddress = ?").bind(oldBridge->getIpAddress())
                 .where("portNumber = ?").bind(oldBridge->getIpAddress());
@@ -236,10 +233,7 @@ void Session::updateBridge(Bridge* oldBridge, Bridge* newBridge){
 	  bridgeObj.modify()->setUserId(newBridge->getUserId());
 	  bridgeObj.modify()->setRegistered(newBridge->getRegistered());
 	  bridgeObj.modify()->setPortNumber(newBridge->getPortNumber());
-  }
-  else {
-	  Wt::log("info") << "Update failed";
-  }
+
  
   transaction.commit();
 }

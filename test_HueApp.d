@@ -1529,7 +1529,8 @@ test_HueApp.o: HueApp.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/system/system_error.hpp BridgeControl.h \
  /usr/local/include/Wt/WSound /usr/local/include/Wt/WMediaPlayer \
  /usr/local/include/Wt/WCompositeWidget GroupsControl.h \
- SingleGroupsControl.h SchedulerControl.h AuthWidget.h
+ SingleGroupsControl.h BridgeEditControl.h SchedulerControl.h \
+ AuthWidget.h
 
 /usr/include/stdc-predef.h:
 
@@ -4834,6 +4835,8 @@ BridgeControl.h:
 GroupsControl.h:
 
 SingleGroupsControl.h:
+
+BridgeEditControl.h:
 
 SchedulerControl.h:
 

@@ -1519,7 +1519,7 @@ test_Main.o: Main.C /usr/include/stdc-predef.h \
  /usr/local/include/boost/cerrno.hpp BridgeControl.h \
  /usr/local/include/Wt/WSound /usr/local/include/Wt/WMediaPlayer \
  /usr/local/include/Wt/WCompositeWidget GroupsControl.h \
- SingleGroupsControl.h SchedulerControl.h
+ SingleGroupsControl.h BridgeEditControl.h SchedulerControl.h
 
 /usr/include/stdc-predef.h:
 
@@ -4784,5 +4784,7 @@ BridgeControl.h:
 GroupsControl.h:
 
 SingleGroupsControl.h:
+
+BridgeEditControl.h:
 
 SchedulerControl.h:
