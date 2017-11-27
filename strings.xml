@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <messages>
   <message id="Wt.Auth.login-form-info">
-    If you would rather not register for some reason, use the
+    Welcome to the Hue Lights Editor. This server allows you to manage your bridges, lights, groups and schedules. If you would rather not register for some reason, use the
     <b>guest/guest</b> account.
   </message>
 
