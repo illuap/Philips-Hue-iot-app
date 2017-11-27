@@ -32,7 +32,6 @@ boost::mutex mutex;                // in the MyResource.cpp
 
 string ipAddress = "ip";
 string port = "port";
-string name = "";
 
 BridgeControlWidget::BridgeControlWidget(Session *session, WContainerWidget *parent):
   WContainerWidget(parent),
@@ -185,13 +184,12 @@ void BridgeControlWidget::registerBridge() {
 		vector<Bridge> bridges = session_->getBridges();
 		//Makes a POST request to register the bridge if there are no bridges registered yet
 		if (bridges.empty()) {
-			//confirm_->setText("Are you sure?");
+			confirm_->setText("Are you sure?");
 			Http::Client *client = BridgeControlWidget::connect();
 			Http::Message *msg = new Http::Message();
 			msg->addBodyText("{\"devicetype\" : \"danny\"}");
 			client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
 			client->post("http://" + ip + ":" + port + "/api", *msg);
-			//update();
 
 		}
 
@@ -245,4 +243,4 @@ void BridgeControlWidget::showLights()
 	//playButton->clicked().connect(s, &WSound::play);
 	//stopButton->clicked().connect(s, &WSound::stop);
 
-	messageReceived_->play();
+	//messageReceived_->play();

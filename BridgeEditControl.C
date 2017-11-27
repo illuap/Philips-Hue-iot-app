@@ -1,4 +1,15 @@
-
+/**
+* @file BridgeEditControl.C
+* @Author Daniel Le
+* @date November 26, 2017
+* @brief Page for editing a bridge's data
+*
+* Creates a page that allows the user to modify the bridge's name, IP address, port number, and/or location
+* Displays an error if an invalid input is given or if in the case of port number, the port is already taken
+*
+*
+*
+**/
 #include <stdio.h>
 #include <iostream>
 #include <vector>
@@ -34,7 +45,14 @@ BridgeEditControlWidget::BridgeEditControlWidget(Session *session, WContainerWid
 	setStyleClass("highscores");
 }
 
-
+/*
+* 
+* @brief Updates page
+*
+* Reloads the page to refresh the list of existing bridges and reset the form for entering 
+* bridge name, IP address, port number, and location
+* @return Void.
+**/
 void BridgeEditControlWidget::update()
 {
 	clear();
@@ -92,14 +110,32 @@ void BridgeEditControlWidget::update()
 	(boost::bind(&BridgeEditControlWidget::updateEdit, this));
 }
 
-//creates a client
+/**
+* @brief Connects to a client
+* 
+* Creates a client object and connects to it
+*
+* @return The client object
+**/
 Http::Client * BridgeEditControlWidget::connect() {
 	Http::Client *client = new Http::Client(this);
 	client->setTimeout(15);
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-//handles post register requests and sets the bridge's registered status and user id
+/**
+* @brief Handles POST response and adds bridge to the database
+*
+* Receives the response after a POST call to the server to register a user with the new bridge
+* First checks if an error was returned from the server because the bridge was not linked yet
+* If the POST call was successful, the username is retrieved from the response's JSON string 
+* The bridge's name, IP address, port number, and location are retrieved from the input form
+* The original bridge will be deleted and then recreated with the new information before being placed into the database
+*
+* @param err Error code indicating if an error occurrred
+* @param response Message containing the response from the server
+* @return Void.
+**/
 void BridgeEditControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
@@ -143,9 +179,14 @@ void BridgeEditControlWidget::handleHttpResponse(boost::system::error_code err, 
 	}
 
 }
-
-
-
+/**
+* @brief Checks the input is valid
+*
+* First checks to make sure the port number has received a number as input. Then checks if the given port number is already in use. 
+* If either of these are false, displays an error message for the corresponding error. If there are no errors, it makes a POST call to the server
+* which sets the new bridge as registered to the user
+* @return Void.
+**/
 void BridgeEditControlWidget::updateEdit() {
 	errorText_->setText("");
 	string portNum = portEdit_->text().toUTF8();
