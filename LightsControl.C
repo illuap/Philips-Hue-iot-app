@@ -171,11 +171,18 @@ void LightsControlWidget::update()
   change_ = new WText(this);                          //displays the status of a light change
   this->addWidget(new WBreak());
 
+
   //go to the groups page
   WPushButton *groupButton						
 	  = new WPushButton("Go to My Groups", this);
   groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
   groupButton->setMargin(10, Left);
+
+  //go to the Schedule page
+  WPushButton *schedulerButton            
+    = new WPushButton("Scheduler", this);
+  schedulerButton->setLink("/?_=/scheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+  schedulerButton->setMargin(10, Left);
 
   //go back to bridge page
   WPushButton *returnButton							
@@ -478,6 +485,8 @@ void LightsControlWidget::transition() {
 		change_->setText("new Transition Time: " + to_string(input * 100) + "ms");
 	}
 }
+
+
 
 // Function Name: returnBridge()
 // Parameters: none
