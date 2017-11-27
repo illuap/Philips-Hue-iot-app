@@ -12,6 +12,7 @@
 #include "BridgeControl.h"
 #include "GroupsControl.h"
 #include "SingleGroupsControl.h"
+#include "BridgeEditControl.h"
 #include "SchedulerControl.h"
 
 
@@ -31,6 +32,7 @@ class LightsControlWidget;
 class BridgeControlWidget;
 class GroupsControlWidget;
 class SingleGroupsControlWidget;
+class BridgeEditControlWidget;
 class SchedulerControlWidget;
 
 
@@ -47,6 +49,7 @@ private:
   BridgeControlWidget *the_Bridge;
   GroupsControlWidget *the_Groups;
   SingleGroupsControlWidget *the_SingleGroups;
+  BridgeEditControlWidget *the_BridgeEdit;
   SchedulerControlWidget * the_Schedulers; 
 
   // Wt::WContainerWidget *links_;
@@ -61,6 +64,7 @@ private:
   void showBridge();
   void showGroups();
   void showSingleGroups();
+  void showBridgeEdit();
   void showSchedulers(); 
 
 };

@@ -1,0 +1,362 @@
+
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+
+#include <Wt/WApplication>
+#include <Wt/WBreak>
+#include <Wt/WContainerWidget>
+#include <Wt/WLineEdit>
+#include <Wt/WPushButton>
+#include <Wt/WText>
+#include <Wt/Http/Message>
+#include <Wt/Http/Client>
+#include <Wt/Json/Value>
+#include <Wt/Json/Object>
+#include <Wt/Json/Parser>
+#include <Wt/WLogger>
+#include <Wt/WSound>
+#include <algorithm>
+
+#include "BridgeControl.h"
+#include "Session.h"
+#include "BridgeUserIds.h"
+
+using namespace Wt;
+using namespace std;
+
+#include <boost/thread.hpp>
+
+boost::mutex mutex;                // in the MyResource.cpp 
+                                          // used preventing thread locking
+
+string ipAddress = "ip";
+string port = "port";
+string name = "";
+
+BridgeControlWidget::BridgeControlWidget(Session *session, WContainerWidget *parent):
+  WContainerWidget(parent),
+  session_(session),
+  messageReceived_(0)
+{
+  setContentAlignment(AlignCenter);
+  setStyleClass("highscores");
+  
+}
+
+
+void BridgeControlWidget::update()
+{
+	clear();
+	
+	this ->addWidget(new WBreak());
+
+	//Database function to get the list of bridge ip addresses
+
+	std::vector<Bridge> bridges = session_->getBridges();
+
+	this->addWidget(new WText("Existing bridges:"));
+	this->addWidget(new WBreak());
+	Bridge x; 
+	for (unsigned int i = 0; i < bridges.size(); i++) {
+    // A widget can be added to a container by using addWidget()
+		x = bridges[i];
+		WPushButton *currentButton = new WPushButton(x.getBridgeName(),this);
+		currentButton->setLink("/?_=/lights?user="+x.getUserId()+"%26ip="+x.getIpAddress()+"%26port="+std::to_string(x.getPortNumber()));
+	} 
+
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	//Input for the bridge name
+	this->addWidget(new WText("Enter a bridge name: "));
+	name_ = new WLineEdit(this);
+	name_->setMargin(5, Left);
+	this->addWidget(new WBreak());
+	
+	//Input for the ip address
+	ip_ = new WText(this);
+	ip_->setText("Enter the IP Address");
+	ipEdit_ = new WLineEdit(this);
+	ipEdit_->setMargin(5, Left);
+	this->addWidget(new WBreak());
+
+	//Input for the port number
+	port_ = new WText(this);
+	port_->setText("Enter the port number");
+	portEdit_ = new WLineEdit(this);
+	portEdit_->setMargin(5, Left);
+	this->addWidget(new WBreak());
+
+	//Input for the location
+	location_ = new WText(this);
+	location_->setText("Enter the location");
+	locationEdit_ = new WLineEdit(this);
+	locationEdit_->setMargin(5, Left);
+	this->addWidget(new WBreak());
+
+	//Register the bridge
+	WPushButton *button
+		= new WPushButton("Register", this);										
+	button->setMargin(5, Left);
+	this->addWidget(new WBreak());
+	confirm_ = new WText(this);
+
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	//Text displaying any errors
+	errorText_ = new WText(this);
+
+	this->addWidget(new WBreak());
+
+<<<<<<< HEAD
+||||||| merged common ancestors
+	//-- TESTING
+	WPushButton *testbtn = new WPushButton("TEST", this);	
+	//--
+=======
+	if (!messageReceived_){
+      messageReceived_ = new WSound("sounds/message_received.mp3");
+  		messageReceived_->setLoops(1);
+  	}
+
+
+	//-- TESTING
+	WPushButton *testbtn = new WPushButton("TEST", this);	
+	//--
+>>>>>>> 47c2b7fb194377007f0f02b7cb03569b5836124e
+	button->clicked().connect(this, &BridgeControlWidget::registerBridge);
+	(boost::bind(&BridgeControlWidget::registerBridge, this));
+	(boost::bind(&BridgeControlWidget::handleHttpResponse, this));
+	(boost::bind(&BridgeControlWidget::connect, this));
+
+<<<<<<< HEAD
+||||||| merged common ancestors
+	testbtn->clicked().connect(this, &BridgeControlWidget::test);
+	(boost::bind(&BridgeControlWidget::test, this));
+
+=======
+	testbtn->clicked().connect(this, &BridgeControlWidget::test);
+	(boost::bind(&BridgeControlWidget::test, this));
+
+	/*
+	WPushButton *playButton= new WPushButton("xxx", this);
+
+	playButton->clicked().connect(s, &WSound::play);*/
+
+>>>>>>> 47c2b7fb194377007f0f02b7cb03569b5836124e
+}
+
+//creates a client
+Http::Client * BridgeControlWidget::connect() {
+	Http::Client *client = new Http::Client(this);
+	client->setTimeout(15);
+	client->setMaximumResponseSize(10 * 1024);
+}
+
+//handles post register requests and sets the bridge's registered status and user id
+void BridgeControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
+	WApplication::instance()->resumeRendering();
+	if (!err && response.status() == 200) {
+		if (response.body().find("error") != -1) {
+			update();
+			errorText_->setText("Please link the bridge");
+		}
+		else {
+			//Parse the username from the response JSON
+			size_t pos = response.body().find("username");
+			string substring = response.body().substr(pos + 11);
+			size_t end = substring.find("\"");
+			username = substring.substr(0, end);
+
+
+			//Get the bridge name, ip address, port number, and location
+			string name = name_->text().toUTF8();
+			string ip = ipEdit_->text().toUTF8();
+			string port = portEdit_->text().toUTF8();
+			string location = locationEdit_->text().toUTF8();
+
+			//Creates a new bridge and adds it to the database
+			Bridge *temp = new Bridge();
+			temp->setBridgeName(name);
+			temp->setIpAddress(ip);
+			int x = stoi(port);
+			temp->setPortNumber(x);
+			temp->setUserId(username);
+			temp->setLocation(location);
+
+			
+			session_->addBridge(temp);
+			session_->addBridgeUserId(temp, username);
+			update();
+			
+
+		}
+		}
+		
+}
+
+void BridgeControlWidget::registerBridge() {
+	string name = name_->text().toUTF8();
+	string ip = ipEdit_->text().toUTF8();
+	string port = portEdit_->text().toUTF8();
+
+	//Checks if entered port number is an integer
+	if (!port.empty() && find_if(port.begin(), port.end(), [](char c) { return !std::isdigit(c); }) == port.end()) {
+		vector<Bridge> bridges = session_->getBridges();
+		//Makes a POST request to register the bridge if there are no bridges registered yet
+		if (bridges.empty()) {
+			//confirm_->setText("Are you sure?");
+			Http::Client *client = BridgeControlWidget::connect();
+			Http::Message *msg = new Http::Message();
+			msg->addBodyText("{\"devicetype\" : \"danny\"}");
+			client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
+			client->post("http://" + ip + ":" + port + "/api", *msg);
+			//update();
+
+		}
+
+		else {
+			vector<int> ports;
+			bool foundPort = false;
+			//Creates a vector of all the port numbers
+			for (size_t i = 0; i<bridges.size(); i++) {
+				ports.push_back(bridges[i].getPortNumber());
+			}
+
+			//Makes a POST request to register the bridge if the bridge with the given port number isn't registered yet
+			for (size_t i = 0; i<ports.size(); i++) {
+				if (ports[i] == stoi(port)) {
+					foundPort = true;
+				}
+			}
+
+			if (foundPort == false) {
+				confirm_->setText("Are you sure?");
+				Http::Client *client = BridgeControlWidget::connect();
+				Http::Message *msg = new Http::Message();
+				msg->addBodyText("{\"devicetype\" : \"danny\"}");
+				client->done().connect(boost::bind(&BridgeControlWidget::handleHttpResponse, this, _1, _2));
+				client->post("http://" + ip + ":" + port + "/api", *msg);
+			}
+
+			//Displays an error if the bridge is already registered
+			else {
+				errorText_->setText("Bridge already registered");
+			}
+		}
+	}
+
+	//Displays an error if an integer was not entered for the port number
+	else {
+		errorText_->setText("Not a valid port number");
+	}
+}
+void BridgeControlWidget::showLights() 
+{
+	clear();
+	WApplication::instance()->setInternalPath("/lights?user="+username+"&ip="+ip+"&port="+port,  true);
+}
+<<<<<<< HEAD
+||||||| merged common ancestors
+//-------
+//creates a client
+void BridgeControlWidget::test() {
+	Wt::log("info") << "Test function START";
+
+	Bridge *bridgeObj = new Bridge();
+	bridgeObj->setIpAddress("127.0.0.1");
+	bridgeObj->setPortNumber(8000);
+	Bridge *bridgeObj2 = new Bridge();
+	bridgeObj2->setIpAddress("127.0.0.1");
+	bridgeObj2->setPortNumber(8001);
+	Bridge *bridgeObj3 = new Bridge();
+	bridgeObj3->setIpAddress("127.0.0.1");
+	bridgeObj3->setPortNumber(8002);
+
+	session_->addBridgeUserId(bridgeObj, "wtf");
+	session_->addBridgeUserId(bridgeObj2, "wtf2");
+	session_->addBridgeUserId(bridgeObj3, "wtf3");
+
+	session_->getBridgeUserId();
+	Wt::log("info") << "2nd function";
+	session_->getBridgeUserId("127.0.0.1","8000");
+	Wt::log("info") << "3rd function";
+	session_->getBridgeUserId(bridgeObj);
+	Wt::log("info") << "4th function";
+	session_->getAllBridgeUserId();
+	Wt::log("info") << "5th function";
+	session_->getAllBridgeUserId("127.0.0.1","8000");
+	Wt::log("info") << "6th function";
+	session_->getAllBridgeUserId(bridgeObj);
+	
+
+	Wt::log("info") << "7th function";
+	session_->deleteBridgeUserId();
+	session_->addBridgeUserId(bridgeObj, "wtf");
+	session_->addBridgeUserId(bridgeObj2, "wtf2");
+	session_->addBridgeUserId(bridgeObj3, "wtf3");
+
+	Wt::log("info") << "7th function";
+	session_->deleteBridgeUserId("127.0.0.1","8001");
+
+
+	Wt::log("info") << "Test function END";
+
+}
+=======
+//-------
+//creates a client
+void BridgeControlWidget::test() {
+	//Wt::WSound* messageReceived_;
+	//messageReceived_= new WSound("sounds/message_received.mp3");
+	//messageReceived_->play();
+
+
+	//playButton->clicked().connect(s, &WSound::play);
+	//stopButton->clicked().connect(s, &WSound::stop);
+
+	messageReceived_->play();
+
+	Wt::log("info") << "Test function START";
+
+	Bridge *bridgeObj = new Bridge();
+	bridgeObj->setIpAddress("127.0.0.1");
+	bridgeObj->setPortNumber(8000);
+	Bridge *bridgeObj2 = new Bridge();
+	bridgeObj2->setIpAddress("127.0.0.1");
+	bridgeObj2->setPortNumber(8001);
+	Bridge *bridgeObj3 = new Bridge();
+	bridgeObj3->setIpAddress("127.0.0.1");
+	bridgeObj3->setPortNumber(8002);
+
+	session_->addBridgeUserId(bridgeObj, "wtf");
+	session_->addBridgeUserId(bridgeObj2, "wtf2");
+	session_->addBridgeUserId(bridgeObj3, "wtf3");
+
+	session_->getBridgeUserId();
+	Wt::log("info") << "2nd function";
+	session_->getBridgeUserId("127.0.0.1","8000");
+	Wt::log("info") << "3rd function";
+	session_->getBridgeUserId(bridgeObj);
+	Wt::log("info") << "4th function";
+	session_->getAllBridgeUserId();
+	Wt::log("info") << "5th function";
+	session_->getAllBridgeUserId("127.0.0.1","8000");
+	Wt::log("info") << "6th function";
+	session_->getAllBridgeUserId(bridgeObj);
+	
+
+	Wt::log("info") << "7th function";
+	session_->deleteBridgeUserId();
+	session_->addBridgeUserId(bridgeObj, "wtf");
+	session_->addBridgeUserId(bridgeObj2, "wtf2");
+	session_->addBridgeUserId(bridgeObj3, "wtf3");
+
+	Wt::log("info") << "7th function";
+	session_->deleteBridgeUserId("127.0.0.1","8001");
+
+
+	Wt::log("info") << "Test function END";
+
+}
+>>>>>>> 47c2b7fb194377007f0f02b7cb03569b5836124e

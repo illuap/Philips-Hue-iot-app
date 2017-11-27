@@ -1,4 +1,5 @@
 /** @file SingleGroupsControl.h
+*  @class SingleGroupsControl
 *  @brief Function prototypes for the SingleGroupsControl class that manages the deletion, states and changes of states in groups
 *  @author Nicole Chow
 *  @author Weija Zhou
@@ -28,7 +29,8 @@ public:
 	*/
 	SingleGroupsControlWidget(Session *session, Wt::WContainerWidget *parent = 0);
 	
-	/** @brief loads SingleGroupsControlWidget page
+	/** @fn void update()
+	*  @brief loads SingleGroupsControlWidget page
 	*  @return Void
 	*/
 	void update();
@@ -52,139 +54,163 @@ private:
 	Wt::WComboBox *addChoices_;										/*!< selected light to add to group */
 	Wt::WComboBox *removeChoices_;									/*!< selected light to remove from group */
 	
-	/** @brief creates an HTTP client
+	/** @fn Wt::Http::Client * connect() 
+	*  @brief creates an HTTP client
 	*  @return Http::Client
 	*/
 	Wt::Http::Client * connect();
 
-	/** @brief plays party.wav for party mode
+	/** @fn static void music(Wt::WSound *sound) 
+	*  @brief plays music in background
 	*  @param sound audio file
 	*  @return Void
 	*/
 	static void music(Wt::WSound *sound);
 
-	/** @brief turns group's lights on
+	/** @fn void on() 
+	*  @brief turns group's lights on
 	*  @return Void
 	*/
 	void on();
 
-	/** @brief turns group's lights off
+	/** @fn void off() 
+	*  @brief turns group's lights off
 	*  @return Void
 	*/
 	void off();
 
-	/** @brief changes group's hue
+	/** @fn void hue() 
+	*  @brief changes group's hue
 	*  @return Void
 	*/
 	void hue();
 
-	/** @brief changes group's brightness
+	/** @fn void bright() 
+	*  @brief changes group's brightness
 	*  @return Void
 	*/
 	void bright();
 
-	/** @brief changes group's saturation
+	/** @fn void sat() 
+	*  @brief changes group's saturation
 	*  @return Void
 	*/
 	void sat();
 
-	/** @brief changes group's name
+	/** @fn void name() 
+	*  @brief changes group's name
 	*  @return Void
 	*/
 	void name();
 
-	/** @brief changes group's transition time
+	/** @fn void transition() 
+	*  @brief changes group's transition time
 	*  @return Void
 	*/
 	void transition();
 
-	/** @brief adds light to group
+	/** @fn void addLights() 
+	*  @brief adds light to group
 	*  @return Void
 	*/
 	void addLights();
 
-	/** @brief removes light from group
+	/** @fn void removeLights() 
+	*  @brief removes light from group
 	*  @return Void
 	*/
 	void removeLights();
 
-	/** @brief puts group on party mode for 10s (color looping). Must wait for party mode to finish. 
+	/** @fn void partyMode() 
+	*  @brief puts group on party mode for 10s (color looping). Must wait for party mode to finish. 
 	*  @return Void
 	*/
 	void partyMode();
 
-	/** @brief puts group on sunset mode (yellows)
+	/** @fn void sunsetMode() 
+	*  @brief puts group on sunset mode (yellows)
 	*  @return Void
 	*/
 	void sunsetMode();
 
-	/** @brief puts group on fifty mode (greys)
+	/** @fn void fiftyMode() 
+	*  @brief puts group on fifty mode (greys)
 	*  @return Void
 	*/
 	void fiftyMode();
 
 
-	/** @brief puts group on mustang mode (purples)
+	/** @fn void mustangMode()
+	*  @brief puts group on mustang mode (purples)
 	*  @return Void
 	*/
 	void mustangMode();
 
 
-	/** @brief puts group on blood mode (reds)
+	/** @fn void bloodMode() 
+	*  @brief puts group on blood mode (reds)
 	*  @return Void
 	*/
 	void bloodMode();
 
 
-	/** @brief puts group on ocean mode (blues)
+	/** @fn void oceanMode() 
+	*  @brief puts group on ocean mode (blues)
 	*  @return Void
 	*/
 	void oceanMode();
 
 
-	/** @brief puts group on fire mode (oranges)
+	/** @fn void fireMode() 
+	*  @brief puts group on fire mode (oranges)
 	*  @return Void
 	*/
 	void fireMode();
 
 
-	/** @brief puts group on forest mode (greens)
+	/** @fn void forestMode()
+	*  @brief puts group on forest mode (greens)
 	*  @return Void
 	*/
 	void forestMode();
 
 
-	/** @brief deletes a group
+	/** @fn void deleteGroup()
+	*  @brief deletes a group
 	*  @return Void
 	*/
 	void deleteGroup();
 
 
-	/** @brief returns user to bridge page
+	/** @fn void returnBridge()
+	*  @brief returns user to bridge page
 	*  @return Void
 	*/
 	void returnBridge();
 
-	/** @brief handles response and displays group information
+	/** @fn void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response) 
+	*  @brief handles response and displays group information
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
 	*/
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 
-	/** @brief handles response reloads page
+	/** @fn void handleHttpResponseUpdate(boost::system::error_code err, const Wt::Http::Message& response)
+	*  @brief handles response reloads page
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponseUpdate(boost::system::error_code err, const Wt::Http::Message& response);
+	void handleHttpResponseUpdate(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
 
-	/** @brief handles response and does nothing
+	/** @fn void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response)
+	*  @brief handles response and does nothing
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
+	void handleHttpResponseVOID(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
 };
 
 #endif

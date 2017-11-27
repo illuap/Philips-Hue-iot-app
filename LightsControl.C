@@ -1,6 +1,11 @@
-// LightsControl.C : Defines the LightsControlWidget Application for altering states of individual lights
-// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
-// Date: Nov 28, 2017
+/** @file LightsControl.C
+*  @brief Application for altering states of individual lights
+*  @author Nicole Chow
+*  @author Weija Zhou
+*  @author Paul Li
+*  @author Daniel Le
+*  @date Nov 28, 2017
+*/
 
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
@@ -187,6 +192,13 @@ void LightsControlWidget::update()
   //go back to bridge page
   WPushButton *returnButton							
 	  = new WPushButton("Return To Bridge", this);
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());
+  WPushButton *editButton
+	  = new WPushButton("Edit This Bridge", this);
+  editButton->setLink("/?_=/editbridge?ip=" + ip + "%26port=" + port);
+  WPushButton *deleteButton
+	  = new WPushButton("Delete This Bridge",this);
 
   onButton->clicked().connect(this, &LightsControlWidget::on);
   nameButton->clicked().connect(this, &LightsControlWidget::name);
@@ -199,6 +211,7 @@ void LightsControlWidget::update()
   satScaleSlider_->valueChanged().connect(this, &LightsControlWidget::sat);
   hueScaleSlider_->valueChanged().connect(this, &LightsControlWidget::hue);
   transitionScaleSlider_->valueChanged().connect(this, &LightsControlWidget::transition);
+  deleteButton->clicked().connect(this, &LightsControlWidget::deleteBridge);
 
   (boost::bind(&LightsControlWidget::transition, this));
   (boost::bind(&LightsControlWidget::hue, this));
@@ -214,6 +227,7 @@ void LightsControlWidget::update()
   (boost::bind(&LightsControlWidget::lightTwo, this));
   (boost::bind(&LightsControlWidget::lightThree, this));
   (boost::bind(&LightsControlWidget::returnBridge, this));
+  (boost::bind(&LightsControlWidget::deleteBridge, this));
 }
 
 // Function Name: connect() 
@@ -465,6 +479,13 @@ void LightsControlWidget::sat() {
 		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
 		change_->setText("new Saturation: " + to_string(input));
 	}
+}
+
+//Delete the bridge and return to the home page
+void LightsControlWidget::deleteBridge() {
+	session_->deleteAllBridgeUserId(ip,port);
+	session_->deleteBridge(ip,port);
+	WApplication::instance()->setInternalPath("/bridge", true);
 }
 
 // Function Name: transition()

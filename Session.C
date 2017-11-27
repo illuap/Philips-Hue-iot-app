@@ -115,22 +115,6 @@ Session::Session()
     guestUser.addIdentity(Auth::Identity::LoginName, "guest");
     myPasswordService.updatePassword(guestUser, "guest");
 
-    Bridge *bridgeObj = new Bridge();
-    bridgeObj->setIpAddress("127.0.0.1");
-    bridgeObj->setPortNumber(8000);
-    Bridge *bridgeObj2 = new Bridge();
-    bridgeObj2->setIpAddress("127.0.0.1");
-    bridgeObj2->setPortNumber(8001);
-    Bridge *bridgeObj3 = new Bridge();
-    bridgeObj3->setIpAddress("127.0.0.1");
-    bridgeObj3->setPortNumber(8002);
-
-    this->addBridge(bridgeObj);
-    this->addBridge(bridgeObj2);
-    this->addBridge(bridgeObj3);
-
-    Light *light1 = new Light("name1","type1",200,201,202,true,203);
-    dbo::ptr<Light> light1ptr = session_.add(light1);
 
     Wt::log("info") << "Database created";
   } catch (...) {
@@ -231,9 +215,8 @@ Bridge* Session::getBridge(std::string ip, std::string port){
             .where("ipAddress = ?").bind(ip)
             .where("portNumber = ?").bind(port);
 
-  return bridgeObj.modify();
-
   transaction.commit();
+  return bridgeObj.modify();
 }
 
 // Function Name: deleteBridge()
@@ -262,19 +245,19 @@ bool Session::deleteBridge(std::string ip, std::string port){
 // Description: Changes attributes in the ip/port of old bridge with all new attributes from newBridge
 void Session::updateBridge(Bridge* oldBridge, Bridge* newBridge){
   dbo::Transaction transaction(session_);
-
+  Wt::log("info") << "xxxxxxxx" << newBridge->getIpAddress() << ":" << newBridge->getPortNumber() ;
+ 
   dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
                 .where("ipAddress = ?").bind(oldBridge->getIpAddress())
                 .where("portNumber = ?").bind(std::to_string(oldBridge->getPortNumber()));
-
-  bridgeObj.modify()->setBridgeName(newBridge->getBridgeName());
-  bridgeObj.modify()->setLocation(newBridge->getLocation());
-  bridgeObj.modify()->setIpAddress(newBridge->getIpAddress());
-  bridgeObj.modify()->setHostName(newBridge->getHostName());
-  bridgeObj.modify()->setUserId(newBridge->getUserId());
-  bridgeObj.modify()->setRegistered(newBridge->getRegistered());
-  bridgeObj.modify()->setPortNumber(newBridge->getPortNumber());
-
+	  bridgeObj.modify()->setBridgeName(newBridge->getBridgeName());
+	  bridgeObj.modify()->setLocation(newBridge->getLocation());
+	  bridgeObj.modify()->setIpAddress(newBridge->getIpAddress());
+	  bridgeObj.modify()->setHostName(newBridge->getHostName());
+	  bridgeObj.modify()->setUserId(newBridge->getUserId());
+	  bridgeObj.modify()->setRegistered(newBridge->getRegistered());
+	  bridgeObj.modify()->setPortNumber(newBridge->getPortNumber());
+ 
   transaction.commit();
 }
 
