@@ -1,9 +1,15 @@
-// This may look like C code, but it's really -*- C++ -*-
-/*
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium.
- *
- * See the LICENSE file for terms of use.
- */
+/** @file Session.h
+*  @brief Session handling for the application
+*
+*   Handles the Users who are able to access the database and create a
+*   persistent environment for our application using sqlite3. It hashes
+*   user passwords and stores tokens. The is also a multitude of functions
+*   to help access and store information into the applications database. 
+*   Through out the app session is used to authorize each user to a page.
+*
+*  @author Paul Li
+*  @date Nov 28, 2017
+*/
 
 #ifndef SESSION_H_
 #define SESSION_H_

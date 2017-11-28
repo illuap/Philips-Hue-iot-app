@@ -1,6 +1,15 @@
-
-
-#include "Session.h"
+/** @file Session.C
+*  @brief Session handling for the application
+*
+*   Handles the Users who are able to access the database and create a
+*   persistent environment for our application using sqlite3. It hashes
+*   user passwords and stores tokens. The is also a multitude of functions
+*   to help access and store information into the applications database. 
+*   Through out the app session is used to authorize each user to a page.
+*
+*  @author Paul Li
+*  @date Nov 28, 2017
+*/
 
 #include "Wt/Auth/AuthService"
 #include "Wt/Auth/HashFunction"
@@ -13,6 +22,9 @@
 
 #include <Wt/WApplication>
 #include <Wt/WLogger>
+
+#include "Session.h"
+
 
 #ifndef WT_WIN32
 #include <unistd.h>
