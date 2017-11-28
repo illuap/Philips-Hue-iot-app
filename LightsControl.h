@@ -2,9 +2,6 @@
 *  @class LightsControl
 *  @brief Function prototypes for the LightsControl class that manages the states and changes of states in lights
 *  @author Nicole Chow
-*  @author Weija Zhou
-*  @author Paul Li
-*  @author Daniel Le
 *  @date Nov 28, 2017
 */
 
@@ -24,6 +21,9 @@ public:
 
   /** @fn LightsControlWidget(Session *session, Wt::WContainerWidget *parent = 0)
   *  @brief creates a LightsControlWidget
+  *
+  *  creates a LightsControlWidget that is tied to a database session. The Widget also has a parent Container Widget
+  *
   *  @param session the database session
   *  @param parent the parent Widget Container
   *  @return LightsControlWidget
@@ -32,6 +32,9 @@ public:
   
   /** @fn void update()
   *  @brief loads LightsControlWidget page
+  *
+  *  loads the LightsControlWidget page which displays changes to a light's name, and options to change a light's state
+  *
   *  @return Void
   */
   void update();												
@@ -55,84 +58,126 @@ private:
 	
 	/** @fn Wt::Http::Client * connect()
 	*  @brief creates an HTTP client
+	*
+	*  creates an HTTP client that will be used to send either a put request change a light or a get request to retrive a light's state
+	*
 	*  @return Http::Client
 	*/
 	Wt::Http::Client * connect();
 
 	/** @fn	void on()
 	*  @brief turns a light on
+	*
+	*  turns a light on. A light must be selected first.
+	*
 	*  @return Void
 	*/
 	void on();
 
 	/** @fn void off()
 	*  @brief turns a light off
+	*
+	*  turns a light off. A light must be selected first.
+	*
 	*  @return Void
 	*/
 	void off();	
 
 	/** @fn void hue()
 	*  @brief changes a light's hue
+	*
+	*  changes a light's hue based on the hue value. A light must be selected first.
+	*
 	*  @return Void
 	*/
 	void hue();	
 
 	/** @fn void bright()	
 	*  @brief changes a light's brightness
+	*
+	*  changes a light's brightness based on the brightness slider value. A light must be selected first.
+	*
 	*  @return Void
 	*/
 	void bright();	
 
 	/** @fn void sat()	
 	*  @brief changes a light's saturation
+	*
+	*  changes a light's saturation based on the saturation slider value. A light must be selected first.
+	*
 	*  @return Void
 	*/
 	void sat();	
 
 	/** @fn void name()
 	*  @brief changes a light's name
+	*
+	*  changes a light's name. A light must be selected first.
+	*
 	*  @return Void
 	*/
 	void name();
 
 	/** @fn void transition() 
 	*  @brief changes a light's transition time
+	*
+	*  changes a light's transition time based on the transition slider value. A light must be selected first.
+	*
 	*  @return Void
 	*/
 	void transition();	
 
 	/** @fn void lightOne()
 	*  @brief selects light 1 to change
+	*
+	*  selects light 1 such that any changes in state will be applied to light 1
+	*
 	*  @return Void
 	*/
 	void lightOne();
 
 	/** @fn void lightTwo()
 	*  @brief selects light 2 to change
+	*
+	*  selects light 2 such that any changes in state will be applied to light 2
+	*
 	*  @return Void
 	*/
 	void lightTwo();
 
 	/** @fn void lightThree()
 	*  @brief selects light 3 to change
+	*
+	*  selects light 3 such that any changes in state will be applied to light 3
+	*
 	*  @return Void
 	*/
 	void lightThree();
 
 	/** @fn void returnBridge()
 	*  @brief returns user to the bridge page
+	*
+	*  returns user the bridge page by setting the internal path
+	*
 	*  @return Void
 	*/
 	void returnBridge();
 
 	/** @fn void deleteBridge()
 	*  @brief deletes a bridge
+	*
+	*  removes a bridge from session and returns user back to the bridge page
+	*
 	*  @return Void
 	*/
 	void deleteBridge();
 
 	/** @fn void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response)
 	*  @brief handles response and displays light information
+	*
+	*  gets the current state of a light and adjusts the slider values to reflect the light's state. Called when a user chooses a light to change
+	*
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
@@ -141,6 +186,9 @@ private:
 	
 	/** @fn void handleHttpResponseName(boost::system::error_code err, const Wt::Http::Message& response)
 	*  @brief handles response for light name changes
+	*
+	*  uses update() to refresh the page with changes to light names. Called whea user change the name of a light
+	*
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
@@ -149,6 +197,9 @@ private:
 	
 	/** @fn void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response)
 	*  @brief handles response and does nothing
+	*
+	*  does nothing. Used for functions where the page does not need to be refreshed nor does light information need to be fetched again.
+	*
 	*  @param err the response's error code
 	*  @param response the response
 	*  @return Void
