@@ -213,6 +213,7 @@ private:
 	*/
 	void handleHttpResponseVOID(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
 
+	void handleHttpResponseVision(boost::system::error_code err, const Wt::Http::Message& response);
 	void fileTooLarge();
 	void fileUploaded();
 };

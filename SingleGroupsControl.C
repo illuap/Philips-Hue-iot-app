@@ -27,6 +27,7 @@
 #include <Wt/Http/Client>
 #include <Wt/WFileUpload>
 #include <Wt/WLogger>
+#include <Wt/Utils>
 #include "SingleGroupsControl.h"
 #include "Session.h"
 
@@ -232,7 +233,7 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 
 	upload = new Wt::WFileUpload(this);
-	upload->setFileTextSize(40);
+	upload->setFileTextSize(40000);
 	this->addWidget(new WBreak());
 	Wt::WPushButton *uploadButton = new Wt::WPushButton("Send", this);
 
@@ -260,8 +261,8 @@ void SingleGroupsControlWidget::update()
 	uploadButton->clicked().connect(upload, &Wt::WFileUpload::upload);
 	uploadButton->clicked().connect(uploadButton, &Wt::WPushButton::disable);
 	// Upload automatically when the user entered a file.
-	upload->changed().connect(upload, &WFileUpload::upload);
-	upload->changed().connect(uploadButton, &Wt::WPushButton::disable);
+	//upload->changed().connect(upload, &WFileUpload::upload);
+	//upload->changed().connect(uploadButton, &Wt::WPushButton::disable);
 	// React to a succesfull upload.
 	upload->uploaded().connect(this, &SingleGroupsControlWidget::fileUploaded);
 	// React to a fileupload problem.
@@ -326,8 +327,27 @@ void SingleGroupsControlWidget::fileUploaded() {
     std::string mContents;
     mContents=mFileContents.data()->spoolFileName();
 
-    Wt::log("info") << "Fsdfsdgsdfgsdfgdsfgdsfgsdfgdsfgsdfg" << mContents;
+    Wt::log("info") << "File uploaded to server " << mContents;
 
+    //convert file into binary
+	std::ifstream in(mContents, std::ios::in | std::ios::binary);
+	std::ostringstream contents;
+	contents << in.rdbuf();
+	in.close();
+	std::string data = (contents.str());
+	//Wt::log("info") << "binary data " << data;
+	//convert binary file to base64 for our api
+    std::string encoding = Wt::Utils::base64Encode(data);
+    //Wt::log("info") << "base64 data " << encoding;
+    std::string body = "{\"requests\":[{\"image\":{\"content\": \"" + encoding + "\"},\"features\":[{\"type\":\"IMAGE_PROPERTIES\"}]}]}";
+
+	Http::Client *client = SingleGroupsControlWidget::connect();
+	Http::Message *msg = new Http::Message();
+	msg->addBodyText(body);
+	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVision, this, _1, _2));
+	client->post("https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBEC5ipSoaLDU40JqUtdeDIcIgFfy3FChA", *msg);
+
+	
     //Do something with the contents here
     //Either read in the file or copy it to use it
     //https://www.webtoolkit.eu/wt/doc/reference/html/namespaceWt_1_1Utils.html
@@ -335,6 +355,13 @@ void SingleGroupsControlWidget::fileUploaded() {
     //return
     return;
 }
+void SingleGroupsControlWidget::handleHttpResponseVision(boost::system::error_code err, const Http::Message& response) {
+	Wt::log("info") << "WWOWOWOOWOWOWW" << response.body();
+}
+
+
+
+
 // Function Name: connect() 
 // Parameters: none
 // Return: none
