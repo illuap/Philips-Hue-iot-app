@@ -16,4 +16,4 @@ The port chosen on the emulator must match the port entered when registering the
 
 
 The additional feature with Google Vision API was not able to be completed because it uses https and we could not figure out how to work with SSL.
-Instead we have created a replacement additional feature: 
+Instead we have created a replacement additional feature: user can create a copy of a group with the same name and lights
