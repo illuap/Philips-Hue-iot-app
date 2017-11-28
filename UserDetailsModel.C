@@ -1,11 +1,9 @@
 /** @file UserDetailsModel.C
-*  @brief adding onto the registration to take in more user details
+*  @brief It models the additional first/last name information needed for registration
 *
-*   Handles the Users who are able to access the database and create a
-*   persistent environment for our application using sqlite3. It hashes
-*   user passwords and stores tokens. The is also a multitude of functions
-*   to help access and store information into the applications database. 
-*   Through out the app session is used to authorize each user to a page.
+*	A WFormModel is created to help model the data and add onto the registration page. It adds
+*	2 more fields for getting the first name and last name of the registering user.
+*	Also includes a function to save the data to the db.
 *
 *  @author Paul Li
 *  @date Nov 28, 2017

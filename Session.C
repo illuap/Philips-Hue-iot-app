@@ -116,9 +116,10 @@ void Session::configureAuth()
 Session::Session()
   : sqlite3_(WApplication::instance()->appRoot() + "hueApp.db")
 {
+  Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7" ;
   session_.setConnection(sqlite3_);
   sqlite3_.setProperty("show-queries", "true");
-
+Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7" ;
   session_.mapClass<User>("user");
   session_.mapClass<Bridge>("bridge");
   session_.mapClass<BridgeUserIds>("BridgeUserIds");
@@ -131,14 +132,18 @@ Session::Session()
 
   dbo::Transaction transaction(session_);
   try {
+    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8" ;
     session_.createTables();
-
+    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8" ;
     /*
      * Add a default guest/guest account
      */
     Auth::User guestUser = users_->registerNew();
+    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8" ;
     guestUser.addIdentity(Auth::Identity::LoginName, "guest");
+    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9" ;
     myPasswordService.updatePassword(guestUser, "guest");
+    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF10" ;
 
 
     Wt::log("info") << "Database created";
@@ -224,12 +229,14 @@ std::string Session::userName() const
  */
 std::string Session::firstName() const
 {
+  dbo::Transaction transaction(session_);
   if (login_.loggedIn()) {
     dbo::ptr<AuthInfo> authInfo = users_->find(login_.user());
     dbo::ptr<User> user = authInfo->user();
-
+    transaction.commit();
     return user->firstName;
   } else
+    transaction.commit();
     return std::string();
 }
 

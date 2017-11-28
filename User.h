@@ -18,6 +18,7 @@
 
 class User;
 class Bridge;
+
 typedef Wt::Auth::Dbo::AuthInfo<User> AuthInfo;
 typedef Wt::Dbo::collection< Wt::Dbo::ptr<User> > Users;
 
@@ -31,7 +32,6 @@ public:
   std::string lastName;
   std::string email;
   std::string bridgeUserID;
-//  Bridge *bridgeID;
   Wt::Dbo::collection<Wt::Dbo::ptr<Bridge> > bridges;
   Wt::Dbo::collection< Wt::Dbo::ptr<AuthInfo> > authInfos;
 
