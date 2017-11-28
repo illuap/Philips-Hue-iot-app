@@ -505,7 +505,7 @@ void SingleGroupsControlWidget::name() {
 	change_->setText("Are you sure?");
 }
 
-void SingleGroupsControlWidget::on() {]
+void SingleGroupsControlWidget::on() {
 	///< send a put request to turn groups' light on	
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
