@@ -24,7 +24,9 @@ HueApp::HueApp(WContainerWidget *parent):
   the_Groups(0),
   the_SingleGroups(0),
   the_BridgeEdit(0),
-  the_Schedulers(0)
+  the_Schedulers(0),
+  the_SingleSchedulers(0)
+
 
 {
   session_.login().changed().connect(this, &HueApp::onAuthEvent);
@@ -78,6 +80,8 @@ void HueApp::onAuthEvent()
 	the_SingleGroups = 0;
 	the_BridgeEdit = 0;
      the_Schedulers = 0;
+  the_SingleSchedulers = 0; 
+
 
     // links_->hide();
   }
@@ -98,6 +102,8 @@ void HueApp::handleInternalPath(const std::string &internalPath)
 		  showBridgeEdit();
   	else if (internalPath.find("/scheduler") == 0)
     		 showSchedulers();
+    else if (internalPath.find("/singlescheduler") == 0)
+         showSingleSchedulers();
     else
       WApplication::instance()->setInternalPath("/bridge",  true);
   }
@@ -162,6 +168,15 @@ void HueApp::showSchedulers(){
 
   mainStack_->setCurrentWidget(the_Schedulers);
   the_Schedulers->update();
+
+  // hueLights_->addStyleClass("selected-link");
+}
+void HueApp::showSingleSchedulers(){
+  if (!the_Schedulers)
+    the_SingleSchedulers = new SingleSchedulerControlWidget(&session_, mainStack_);
+
+  mainStack_->setCurrentWidget(the_SingleSchedulers);
+  the_SingleSchedulers->update();
 
   // hueLights_->addStyleClass("selected-link");
 

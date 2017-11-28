@@ -14,6 +14,8 @@
 #include "SingleGroupsControl.h"
 #include "BridgeEditControl.h"
 #include "SchedulerControl.h"
+#include "SingleSchedulerControl.h"
+
 
 
 #ifndef HUEAPP_H_
@@ -34,6 +36,7 @@ class GroupsControlWidget;
 class SingleGroupsControlWidget;
 class BridgeEditControlWidget;
 class SchedulerControlWidget;
+class SingleSchedulerContrlWidget;
 
 
 class HueApp : public Wt::WContainerWidget
@@ -51,6 +54,7 @@ private:
   SingleGroupsControlWidget *the_SingleGroups;
   BridgeEditControlWidget *the_BridgeEdit;
   SchedulerControlWidget * the_Schedulers; 
+  SingleSchedulerControlWidget * the_SingleSchedulers; 
 
   // Wt::WContainerWidget *links_;
   Wt::WAnchor *backToGameAnchor_;
@@ -66,6 +70,7 @@ private:
   void showSingleGroups();
   void showBridgeEdit();
   void showSchedulers(); 
+  void showSingleSchedulers(); 
 
 };
 
