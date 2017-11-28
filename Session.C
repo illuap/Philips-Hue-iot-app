@@ -27,6 +27,8 @@ namespace dbo = Wt::Dbo;
 
 namespace {
 
+/** @brief Used to compute a password hash that can be used to store or verify user account passwords.
+ */
 #ifdef HAVE_CRYPT
 class UnixCryptHashFunction : public Auth::HashFunction
   {
@@ -57,7 +59,7 @@ class UnixCryptHashFunction : public Auth::HashFunction
     ~MyOAuth()
     {
       for (unsigned i = 0; i < size(); ++i)
-	delete (*this)[i];
+	   delete (*this)[i];
     }
   };
 
@@ -65,7 +67,11 @@ class UnixCryptHashFunction : public Auth::HashFunction
   Auth::PasswordService myPasswordService(myAuthService);
   MyOAuth myOAuthServices;
 }
-//
+/** @brief Configure the authorization services for the app
+ *
+ *  Using Wt's built in authorization set the model of the services that were used
+ *  such as, remember me tokens, email verifications, password hashing and etc
+ */
 void Session::configureAuth()
 {
   myAuthService.setAuthTokensEnabled(true, "hueappcookie");
@@ -86,7 +92,15 @@ void Session::configureAuth()
     myOAuthServices.push_back(new Auth::GoogleService(myAuthService));
 }
 
-
+/** @brief Constructor of the Session
+ *
+ *  The constructor session is called by the HueApp to do a multitude of things
+ *  - create the database if it doesn't exist
+ *  - connect to the database
+ *  - create the tables in the database
+ *  - add a few records to the database
+ *  - log a few things regarding the database
+ */
 Session::Session()
   : sqlite3_(WApplication::instance()->appRoot() + "hueApp.db")
 {
@@ -94,7 +108,6 @@ Session::Session()
   sqlite3_.setProperty("show-queries", "true");
 
   session_.mapClass<User>("user");
-  session_.mapClass<Light>("light");
   session_.mapClass<Bridge>("bridge");
   session_.mapClass<BridgeUserIds>("BridgeUserIds");
   session_.mapClass<AuthInfo>("auth_info");
@@ -124,11 +137,22 @@ Session::Session()
   transaction.commit();
 }
 
+
+/** @brief Deconstructor of the Session
+ *
+ *  Deallocates the memory of users_
+ */
 Session::~Session()
 {
   delete users_;
 }
-
+/** @brief Get the database object of User of the currently logged in user.
+ *
+ *  A helper function that is used to get the currently logged in user for other session functions to easily 
+ *  find and user.
+ *  
+ *  @return the database object of User of the currently logged in user.
+ */
 dbo::ptr<User> Session::user()
 {
   if (login_.loggedIn()) {
@@ -138,15 +162,19 @@ dbo::ptr<User> Session::user()
     if (!user) {
       user = session_.add(new User());
       authInfo.modify()->setUser(user);
-      //user.modify()-> name = login_.user().identity(Auth::Identity::LoginName).toUTF8();
-
     }
-
     return user;
   } else
     return dbo::ptr<User>();
 }
-
+/** @brief Get the database object of User of the currently logged in user.
+ *
+ *  A helper function that is used to get the currently logged in user for other session functions to easily 
+ *  find and user. An overloaded function to allow the authUser configuration to be passed in.
+ *  
+ *  @param authUser configuration of the user.
+ *  @return the database object of User of the currently logged in user.
+ */
 dbo::ptr<User> Session::user(const Wt::Auth::User& authUser)
 {
   dbo::ptr<AuthInfo> authInfo = users_->find(authUser);
@@ -161,10 +189,13 @@ dbo::ptr<User> Session::user(const Wt::Auth::User& authUser)
   return user;
 }
 
-// Function Name: userName()
-// Parameters: none
-// Return: string
-// Description: get the username of the currently logged in user.
+/** @brief Get the username of the currently logged in user.
+ *
+ *  Gets the username/email of the currently logged in user that was created during the registration page.
+ *  depending on what the model was set for the Auth service.
+ *  
+ *  @return the string of the username of the currently logged in user.
+ */
 std::string Session::userName() const
 {
   if (login_.loggedIn())
@@ -173,10 +204,12 @@ std::string Session::userName() const
     return std::string();
 }
 
-// Function Name: firstName()
-// Parameters: none
-// Return: string
-// Description: get the first name of the currently logged in user.
+/** @brief Get the first name of the currently logged in user.
+ *
+ *  Gets the first name of the currently logged in user that was created during the registration page.
+ *  
+ *  @return the string of the first name of the currently logged in user.
+ */
 std::string Session::firstName() const
 {
   if (login_.loggedIn()) {
@@ -188,10 +221,12 @@ std::string Session::firstName() const
     return std::string();
 }
 
-// Function Name: lastName()
-// Parameters: none
-// Return: string
-// Description: get the last name of the currently logged in user.
+/** @brief Get the last name of the currently logged in user.
+ *
+ *  Gets the last name of the currently logged in user that was created during the registration page.
+ *  
+ *  @return the string of the last name of the currently logged in user.
+ */
 std::string Session::lastName() const
 {
   if (login_.loggedIn()) {
@@ -202,12 +237,15 @@ std::string Session::lastName() const
   } else
     return std::string();
 }
-//---------------------
 
-// Function Name: getBridge()
-// Parameters: string of ip and string of port for desired bridge in db
-// Return: Bridge Object
-// Description: Get a bridge from the database with a given ip address and port number.
+/** @brief Get a bridge from the database.
+ *
+ *  Finds and returns the bridge from the Bridge database by searching for the ip and port of the desired bridge.
+ *  
+ *  @param ip of the bridge to be retrived.
+ *  @param port of the bridge to be retrived.
+ *  @return a bridge object of found Bridge.
+ */
 Bridge* Session::getBridge(std::string ip, std::string port){
   dbo::Transaction transaction(session_);
 
@@ -219,10 +257,14 @@ Bridge* Session::getBridge(std::string ip, std::string port){
   return bridgeObj.modify();
 }
 
-// Function Name: deleteBridge()
-// Parameters: string of ip and string of port for desired bridge in db
-// Return: boolean if it deleted or not
-// Description: Delete a bridge from the database with a given ip address and port number.
+/** @brief Removes a bridge from the database.
+ *
+ *  Finds and removes the bridge from the Bridge database by searching for the ip and port of the desired bridge.
+ *  
+ *  @param ip of the bridge of interest to be deleted.
+ *  @param port of the bridge of interest to be deleted.
+ *  @return if deleting the bridge was successful or not.
+ */
 bool Session::deleteBridge(std::string ip, std::string port){
   dbo::Transaction transaction(session_);
 
@@ -231,21 +273,27 @@ bool Session::deleteBridge(std::string ip, std::string port){
             .where("portNumber = ?").bind(port);
   if(bridgeObj){
     bridgeObj.remove();
+    transaction.commit();
+    return true;
   }else{
     Wt::log("info") << "Failed to delete could not find given bridge. ("
                     << ip <<":"<<port << ")";
+    transaction.commit();
+    return false;
   }
-
-  transaction.commit();
 }
 
-// Function Name: updateBridge()
-// Parameters: old bridge object holding the ip/port to change + the newBridge information
-// Return: none
-// Description: Changes attributes in the ip/port of old bridge with all new attributes from newBridge
+/** @brief Updates one of the pre-existing bridges in our database.
+ *
+ *  Finds and updates a bridge that is in our database. It is found in our database with the oldBridge object
+ *  to get the ip and port. The newBridge object is used replace the data of the oldBridge data in the db.
+ *  
+ *  @param oldBridge is the bridge in the database to be replaced.
+ *  @param newBridge is the new data to replace the oldBridge.
+ */
 void Session::updateBridge(Bridge* oldBridge, Bridge* newBridge){
   dbo::Transaction transaction(session_);
-  Wt::log("info") << "xxxxxxxx" << newBridge->getIpAddress() << ":" << newBridge->getPortNumber() ;
+  Wt::log("info") << "Bridge being updated" << newBridge->getIpAddress() << ":" << newBridge->getPortNumber() ;
  
   dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
                 .where("ipAddress = ?").bind(oldBridge->getIpAddress())
@@ -261,10 +309,12 @@ void Session::updateBridge(Bridge* oldBridge, Bridge* newBridge){
   transaction.commit();
 }
 
-// Function Name: getAllBridges()
-// Parameters: none
-// Return: a vector of bridge objects
-// Description: Get all the bridges in the database.
+/** @brief Gets a vector list of all the bridges in the database.
+ *
+ *  Gets a vector list of all the bridges in the database of all the bridges.
+ *  
+ *  @return a vector of Bridge objects
+ */
 std::vector<Bridge> Session::getAllBridges(){
   dbo::Transaction transaction(session_);
 
@@ -280,10 +330,12 @@ std::vector<Bridge> Session::getAllBridges(){
   return x;
 }
 
-// Function Name: getBridges()
-// Parameters: none
-// Return: a vector of bridge objects
-// Description: Get the currently logged in user's bridges in the database.
+/** @brief Gets a vector list of the bridges in the database of currently logged in user.
+ *
+ *  Gets a vector list of all the bridges in the database of all the bridges associated with the currently logged in user.
+ *  
+ *  @return a vector of Bridge objects.
+ */
 std::vector<Bridge> Session::getBridges(){
   dbo::Transaction transaction(session_);
 
@@ -303,10 +355,13 @@ std::vector<Bridge> Session::getBridges(){
   return x;
 }
 
-// Function Name: addBridge()
-// Parameters: bridge object to be inserted
-// Return: boolean of it failed or not
-// Description: add a bridge to the database
+/** @brief Add bridge to the database
+ *
+ *  Adds a new Bridge to the database by passing in a Bridge object.
+ *  
+ *  @param newBridge the bridge that is needed to be added to the database.
+ *  @return if it was successfully added to the database
+ */
 bool Session::addBridge(Bridge* newBridge){
   
   dbo::Transaction transaction(session_);
@@ -315,9 +370,7 @@ bool Session::addBridge(Bridge* newBridge){
     bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(newBridge->getIpAddress())
                                         .where("portNumber = ?").bind(newBridge->getPortNumber());
     if(!bridgeObj){
-      //Wt::Dbo::ptr<Light> temp = session_.add(new Light("name2","type2",200,201,202,true,203));
       bridgeObj = session_.add(newBridge);
-      //bridgeObj.modify()->lights.insert( temp );
       transaction.commit();
       return true;
     }else{
@@ -328,10 +381,12 @@ bool Session::addBridge(Bridge* newBridge){
   transaction.commit();
 }
 
-// Function Name: updateUser()
-// Parameters: User object to replace/alter the current one
-// Return: none
-// Description: updates the current logged in user with a new info.
+/** @brief Update the currently logged in user with the data in newUser.
+ *
+ *  Update the currently logged in user with the new User object that is passed in through the parameters.
+ *  
+ *  @param newUser a User object that holds the new data.
+ */
 void Session::updateUser(User* newUser){
   dbo::Transaction transaction(session_);
 
@@ -344,10 +399,13 @@ void Session::updateUser(User* newUser){
 
   transaction.commit();
 }
-// Function Name: getAllBridges()
-// Parameters: none
-// Return: User object of currently logged in user
-// Description: Getter function for the user object of the currently logged in user.
+
+/** @brief Get a User object of the currently logged in user.
+ *
+ *  Get the record from the database of the currently logged in user.
+ *  
+ *  @return a User object of the currently logged in user
+ */
 User* Session::getUser(){
   dbo::Transaction transaction(session_);
   dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
@@ -358,22 +416,28 @@ User* Session::getUser(){
   //-------------------------------------
   //---------Bridge With Users DB--------
   //-------------------------------------
-// Function Name: getAllBridges()
-// Parameters: none
-// Return: a vector of bridge objects
-// Description: Get all the bridges in the database.
-void Session::addBridgeUserId(Bridge *y, std::string bridgeUserId){
+
+/** @brief Add a BridgeUserId to the database.
+ *
+ *  Add a BridgeUserId record to the BridgeUserIds db by passing in data (bridgeUserId) and the associated
+ *  items newBridge. When creating the record it associated the User with the currently logged in user.
+ *  
+ *  @param newBridge the bridge associated with the UserId.
+ *  @param bridgeUserId the UserId to access the bridge. 
+ */
+void Session::addBridgeUserId(Bridge *newBridge, std::string bridgeUserId){
   dbo::Transaction transaction(session_);
   
+  // check if bridge exists
   dbo::ptr<Bridge> bridgeObj = session_.find<Bridge>()
-            .where("ipAddress = ?").bind(y->getIpAddress())
-            .where("portNumber = ?").bind(y->getPortNumber());
+            .where("ipAddress = ?").bind(newBridge->getIpAddress())
+            .where("portNumber = ?").bind(newBridge->getPortNumber());
   if(!bridgeObj){
     Wt::log("info") << "Adding BridgeUserId failed. Bridge doesnt' exist";
     transaction.commit();
     return;
   }
-  // check there are none in the db
+  // check there are no duplicates
   int count = session_.query<int>("select count(1) from BridgeUserIds")
                     .where("bridgeID_id = ?").bind(bridgeObj.id())
                     .where("userID_id = ?").bind(this->user().id());
@@ -391,10 +455,14 @@ void Session::addBridgeUserId(Bridge *y, std::string bridgeUserId){
 }
 
 //======GETTERS======
-// Function Name: getBridgeUserId()
-// Parameters: none
-// Return: a vector of bridgeUserIds objects
-// Description: get a vector of all the BridgeUserIds for the currently logged in user.
+
+/** @brief Gets a vector list of all the BridgeUserIds of the currently logged in user in the database.
+ *
+ *  Function gets all the records from the database that belong to the currently logged in user. The function returns
+ *  a list of BridgeUserIds objects that can be used to fetch the userId to be used by the bridges.
+ *  
+ *  @return Vector list of BridgeUserIds objects in the database.
+ */
 std::vector<BridgeUserIds> Session::getBridgeUserId(){
   dbo::Transaction transaction(session_);
   Wt::Dbo::Query<BridgeUserIds_Ptr> query = session_.find<BridgeUserIds>()
@@ -410,15 +478,19 @@ std::vector<BridgeUserIds> Session::getBridgeUserId(){
                     << y->bridge.id() ;
     x.push_back(*y);
   }
-
   transaction.commit();
   return x;
 }
 
-// Function Name: getBridgeUserId()
-// Parameters: string of ip and the string of the port of a desired bridge
-// Return: a bridgeUserIds objects
-// Description: Get the object of a specific bridgeUserId for currently logged in user.
+/** @brief Gets the BridgeUserIds record of the currently logged in user in the database and belong to bridge with ip + port.
+ *
+ *  getBridgeUserId is used to help get a specific record from the database of a currently logged in user by specifying the ip and 
+ *  port of the bridge in the db associated with the record.
+ *
+ *  @param ip is used to get the bridge id to find the record in BridgeUserId.
+ *  @param port is used to get the bridge id to find the record in BridgeUserId.
+ *  @return BridgeUserId objects in the database.
+ */
 BridgeUserIds* Session::getBridgeUserId(std::string ip, std::string port){
 
   dbo::Transaction transaction(session_);
@@ -442,10 +514,14 @@ BridgeUserIds* Session::getBridgeUserId(std::string ip, std::string port){
   return y.modify();
 }
 
-// Function Name: getBridgeUserId()
-// Parameters: bridge object of desired bridge
-// Return: a bridgeUserIds objects
-// Description: Get the object of a specific bridgeUserId for currently logged in user.
+/** @brief Gets the BridgeUserIds record of the currently logged in user in the database and belong to bridge object bridgeObj.
+ *
+ *  getBridgeUserId is used to help get a specific record from the database of a currently logged in user by specifying the bridge 
+ *  object passed in to find the bridge in the db associated with the record.
+ *
+ *  @param bridgeObj the bridge to search for in the database.
+ *  @return BridgeUserId objects in the database.
+ */
 BridgeUserIds* Session::getBridgeUserId(Bridge *bridgeObj){
 
   dbo::Transaction transaction(session_);
@@ -468,7 +544,13 @@ BridgeUserIds* Session::getBridgeUserId(Bridge *bridgeObj){
   transaction.commit();
   return y.modify();
 }
-
+/** @brief Gets a vector list of all the BridgeUserIds in the database.
+ *
+ *  Get a list of BridgeUserIds objects of all the records in the database
+ *  even if it doesn't belong to the currently logged in user.
+ *
+ *  @return Vector list of all the BridgeUserIds in the database.
+ */
 std::vector<BridgeUserIds> Session::getAllBridgeUserId(){
   dbo::Transaction transaction(session_);
 
@@ -487,6 +569,15 @@ std::vector<BridgeUserIds> Session::getAllBridgeUserId(){
   transaction.commit();
   return x;
 }
+/** @brief Gets a vector list of all the BridgeUserIds in the database with a bridge of ip + port
+ *
+ *  Get a list of BridgeUserIds objects of all the records in the database that belong to the bridge 
+ *  with ip and port, even if it doesn't belong to the currently logged in user.
+ *
+ *  @param ip is used to find bridge id that will be removed.
+ *  @param port is used to find bridge id that will be removed.
+ *  @return Vector list of all the BridgeUserIds in the database that belong to bridge id of ip + port.
+ */
 std::vector<BridgeUserIds> Session::getAllBridgeUserId(std::string ip, std::string port){
   dbo::Transaction transaction(session_);
 
@@ -510,7 +601,14 @@ std::vector<BridgeUserIds> Session::getAllBridgeUserId(std::string ip, std::stri
   transaction.commit();
   return x;
 }
-
+/** @brief Gets a vector list of all the BridgeUserIds in the database with a bridge of bridgeObj.
+ *
+ *  Get a list of BridgeUserIds objects of all the records in the database that have the Bridge, bridgeObj
+ *  even if it doesn't belong to the currently logged in user.
+ * 
+ *  @param bridgeObj Remove all BridgeUserIds with bridgeObj.
+ *  @return Vector list of all the BridgeUserIds in the database that belong to bridgeObj.
+ */
 std::vector<BridgeUserIds> Session::getAllBridgeUserId(Bridge *bridgeObj){
   dbo::Transaction transaction(session_);
 
@@ -533,7 +631,14 @@ std::vector<BridgeUserIds> Session::getAllBridgeUserId(Bridge *bridgeObj){
   transaction.commit();
   return x;
 }
-
+/** @brief Update a BridgeUserID's userid of a currently logged in user with ip and port
+ *
+ *  Make changes to a record in the database
+ *
+ *  @param ip is used to get the bridge id to be updated from BridgeUserId.
+ *  @param port is used to get the bridge id to be updated from BridgeUserId.
+ *  @param newBridgeUserId is the new data to be updated to bridgeUserID.
+ */
 void Session::updateBridgeUserId(std::string ip, std::string port, std::string newBridgeUserId){
 
   dbo::Transaction transaction(session_);
@@ -560,6 +665,10 @@ void Session::updateBridgeUserId(std::string ip, std::string port, std::string n
   transaction.commit();
 }
 
+/** @brief Deletes all the records in the BridgeUserIds database identified by the the logged in user.
+ *
+ *  It finds the ID of the logged in user. Then it removes all records that include the ID of the logged in user.
+ */
 void Session::deleteBridgeUserId(){
   dbo::Transaction transaction(session_);
   Wt::Dbo::Query<BridgeUserIds_Ptr> query = session_.find<BridgeUserIds>()
@@ -576,7 +685,14 @@ void Session::deleteBridgeUserId(){
   }
   transaction.commit();
 }
-
+/** @brief Deletes a record in the BridgeUserIds database identified by ip,port and the the logged in user.
+ *
+ *  It finds the ID of the logged in user and the ID of the bridge by the information passed in by the parameters.
+ *  Then it is found and removed in the BridgeUserIds db.
+ *
+ *  @param ip is used to get the bridge id to be removed from BridgeUserId.
+ *  @param port is used to get the bridge id to be removed from BridgeUserId.
+ */
 void Session::deleteBridgeUserId(std::string ip, std::string port){
 
   dbo::Transaction transaction(session_);
@@ -597,6 +713,14 @@ void Session::deleteBridgeUserId(std::string ip, std::string port){
   y.remove();  
   transaction.commit();
 }
+
+/** @brief Deletes a record in the BridgeUserIds database identified by bridgeObj and the the logged in user.
+ *
+ *  It finds the ID of the logged in user and the ID of the bridge by the information passed in by the parameters.
+ *  Then it is found and removed in the BridgeUserIds db.
+ *
+ *  @param bridgeObj is used to get the bridge id to be removed from BridgeUserId.
+ */
 void Session::deleteBridgeUserId(Bridge *bridgeObj){
 
   dbo::Transaction transaction(session_);
@@ -619,7 +743,12 @@ void Session::deleteBridgeUserId(Bridge *bridgeObj){
   transaction.commit();
 }
 
-
+/** @brief Deletes all the records in the BridgeUserIds database.
+ *
+ *  Removes all records from the BridgeUserIds database.
+ *
+ *  Iteratively deletes all records in BridgeUserIds.
+ */
 void Session::deleteAllBridgeUserId(){
   dbo::Transaction transaction(session_);
 
@@ -636,6 +765,15 @@ void Session::deleteAllBridgeUserId(){
   }
   transaction.commit();
 }
+
+/** @brief Deletes all the records in the BridgeUserIds database that include have ip and port.
+ *
+ *  It finds the ID of the bridge in the Bridges db and then querys all the records of BridgeUserIds
+ *  with the found bridge id. Then iteratively deletes all records in BridgeUserIds.
+ *
+ *  @param ip of the bridge id to remove all records of bridge id from BridgeUserId.
+ *  @param port of the bridge id to remove all records of bridge id from BridgeUserId.
+ */
 void Session::deleteAllBridgeUserId(std::string ip, std::string port){
   dbo::Transaction transaction(session_);
 
@@ -656,7 +794,13 @@ void Session::deleteAllBridgeUserId(std::string ip, std::string port){
   }
   transaction.commit();
 }
-
+/** @brief Deletes all the records in the BridgeUserIds database that include the bridgeObj.
+ *
+ *  It finds the ID of the bridge in the Bridges db and then querys all the records of BridgeUserIds
+ *  with the found bridge id. Then iteratively deletes all records in BridgeUserIds.
+ *
+ *  @param bridgeObj is used to get the bridge id to remove all records of bridge id from BridgeUserId.
+ */
 void Session::deleteAllBridgeUserId(Bridge *bridgeObj){
   dbo::Transaction transaction(session_);
 
@@ -678,94 +822,44 @@ void Session::deleteAllBridgeUserId(Bridge *bridgeObj){
   transaction.commit();
 }
 
-
-
-
-
-
-
-
-
-
-
-bool Session::setLightBelongsTo(std::string lightName,std::string bridgeIP){
-  
-  dbo::Transaction transaction(session_);
-
-  dbo::ptr<Bridge> bridgeObj;
-  bridgeObj = session_.find<Bridge>().where("ipAddress = ?").bind(bridgeIP);
-
-  dbo::ptr<Light> lightObj;
-  lightObj = session_.find<Light>().where("name = ?").bind(lightName);
-    if(!bridgeObj && !lightObj){
-      bridgeObj.modify()->lights.insert(lightObj);
-      return true;
-    }else{
-      std::cerr << "Setting light belonging to bridge." << std::endl;
-      return false;
-    }
-
-  transaction.commit();
-}
-
-//---------------------
-//---------------------
-Light* Session::getLight(std::string name){
-  dbo::Transaction transaction(session_);
-
-  dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(name);
-  
-  transaction.commit();
-  return lightObj.modify();
-}
-
-void Session::updateLight(Light* newLight){
-  dbo::Transaction transaction(session_);
-
-  dbo::ptr<Light> lightObj = session_.find<Light>().where("name = ?").bind(newLight->getName());
-  
-  lightObj.modify()->setName(newLight->getName());
-  lightObj.modify()->setType(newLight->getType());
-  lightObj.modify()->setBrightness(newLight->getBrightness());
-  lightObj.modify()->setHue(newLight->getHue());
-  lightObj.modify()->setSaturation(newLight->getSaturation());
-  lightObj.modify()->setOn(newLight->getOn());
-  lightObj.modify()->setTransition(newLight->getTransition());
-
-  transaction.commit();
-}
-
-bool Session::addLight(Light* newLight){
-  
-  dbo::Transaction transaction(session_);
-
-  dbo::ptr<Light> lightObj;
-    lightObj = session_.find<Light>().where("name = ?").bind(newLight->getName());
-    if(!lightObj){
-      lightObj = session_.add(newLight);
-      return true;
-    }else{
-      return false;
-    }
-
-  transaction.commit();
-}
-
+/** @brief Getter method for user authorization information.
+ *
+ *  Used for setting the model of the authorization service.  
+ *
+ *  @return Returns the user authorization database.
+ */
 Auth::AbstractUserDatabase& Session::users()
 {
   return *users_;
 }
-
+/** @brief Getter method for the current sessions authorization service.
+ *
+ *  Used for configuring the current session's authorization service. For example 
+ *  enabling email verification.
+ *
+ *  @return Returns the session authorization.
+ */
 const Auth::AuthService& Session::auth()
 {
   return myAuthService;
 }
-
+/** @brief Getter method for the password authorization service.
+ *
+ *  Used for configuring the password authorization service. For example 
+ *  setting the validation method for the password.
+ *
+ *  @return Returns the password authorization.
+ */
 const Auth::AbstractPasswordService& Session::passwordAuth()
 {
   return myPasswordService;
 }
-
+/** @brief Getter method for the sessions oAuth service
+ *
+ *  Used to help setup the OAuth services that will be used by the app
+ * 
+ *  @return Returns the oAuth service that is set up.
+ */
 const std::vector<const Auth::OAuthService *>& Session::oAuth()
 {
   return myOAuthServices;

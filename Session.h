@@ -18,7 +18,6 @@
 #include <Wt/Dbo/backend/Sqlite3>
 
 #include "User.h"
-#include "Light.h"
 #include "Bridge.h"
 #include "BridgeUserIds.h"
 
@@ -69,6 +68,7 @@ public:
   std::vector<BridgeUserIds> getAllBridgeUserId();                                
   std::vector<BridgeUserIds> getAllBridgeUserId(std::string ip, std::string port);
   std::vector<BridgeUserIds> getAllBridgeUserId(Bridge *bridgeObj);
+  // UPDATE
   void updateBridgeUserId(std::string ip, std::string port, std::string newBridgeUserId);
   // DELETE
   void deleteBridgeUserId();
@@ -78,8 +78,9 @@ public:
   void deleteAllBridgeUserId(std::string ip, std::string port); 
   void deleteAllBridgeUserId(Bridge *bridgeObj); 
 
-  //-------------------------
+  //--------------------------
   //---------Bridge DB--------
+  //--------------------------
   std::vector<Bridge> getBridges();     //currently logged in user
   std::vector<Bridge> getAllBridges();  // all user's bridges
 
@@ -87,17 +88,6 @@ public:
   void updateBridge(Bridge* oldBridge, Bridge* newBridge);
   bool addBridge(Bridge* newBridge);
   bool deleteBridge(std::string ip, std::string port);
-
-  //-------------------------
-  //---------LIGHT DB--------
-  bool setLightBelongsTo(std::string lightName,std::string bridgeIP);
-  
-  Light* getLight(std::string name);
-  void updateLight(Light* newLight);
-  bool addLight(Light* newLight);
-
-  //-------------------------
-  //-------------------------
 
   static const Wt::Auth::AuthService& auth();
   static const Wt::Auth::AbstractPasswordService& passwordAuth();
