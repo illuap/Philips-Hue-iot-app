@@ -29,17 +29,3 @@ Wt::WWidget *AuthWidget::createRegistrationView(const Wt::Auth::Identity& id)
   w->setModel(model);
   return w;
 }
-/*
-void AuthWidget::createLoggedInView()
-{
-  setTemplateText(tr("Wt.Auth.template.logged-in"));
-
-  bindString("first-name", session_.lastName());  
-  bindString("last-name", session_.firstName());  
-
-  Wt::WPushButton *logout = new Wt::WPushButton(tr("Wt.Auth.logout"));
-  logout->clicked().connect(this, &Wt::Auth::AuthWidget::logout);
-
-  bindWidget("logout", logout);
-}
-*/
