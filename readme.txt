@@ -15,4 +15,5 @@ The port chosen on the emulator must match the port entered when registering the
 
 
 
-The stories that are in Jira as "In Progress" are missing the following functionality:
+The additional feature with Google Vision API was not able to be completed because it uses https and we could not figure out how to work with SSL.
+Instead we have created a replacement additional feature: 

@@ -43,6 +43,7 @@ public:
 
 private:
 	Session *session_;												/*!< keeps track of group status */
+	std::string groupName = "";											/*!< name of the group */
 	std::string ip = "";											/*!< bridge's IP address */
 	std::string userID = "";										/*!< user's bridge ID */
 	std::string port = "";											/*!< bridge's port number */
@@ -168,6 +169,15 @@ private:
 	*  @return Void
 	*/
 	void partyMode();
+
+	/** @fn void copy()
+	*  @brief creates a copy of the current group
+	*
+	*  gets the name and current lights in the group and creates a copy using post request
+	*
+	*  @return Void
+	*/
+	void copy();
 
 	/** @fn void sunsetMode() 
 	*  @brief puts group on sunset mode (yellows)

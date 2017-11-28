@@ -61,6 +61,17 @@ void SingleGroupsControlWidget::update()
 
 	deleteConfirm = false;
 
+
+	/*
+	///< display user info in top left corner
+	string firstName = session_->firstName();
+	string lastName = session_->lastName();
+	WText *userInfo_ = new WText(this);
+	userInfo_->setTextAlignment(AlignmentFlag::AlignLeft);
+	userInfo_->setText(firstName + " " + lastName);
+	*/
+
+
 	///< get group info to display 
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponse, this, _1, _2));
@@ -208,6 +219,14 @@ void SingleGroupsControlWidget::update()
 	removeChoices_->clear();
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
+
+	///< copy group
+	this->addWidget(new WText("Make a copy of  this group (same name and lights):"));
+	WPushButton *copyButton
+		= new WPushButton("Copy", this);
+	copyButton->setMargin(5, Left);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
 	
 	///< delete group
 	WPushButton *deleteButton							
@@ -237,7 +256,7 @@ void SingleGroupsControlWidget::update()
 	WPushButton *returnButton							
 		= new WPushButton("Return To Bridge", this);
 
-	onButton->clicked().connect(this, &SingleGroupsControlWidget::on);
+	copyButton->clicked().connect(this, &SingleGroupsControlWidget::copy);
 	partyModeButton->clicked().connect(this, &SingleGroupsControlWidget::partyMode);
 	mustangModeButton->clicked().connect(this, &SingleGroupsControlWidget::mustangMode);
 	oceanModeButton->clicked().connect(this, &SingleGroupsControlWidget::oceanMode);
@@ -257,7 +276,7 @@ void SingleGroupsControlWidget::update()
 	hueScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::hue);
 	transitionScaleSlider_->valueChanged().connect(this, &SingleGroupsControlWidget::transition);
 
-
+	(boost::bind(&SingleGroupsControlWidget::copy, this));
 	(boost::bind(&SingleGroupsControlWidget::hue, this));
 	(boost::bind(&SingleGroupsControlWidget::name, this));
 	(boost::bind(&SingleGroupsControlWidget::bright, this));
@@ -303,6 +322,7 @@ void SingleGroupsControlWidget::handleHttpResponse(boost::system::error_code err
 		Json::Object result;
 		Json::parse(response.body(), result);
 		string name = result.get("name");
+		groupName = name;
 		size_t pos = response.body().find("lights");
 		string subString = response.body().substr(pos + 10);
 		size_t endPos = subString.find("]");
@@ -310,7 +330,7 @@ void SingleGroupsControlWidget::handleHttpResponse(boost::system::error_code err
 		boost::erase_all(lights, "\"");
 
 		///< display group name and group lights
-		groupInfoEdit_->setText("Group Name: " + name);
+		groupInfoEdit_->setText("Group Name: " + groupName);
 		groupLightsEdit_->setText("Lights in your Group: " + lights);
 		removeChoices_->clear();
 		addChoices_->clear();
@@ -336,6 +356,64 @@ void SingleGroupsControlWidget::handleHttpResponse(boost::system::error_code err
 
 		change_->setText("");
 	}
+}
+
+void SingleGroupsControlWidget::copy() {
+	bool one = false;
+	bool two = false;
+	bool three = false;
+
+	///< get lights in the group
+	if (lights.find("1") != string::npos) {
+		one = true;
+	}
+	if (lights.find("2") != string::npos) {
+		two = true;
+	}
+	if (lights.find("3") != string::npos) {
+		three = true;
+	}
+	
+	///< create body message
+	string selectedLights;
+	if (one && two && three) {
+		selectedLights = "[\"1\",\"2\",\"3\"]";
+	} else {
+		if (one && two) {
+			selectedLights = "[\"1\",\"2\"]";
+		}
+		else {
+			if (one && three) {
+				selectedLights = "[\"1\",\"3\"]";
+			}
+			else {
+				if (two && three) {
+					selectedLights = "[\"2\",\"3\"]";
+				}
+				else {
+					if (one) {
+						selectedLights = "[\"1\"]";
+					}
+					else {
+						if (two) {
+							selectedLights = "[\"2\"]";
+						}
+						else {
+							selectedLights = "[\"3\"]";
+						}
+					}
+				}
+			}
+		}
+	}
+
+	///< send a post request to create a new group
+	change_->setText("Copy made (note: you are now still editing the original group)");
+	Http::Message *msg = new Http::Message();
+	msg->addBodyText("{\"lights\" : " + selectedLights + ", \"name\" : \"" + groupName + "\", \"type\" : \"LightGroup\" }");
+	Http::Client *client = SingleGroupsControlWidget::connect();
+	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
+	client->post("http://" + ip + ":" + port + "/api/" + userID + "/groups", *msg);
 }
 
 void SingleGroupsControlWidget::deleteGroup() {
