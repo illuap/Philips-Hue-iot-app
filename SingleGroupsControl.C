@@ -422,7 +422,7 @@ void SingleGroupsControlWidget::deleteGroup() {
 		change_->setText("You are about to delete this group. Are you sure?");
 		deleteConfirm = true;
 	} else {
-		///< delete the group and return to bridge page
+		///< delete the group and return to group page
 		Http::Message *msg = new Http::Message();
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
