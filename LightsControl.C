@@ -1,9 +1,6 @@
 /** @file LightsControl.C
 *  @brief Application for altering states of individual lights
 *  @author Nicole Chow
-*  @author Weija Zhou
-*  @author Paul Li
-*  @author Daniel Le
 *  @date Nov 28, 2017
 */
 
@@ -35,10 +32,7 @@ LightsControlWidget::LightsControlWidget(Session *session, WContainerWidget *par
   setStyleClass("highscores");
 }
 
-// Function Name: update()
-// Parameters: none
-// Return: none
-// Description: generates the Widget
+
 void LightsControlWidget::update()
 {
   clear();
@@ -82,7 +76,6 @@ void LightsControlWidget::update()
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
-
 
   //change name
   this->addWidget(new WText("Set New Name: "));
@@ -171,11 +164,10 @@ void LightsControlWidget::update()
 
   this->addWidget(new WBreak());                       
   this->addWidget(new WBreak());
-  light_ = new WText(this);                           // displays which light is being changed
+  light_ = new WText(this);                           //displays which light is being changed
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
   this->addWidget(new WBreak());
-
 
   //go to the groups page
   WPushButton *groupButton						
@@ -230,26 +222,19 @@ void LightsControlWidget::update()
   (boost::bind(&LightsControlWidget::deleteBridge, this));
 }
 
-// Function Name: connect() 
-// Parameters: none
-// Return: none
-// Description: creates an Http client
 Http::Client * LightsControlWidget::connect() {
 	Http::Client *client = new Http::Client(this);
 	client->setTimeout(15);
 	client->setMaximumResponseSize(10 * 1024);
 }
 
-// Function Name: handleHttpResponseName()
-// Parameters: none
-// Return: none
-// Description: dislays changes in a light's name
 void LightsControlWidget::handleHttpResponseName(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
 		Json::Object result;
 		Json::parse(response.body(), result);
 
+		//get light 1's name and display it 
 		size_t pos = response.body().find("name");
 		string subString = response.body().substr(pos + 6);
 		size_t endPos = subString.find(",");
@@ -257,6 +242,7 @@ void LightsControlWidget::handleHttpResponseName(boost::system::error_code err, 
 		boost::erase_all(name, "\"");
 		oneLight_->setText("	(" + name + ")");
 	
+		//get light 2's name and display it 
 		pos = subString.find("name");
 		subString = subString.substr(pos + 6);
 		endPos = subString.find(",");
@@ -264,6 +250,7 @@ void LightsControlWidget::handleHttpResponseName(boost::system::error_code err, 
 		boost::erase_all(name, "\"");
 		twoLight_->setText("	(" + name + ")");
 
+		//get light 3's name and display it 
 		pos = subString.find("name");
 		subString = subString.substr(pos + 6);
 		endPos = subString.find(",");
@@ -274,17 +261,9 @@ void LightsControlWidget::handleHttpResponseName(boost::system::error_code err, 
 
 }
 
-// Function Name: handleHttpResponseVOID()
-// Parameters: none
-// Return: none
-// Description: empty function for responses that don't need to be processed (for on/off/hue/sat/bri/transition changes)
 void LightsControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
 }
 
-// Function Name: handleHttpResponse()
-// Parameters: none
-// Return: none
-// Description: parses and displays light information when a light is chosen
 void LightsControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
@@ -309,21 +288,20 @@ void LightsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		endPos = subString.find(",");
 		string hue = subString.substr(0, endPos);
 
-		//show light's values on the sliders
+		///< show light's values on the sliders
 		hueScaleSlider_->setValue(stoi(hue));
 		satScaleSlider_->setValue(stoi(sat));
 		briScaleSlider_->setValue(stoi(bri));
 	}
 }
 
-// Function Name: lightOne()
-// Parameters: none
-// Return: none
-// Description: selects light 1 to change
 void LightsControlWidget::lightOne() {
+	//change light selection to light 1
 	currentLight = "1";
 	light_->setText("You are changing Light 1     " + oneLight_->text());
 	change_->setText("");
+
+	//get light 1's state and display slider values
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
 	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/1")) {
@@ -331,14 +309,13 @@ void LightsControlWidget::lightOne() {
 	}
 }
 
-// Function Name: lightTwo()
-// Parameters: none
-// Return: none
-// Description: selects light 2 to change
 void LightsControlWidget::lightTwo() {
+	//change light selection to light 2
 	currentLight = "2";
 	light_->setText("You are changing Light 2     " + twoLight_->text());
 	change_->setText("");
+
+	//get light 2's state and display slider values
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
 	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/2")) {
@@ -346,14 +323,13 @@ void LightsControlWidget::lightTwo() {
 	}
 }
 
-// Function Name: lightThree()
-// Parameters: none
-// Return: none
-// Description: selects light 3 to change
 void LightsControlWidget::lightThree() {
+	//change light selection to light 3
 	currentLight = "3";
 	light_->setText("You are changing Light 3     " + threeLight_->text());
 	change_->setText("");
+
+	//get light 3's state and display slider values
 	Http::Client *client = LightsControlWidget::connect();
 	client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponse, this, _1, _2));
 	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/lights/3")) {
@@ -361,20 +337,20 @@ void LightsControlWidget::lightThree() {
 	}
 }
 
-// Function Name: name()
-// Parameters: none
-// Return: none
-// Description: changes a light's name
 void LightsControlWidget::name() {
+	//if a light is not selected, display an error message 
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 	} else {
+		//get input from name edit textbox and send a post request to change the name
 		std::string input = nameEdit_->text().toUTF8();
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"name\" : \"" + input + "\"}");
 		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
 		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight, *msg);
+		
+		//display the new name 
 		change_->setText("New Name: " + input);
 		if (currentLight.compare("1") == 0) {
 			oneLight_->setText("	(" + input + ")");
@@ -388,15 +364,13 @@ void LightsControlWidget::name() {
 	}
 }
 
-// Function Name: on()
-// Parameters: none
-// Return: none
-// Description: turns light on
 void LightsControlWidget::on() {
+	//if a light is not selected, display an error message 
 	change_->setText("");
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 	} else {
+		//send a put request to turn light on
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"on\" : true}");
@@ -406,15 +380,13 @@ void LightsControlWidget::on() {
 	}
 }
 
-// Function Name: off()
-// Parameters: none
-// Return: none
-// Description: turns light off
 void LightsControlWidget::off() {
+	//if a light is not selected, display an error message 
 	change_->setText("");
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 	} else {
+		//send a put request to turn light off 
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
 		msg->addBodyText("{\"on\" : false}");
@@ -424,15 +396,13 @@ void LightsControlWidget::off() {
 	}
 }
 
-// Function Name: hue()
-// Parameters: none
-// Return: none
-// Description: changes a light's hue
 void LightsControlWidget::hue() {
+	//if a light is not selected, display an error message 
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 		change_->setText("");
 	} else {
+		//get value from hue slider and send a put request to change hue
 		int input = hueScaleSlider_->value();
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -443,15 +413,13 @@ void LightsControlWidget::hue() {
 	}
 }
 
-// Function Name: bright()
-// Parameters: none
-// Return: none
-// Description: changes a light's brightness
 void LightsControlWidget::bright() {
+	//if a light is not selected, display an error message 
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 		change_->setText("");
 	} else {
+		//get value from brightness slider and send a put request to change brightness
 		int input = briScaleSlider_->value();
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -462,15 +430,13 @@ void LightsControlWidget::bright() {
 	}
 }
 
-// Function Name: sat()
-// Parameters: none
-// Return: none
-// Description: changes a light's saturation
 void LightsControlWidget::sat() {
+	//if a light is not selected, display an error message 
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 		change_->setText("");
 	} else {
+		//get value from saturation slider and send a put request to change saturation
 		int input = satScaleSlider_->value();
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -481,22 +447,22 @@ void LightsControlWidget::sat() {
 	}
 }
 
-//Delete the bridge and return to the home page
 void LightsControlWidget::deleteBridge() {
+	//remove bridge from session 
 	session_->deleteAllBridgeUserId(ip,port);
 	session_->deleteBridge(ip,port);
+
+	//return to bridge page
 	WApplication::instance()->setInternalPath("/bridge", true);
 }
 
-// Function Name: transition()
-// Parameters: none
-// Return: none
-// Description: changes a light's transition time
 void LightsControlWidget::transition() {
+	//if a light is not selected, display an error message 
 	if (currentLight.compare("0") == 0) {
 		light_->setText("Please select a light to change");
 		change_->setText("");
 	} else {
+		//get value from transition slider and send a put request to change transition time
 		int input = transitionScaleSlider_->value();
 		Http::Client *client = LightsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -507,14 +473,9 @@ void LightsControlWidget::transition() {
 	}
 }
 
-
-
-// Function Name: returnBridge()
-// Parameters: none
-// Return: none
-// Description: goes back to bridge page
 void LightsControlWidget::returnBridge()
 {
+	//go to /bridge for BridgeControlWidget
 	clear();
 	WApplication::instance()->setInternalPath("/Bridge", true);
 }
