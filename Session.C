@@ -116,10 +116,8 @@ void Session::configureAuth()
 Session::Session()
   : sqlite3_(WApplication::instance()->appRoot() + "hueApp.db")
 {
-  Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7" ;
   session_.setConnection(sqlite3_);
   sqlite3_.setProperty("show-queries", "true");
-Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7" ;
   session_.mapClass<User>("user");
   session_.mapClass<Bridge>("bridge");
   session_.mapClass<BridgeUserIds>("BridgeUserIds");
@@ -132,19 +130,13 @@ Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7" ;
 
   dbo::Transaction transaction(session_);
   try {
-    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8" ;
     session_.createTables();
-    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8" ;
     /*
      * Add a default guest/guest account
      */
     Auth::User guestUser = users_->registerNew();
-    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8" ;
     guestUser.addIdentity(Auth::Identity::LoginName, "guest");
-    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9" ;
     myPasswordService.updatePassword(guestUser, "guest");
-    Wt::log("info") << "WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF10" ;
-
 
     Wt::log("info") << "Database created";
   } catch (...) {
@@ -409,12 +401,12 @@ bool Session::addBridge(Bridge* newBridge){
 void Session::updateUser(User* newUser){
   dbo::Transaction transaction(session_);
 
-  dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
+  dbo::ptr<User> user = this->user();
   user.modify()->name = newUser->name;
   user.modify()->firstName = newUser->firstName;
   user.modify()->lastName = newUser->lastName;
   user.modify()->email = newUser->email;
-  user.modify()->bridgeUserID = newUser->bridgeUserID;
+  user.modify()->customMode = newUser->customMode;
 
   transaction.commit();
 }

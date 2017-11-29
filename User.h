@@ -32,6 +32,7 @@ public:
   std::string lastName;
   std::string email;
   std::string bridgeUserID;
+  std::string customMode;
   Wt::Dbo::collection<Wt::Dbo::ptr<Bridge> > bridges;
   Wt::Dbo::collection< Wt::Dbo::ptr<AuthInfo> > authInfos;
 
@@ -43,6 +44,7 @@ public:
     Wt::Dbo::field(a, lastName, "lastName");
     Wt::Dbo::field(a, email, "email");
     Wt::Dbo::field(a, bridgeUserID, "bridgeUserID");
+    Wt::Dbo::field(a, customMode, "CustomMode");
     Wt::Dbo::hasMany(a, bridges, Wt::Dbo::ManyToMany, "bridge_user");
     Wt::Dbo::hasMany(a, authInfos, Wt::Dbo::ManyToOne, "user");
   }
