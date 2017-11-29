@@ -1,7 +1,8 @@
-// SingleGroupsControl.h : Defines the SingleGroupsControl class that manages the deletion, states and changes of states in groups
-// States include name, hue, brightness, transition time, saturation, on/off
-// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
-// Date: Nov 28, 2017
+/** @file groupsScheduleControl.h
+*  @brief Application for creating and listing schedules of Groups
+*  @author Weija Zhou
+*  @date Nov 28, 2017
+*/
 
 #include <string>
 #include <boost/lexical_cast.hpp>

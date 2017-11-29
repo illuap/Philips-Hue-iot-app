@@ -1,7 +1,8 @@
-// SingleGroupsControl.C : Defines the GroupsSchedulerControlWidget Application for deleting and altering states of individual groups
-// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
-// Date: Nov 28, 2017
-
+/** @file groupsScheduleControl.C
+*  @brief Application for creating and listing schedules of Groups
+*  @author Weija Zhou
+*  @date Nov 28, 2017
+*/
 #include <unistd.h>
 #include <iostream>
 #include <boost/lexical_cast.hpp>
