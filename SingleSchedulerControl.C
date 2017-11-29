@@ -38,14 +38,17 @@ SingleSchedulerControlWidget::SingleSchedulerControlWidget(Session *session, WCo
 void SingleSchedulerControlWidget::update()
 {
   clear();
-  inputData.light = '0';
-  inputData.hour = "01"; 
-  inputData.min = "00";
-  inputData.sec = "00"; 
-  
+
+  Datalight = '0';
+
+  Datahour = "01"; 
+  Datamin = "00";
+  Datasec = "00"; 
+
    deleteConfirm = false; 
   //get URL info
   string address = WApplication::instance()->internalPath();
+
   size_t pos = address.find("user=");						//get userID
   string subString = address.substr(pos + 5);
   size_t endPos = subString.find("&");
@@ -62,24 +65,24 @@ void SingleSchedulerControlWidget::update()
   subString = address.substr(pos + 11);
   endPos = subString.find("&");
   scheduleID = subString.substr(0, endPos);
+
   pos = address.find("name=");                 //get scheduleid
   subString = address.substr(pos + 5);
   endPos = subString.find("&");
   nameID = subString.substr(0, endPos);
 
-  //get group info to display 
-  Http::Client *client = SingleSchedulerControlWidget::connect();
-  client->done().connect(boost::bind(&SingleSchedulerControlWidget::handleHttpResponseName, this, _1, _2));
-  if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/schedules/"+scheduleID)) {
-	  WApplication::instance()->deferRendering();
-  }
-  client = SingleSchedulerControlWidget::connect();
-  client->done().connect(boost::bind(&SingleSchedulerControlWidget::handleHttpResponseVOID, this, _1, _2));
-   if (scheduleID != "99"){
-       Http::Message *msg1 = new Http::Message();
-       if(client->deleteRequest("http://" + ip + ":" + port + "/api/" + userID + "/schedules/"+ scheduleID, *msg1)){}
 
-   }
+  //get group info to display 
+  if (scheduleID != "99"){
+
+    Http::Client *client = SingleSchedulerControlWidget::connect();
+    client->done().connect(boost::bind(&SingleSchedulerControlWidget::handleHttpResponseName, this, _1, _2));
+    if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/schedules/"+scheduleID)) {
+      WApplication::instance()->deferRendering();
+    }
+  }
+  
+
   scheduleInfoEdit_ = new WText(this);               //Schedule name
   this->addWidget(new WBreak());
   scheduleTimeEdit_ = new WText(this);               //Time of Schedule 
@@ -101,15 +104,9 @@ void SingleSchedulerControlWidget::update()
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
-
-
-  	
-  WPushButton *nameButton
-	  = new WPushButton("Change", this);										// submit button
-  nameButton->setMargin(5, Left);											
   this->addWidget(new WBreak());												
   this->addWidget(new WBreak());
-  
+
   //turn on
   this->addWidget(new WText("Light on/off: "));
   WPushButton *onButton
@@ -240,7 +237,7 @@ void SingleSchedulerControlWidget::update()
 
 if (scheduleID != "99"){
   scheduleButton = new WPushButton("Edit Schedule", this);   
-  deleteButton   = new WPushButton("Delete This Group", this);                
+  deleteButton   = new WPushButton("Delete This Schedule", this);                
   onButton->setMargin(5, Left);
 }
 else{
@@ -248,6 +245,7 @@ else{
   onButton->setMargin(5, Left);
 }  
 
+      Wt::log("info") << "Check 32.7";
 
   WPushButton *groupButton						
 	  = new WPushButton("Go to My Schedules", this);
@@ -259,7 +257,6 @@ else{
 	  = new WPushButton("Return To Bridge", this);
 
   onButton->clicked().connect(this, &SingleSchedulerControlWidget::on);
-  nameButton->clicked().connect(this, &SingleSchedulerControlWidget::name);
   offButton->clicked().connect(this, &SingleSchedulerControlWidget::off);
   oneButton->clicked().connect(this, &SingleSchedulerControlWidget::lightOne);
   twoButton->clicked().connect(this, &SingleSchedulerControlWidget::lightTwo);
@@ -273,7 +270,9 @@ else{
   hourInput_->changed().connect(this, &SingleSchedulerControlWidget::changeHour);
   minInput_->changed().connect(this, &SingleSchedulerControlWidget::changeMin);
   secInput_->changed().connect(this, &SingleSchedulerControlWidget::changeSec);
-  deleteButton->clicked().connect(this, &SingleSchedulerControlWidget::deleteGroup);
+  if (scheduleID != "99"){
+  deleteButton->clicked().connect(this, &SingleSchedulerControlWidget::deleteSchedule);
+}
   scheduleButton->clicked().connect(this, &SingleSchedulerControlWidget::createSchedule);
 
 
@@ -281,7 +280,6 @@ else{
 
   (boost::bind(&SingleSchedulerControlWidget::transition, this));
   (boost::bind(&SingleSchedulerControlWidget::hue, this));
-  (boost::bind(&SingleSchedulerControlWidget::name, this));
   (boost::bind(&SingleSchedulerControlWidget::bright, this));
   (boost::bind(&SingleSchedulerControlWidget::sat, this));
   (boost::bind(&SingleSchedulerControlWidget::on, this));
@@ -298,11 +296,15 @@ else{
   (boost::bind(&SingleSchedulerControlWidget::changeMin, this));
   (boost::bind(&SingleSchedulerControlWidget::changeSec, this));
   (boost::bind(&SingleSchedulerControlWidget::createSchedule, this));
-  (boost::bind(&SingleSchedulerControlWidget::deleteGroup, this));
+   if (scheduleID != "99"){
+  (boost::bind(&SingleSchedulerControlWidget::deleteSchedule, this));
+}
+  
 
 
 
 
+  Wt::log("info") << "Check 32";
 
 }
 
@@ -368,21 +370,21 @@ void SingleSchedulerControlWidget::changeDate() {
 	std::set<Wt::WDate> selection = (calendar_->selection());
 	WDate date = (*selection.begin());
 	
-  inputData.year = date.year(); 
-  inputData.month = date.month(); 
-  inputData.day = date.day(); 
-	std::string selectYear = to_string(inputData.year);
-	std::string selectMonth = to_string(inputData.month); 
-	std::string selectDay = to_string(inputData.day); 
+  Datayear = date.year(); 
+  Datamonth = date.month(); 
+  Dataday = date.day(); 
+	std::string selectYear = to_string(Datayear);
+	std::string selectMonth = to_string(Datamonth); 
+	std::string selectDay = to_string(Dataday); 
   std::string output = "Selected Date:" + selectYear; 
   //Formats output string
-  if (inputData.month<10){
+  if (Datamonth<10){
    output +="/0"+selectMonth;
   }
   else{
     output += "/"+selectMonth;
   }
-  if (inputData.day<10){
+  if (Dataday<10){
    output +="/0"+selectDay;
   }
   else{
@@ -394,7 +396,7 @@ void SingleSchedulerControlWidget::changeDate() {
 }
 //selects light 1 to change
 void SingleSchedulerControlWidget::lightOne() {
-	inputData.light = '1';
+	Datalight = '1';
 	light_->setText("You are changing Light 1     " + oneLight_->text());
 	change_->setText("");
 	
@@ -402,7 +404,7 @@ void SingleSchedulerControlWidget::lightOne() {
 
 //selects light 2 to change
 void SingleSchedulerControlWidget::lightTwo() {
-	inputData.light = '2';
+	Datalight = '2';
 	light_->setText("You are changing Light 2     " + twoLight_->text());
 	change_->setText("");
 	
@@ -410,27 +412,20 @@ void SingleSchedulerControlWidget::lightTwo() {
 
 //selects light 3 to change
 void SingleSchedulerControlWidget::lightThree() {
-	inputData.light = '3';
+	Datalight = '3';
 	light_->setText("You are changing Light 3     " + threeLight_->text());
 	change_->setText("");
 }
 
-//changes the name
-void SingleSchedulerControlWidget::name() {
-  std::string input = nameEdit_->text().toUTF8();
-  inputData.name = input; 
-}
-
-
 //turns light on
 void SingleSchedulerControlWidget::on() {
-  inputData.on = 1; 
+  Dataon = 1; 
   change_->setText("Light: ON");
 }
 
 //turns light off
 void SingleSchedulerControlWidget::off() {
-  inputData.on = 2;
+  Dataon = 2;
   change_->setText("Light: OFF");
 }
 
@@ -438,57 +433,63 @@ void SingleSchedulerControlWidget::off() {
 void SingleSchedulerControlWidget::hue() {
   int input = hueScaleSlider_->value();
 
-  inputData.hue = input;
+  Datahue = input;
   change_->setText("new Hue: " + to_string(input));
 }
 
 //changes the brightness
 void SingleSchedulerControlWidget::bright() {
   int input = briScaleSlider_->value();
-  inputData.bri = input;
+  Databri = input;
   change_->setText("new Brightness: " + to_string(input));
 }
 
 //changes the saturation
 void SingleSchedulerControlWidget::sat() {
   int input = satScaleSlider_->value();
-  inputData.sat = input;
+  Datasat = input;
   change_->setText("new Saturation: " + to_string(input));
 }
 
 //changes the transition time
 void SingleSchedulerControlWidget::transition() {
   int input = transitionScaleSlider_->value();
-  inputData.transition = input;
+  Datatransition = input;
   change_->setText("new Transition Time: " + to_string(input * 100) + "ms");
 
 }
 
 void SingleSchedulerControlWidget::changeHour(){
-  inputData.hour = hourInput_->currentText().toUTF8();
+  Datahour = hourInput_->currentText().toUTF8();
 }
 
 void SingleSchedulerControlWidget::changeMin(){
-  inputData.min = minInput_->currentText().toUTF8();
+  Datamin = minInput_->currentText().toUTF8();
 }
 
 void SingleSchedulerControlWidget::changeSec(){
-  inputData.sec = secInput_->currentText().toUTF8();
+  Datasec = secInput_->currentText().toUTF8();
 }
 
 void SingleSchedulerControlWidget::createSchedule(){
-  if ( inputData.light == NULL) {
+  if ( Datalight == NULL) {
    light_->setText("Please select a light to change");
    change_->setText("");
   } else {
    Http::Client *client = SingleSchedulerControlWidget::connect();
    Http::Message *msg = new Http::Message();
+  
 
    change_->setText(createPostMessage());
    msg->addBodyText(createPostMessage());
    client->done().connect(boost::bind(&SingleSchedulerControlWidget::handleHttpResponseVOID, this, _1, _2));
-      client->post("http://" + ip + ":" + port + "/api/" + userID + "/schedules/", *msg);
-   change_->setText("Schedule Created");
+   if (scheduleID == "99"){
+     client->post("http://" + ip + ":" + port + "/api/" + userID + "/schedules/", *msg);    
+   }
+   else{
+      client->put("http://" + ip + ":" + port + "/api/" + userID + "/schedules/"+ scheduleID, *msg);    
+   }
+    returnBridge(); 
   }
 }
 
@@ -496,10 +497,13 @@ void SingleSchedulerControlWidget::createSchedule(){
 
 
 std::string SingleSchedulerControlWidget::createPostMessage(){
-  std::string postMessage = "{"; 
-  postMessage += "\"name\": \"" +nameID +"\" ,";
+  std::string postMessage = "{";
+  if(scheduleID == "99"){
+      Wt::log("info") << "Name Changed";
+    postMessage += "\"name\": \"" +nameID +"\" ,";
+  } 
   postMessage += "\"command\": {";
-  postMessage += "\"address\": \"/api/" + userID + "/lights/" + inputData.light + "/state\" ,";
+  postMessage += "\"address\": \"/api/" + userID + "/lights/" + Datalight + "/state\" ,";
   postMessage += "\"method\": \"PUT\","; 
   postMessage += "\"body\":" + createBodyMessage(); 
   postMessage += "},";
@@ -512,25 +516,25 @@ std::string SingleSchedulerControlWidget::createPostMessage(){
 std::string SingleSchedulerControlWidget::createBodyMessage(){
   std::string bodyText = "{"; 
 
-  if (inputData.on != NULL){
-    if (inputData.on == 1){
+  if (Dataon != NULL){
+    if (Dataon == 1){
        bodyText += "\"on\": true,";
     }
-    else if (inputData.on == 2){
+    else if (Dataon == 2){
        bodyText += "\"on\": false,";
     }
   }
-  if (inputData.hue != NULL){
-      bodyText += "\"hue\":"+ to_string(inputData.hue)+",";
+  if (Datahue != NULL){
+      bodyText += "\"hue\":"+ to_string(Datahue)+",";
   }
-  if (inputData.bri != NULL){
-      bodyText += "\"bri\":"+ to_string(inputData.bri)+",";
+  if (Databri != NULL){
+      bodyText += "\"bri\":"+ to_string(Databri)+",";
   }
-  if (inputData.sat != NULL){
-      bodyText += "\"sat\":"+ to_string(inputData.sat)+",";
+  if (Datasat != NULL){
+      bodyText += "\"sat\":"+ to_string(Datasat)+",";
   }
-  if (inputData.transition != NULL){
-      bodyText += "\"transitiontime\":"+ to_string(inputData.transition)+",";
+  if (Datatransition != NULL){
+      bodyText += "\"transitiontime\":"+ to_string(Datatransition)+",";
   }
   bodyText.pop_back();
   bodyText += "}"; 
@@ -543,17 +547,17 @@ std::string SingleSchedulerControlWidget::createDateTime(){
   this->changeHour();
   this->changeMin(); 
   this->changeSec(); 
-  dateTimeMessage += "\""+ to_string(inputData.year)+"-"+to_string(inputData.month)+"-"+to_string(inputData.day);
+  dateTimeMessage += "\""+ to_string(Datayear)+"-"+to_string(Datamonth)+"-"+to_string(Dataday);
   dateTimeMessage += "T";
   if ((amSelector_->currentText().toUTF8()).compare("PM") == 0 ){
-    int currentHour = stoi(inputData.hour);
+    int currentHour = stoi(Datahour);
     if (currentHour<12){
       currentHour += 12; 
-      inputData.hour = to_string(currentHour); 
+      Datahour = to_string(currentHour); 
     }
     
   }
-  dateTimeMessage += inputData.hour + ":"+inputData.min + ":" + inputData.sec + "\"";
+  dateTimeMessage += Datahour + ":"+Datamin + ":" + Datasec + "\"";
   return dateTimeMessage; 
 
 }
@@ -562,18 +566,24 @@ std::string SingleSchedulerControlWidget::createDateTime(){
 // Parameters: none
 // Return: none
 // Description: Deletes a group
-void SingleSchedulerControlWidget::deleteGroup() {
+void SingleSchedulerControlWidget::deleteSchedule() {
 
   if (!deleteConfirm) {
     change_->setText("You are about to delete this schedule. Are you sure?");
     deleteConfirm = true;
   } else {
-    deleteButton->setLink("/?_=/scheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26scheduleid=");
-  }
+      Http::Client *client = SingleSchedulerControlWidget::connect();
+       Http::Message *msg = new Http::Message();
+     if(client->deleteRequest("http://" + ip + ":" + port + "/api/" + userID + "/schedules/"+ scheduleID, *msg)){
+      returnBridge(); 
+     }
+
+     }
 }
+
 
 void SingleSchedulerControlWidget::returnBridge()
 {
 	clear();
-	WApplication::instance()->setInternalPath("/Bridge", true);
+	WApplication::instance()->setInternalPath("/light?user=" + userID + "%26ip=" + ip + "%26port=" + port, true);
 }

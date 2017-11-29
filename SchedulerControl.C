@@ -100,6 +100,7 @@ void SchedulerControlWidget::update()
   // this->addWidget(new WBreak());
   // light3_ = new WText(this);
   
+
   //create Schedule
   this->addWidget(new WBreak());
   createButton = new WPushButton("Create Schedule", this);                  
@@ -120,13 +121,21 @@ void SchedulerControlWidget::update()
     WApplication::instance()->deferRendering();
   }
 
+
   createButton->clicked().connect(this, &SchedulerControlWidget::createSchedule);
+
   returnButton->clicked().connect(this, &SchedulerControlWidget::returnBridge);
+
   (boost::bind(&SchedulerControlWidget::handleHttpResponse, this));
+
   (boost::bind(&SchedulerControlWidget::handleHttpResponseVOID, this));
+
   (boost::bind(&SchedulerControlWidget::connect, this));
+
   (boost::bind(&SchedulerControlWidget::createSchedule, this));
+
   (boost::bind(&SchedulerControlWidget::returnBridge, this));
+
 }
 
 // Function Name: connect() 
@@ -134,6 +143,7 @@ void SchedulerControlWidget::update()
 // Return: none
 // Description: creates an Http client
 Http::Client * SchedulerControlWidget::connect() {
+
   Http::Client *client = new Http::Client(this);
   client->setTimeout(15);
   client->setMaximumResponseSize(10 * 1024);
@@ -144,6 +154,7 @@ Http::Client * SchedulerControlWidget::connect() {
 // Return: none
 // Description: reloads the same Widget with changes to the Schedule list
 void SchedulerControlWidget::handleHttpResponseVOID(boost::system::error_code err, const Http::Message& response) {
+
   update();
 }
 
@@ -152,18 +163,19 @@ void SchedulerControlWidget::handleHttpResponseVOID(boost::system::error_code er
 // Return: none
 // Description: displays the list of Schedules as buttons 
 void SchedulerControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
+
   WApplication::instance()->resumeRendering();
   if (!err && response.status() == 200) {
+
     //find number of Schedules
-    status_->setText(response.body()); 
     string jsonMessage = response.body(); 
     int count =0; 
-    for (int i = 0; i < jsonMessage.size()-4; i++){
-      if (jsonMessage[i] == 'n' && jsonMessage[i+1] == 'a'&& jsonMessage[i+2] == 'm'&& jsonMessage[i+3] == 'e'){
+    for (int i = 0; i < jsonMessage.size(); i++){
+      if (jsonMessage[i] == '{'){
         count ++; 
       }
     }
-    int n= (count -1); 
+    int n= count-1; 
     numOfSchedules = n; 
 
     // status_->setText(num); 
@@ -185,6 +197,7 @@ void SchedulerControlWidget::handleHttpResponse(boost::system::error_code err, c
         currentButton->setLink("/?_=/singlescheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26scheduleid=" + to_string(i+1)+ "%26name="+ name);
       }
     }
+
   }
   
 }
@@ -194,18 +207,17 @@ void SchedulerControlWidget::handleHttpResponse(boost::system::error_code err, c
 // Return: none
 // Description: creates a new Schedule
 void SchedulerControlWidget::createSchedule() {
+
   //determine which lights have been chosen
     if (nameEdit_->text().toUTF8() == "") {
       status_->setText("Enter a name for your Schedule");
     } else {
       status_->setText("Are you sure?");
-
+      // WApplication::instance()->setInternalPath("/singlescheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26scheduleid=" + to_string(99) + "%26name="+ nameEdit_->text().toUTF8(), true);
       createButton->setLink("/?_=/singlescheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26scheduleid=" + to_string(99) + "%26name="+ nameEdit_->text().toUTF8());
 
     }
 }
-
-
 
 
 
@@ -214,6 +226,7 @@ void SchedulerControlWidget::createSchedule() {
 // Return: none
 // Description: goes back to bridge page
 void SchedulerControlWidget::returnBridge() {
+
   clear();
   WApplication::instance()->setInternalPath("/Bridge", true);
 }
