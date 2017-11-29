@@ -1,10 +1,9 @@
-// This may look like C code, but it's really -*- C++ -*-
-/* 
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium
- *
- * See the LICENSE file for terms of use.
- */
-
+/** @file User.h
+*  @class User
+*  @brief The model of the user information.
+*  @author Paul Li
+*  @date Nov 28, 2017
+*/
 #ifndef USER_H_
 #define USER_H_
 
@@ -25,17 +24,28 @@ typedef Wt::Dbo::collection< Wt::Dbo::ptr<User> > Users;
 class User
 {
 public:
+  /** @brief User constructor
+  *
+  *  Empty constructor
+  */
   User();
 
-  std::string name; /* a copy of auth info's user name */
+  std::string name; 
   std::string firstName;
   std::string lastName;
   std::string email;
   std::string bridgeUserID;
   std::string customMode;
+  
   Wt::Dbo::collection<Wt::Dbo::ptr<Bridge> > bridges;
   Wt::Dbo::collection< Wt::Dbo::ptr<AuthInfo> > authInfos;
 
+  /** @brief Used in dbo to represent the table in the database.
+  *
+  *  Add fields and the relation types of the user model for the dbo to store and organize.
+  *  
+  * @param a used by the dbo for creating the database.
+  */
   template<class Action>
   void persist(Action& a)
   {
