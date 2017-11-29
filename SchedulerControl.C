@@ -1,6 +1,9 @@
-// SchedulesControl.C : Defines the SchedulerControlWidget Application for creating and listing Schedules
-// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
-// Date: Nov 28, 2017
+/** @file SchedulerControl.C
+*  @brief Application for creating and listing schedules
+*  @author Weija Zhou
+*  @date Nov 28, 2017
+*/
+
 
 #include <boost/lexical_cast.hpp>
 #include <Wt/WText>
