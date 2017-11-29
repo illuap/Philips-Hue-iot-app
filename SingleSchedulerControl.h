@@ -7,23 +7,6 @@
 #ifndef SINGLESCHEDULERCONTROL_H_
 #define SINGLESCHEDULERCONTROL_H_
 
-struct dateTime {
-  std::string name; 
-  char light; 
-  int on; 
-  int hue; 
-  int bri;
-  int sat;
-  int transition; 
-  int year;
-  int month;
-  int day; 
-  std::string hour; 
-  std::string min; 
-  std::string sec; 
-  std::string merDes; 
-
-};
 
 class Session;
 
@@ -62,14 +45,26 @@ private:
 	std::string port = "";
 	std::string scheduleID = "";
 	std::string nameID = "";
+	std::string name; 
+  	char Datalight; 
+  	int Dataon; 
+  	int Datahue; 
+  	int Databri;
+  	int Datasat;
+  	int Datatransition; 
+  	int Datayear;
+  	int Datamonth;
+  	int Dataday; 
+ 	std::string Datahour; 
+  	std::string Datamin; 
+  	std::string Datasec; 
+  	std::string DatamerDes; 
 	bool deleteConfirm; 
-	dateTime inputData; 
 	void on();
 	void off();
 	void hue();
 	void bright();
 	void sat();
-	void name();
 	void transition();
 	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	void handleHttpResponseName(boost::system::error_code err, const Wt::Http::Message& response);
@@ -84,7 +79,7 @@ private:
 	void changeHour(); 
 	void changeMin(); 
 	void changeSec(); 
-	void deleteGroup();
+	void deleteSchedule();
 	std::string createBodyMessage();
 	std::string createPostMessage();
 	std::string createDateTime();
