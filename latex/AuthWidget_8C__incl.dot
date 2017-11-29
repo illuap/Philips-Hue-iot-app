@@ -30,7 +30,7 @@ digraph "AuthWidget.C"
   Node8 -> Node14 [color="midnightblue",fontsize="10",style="solid"];
   Node14 [label="Wt/Dbo/backend/Sqlite3",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
   Node8 -> Node15 [color="midnightblue",fontsize="10",style="solid"];
-  Node15 [label="User.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$User_8h_source.html"];
+  Node15 [label="User.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$User_8h.html"];
   Node15 -> Node16 [color="midnightblue",fontsize="10",style="solid"];
   Node16 [label="Wt/WDateTime",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
   Node15 -> Node17 [color="midnightblue",fontsize="10",style="solid"];

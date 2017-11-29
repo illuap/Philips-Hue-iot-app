@@ -7,4 +7,8 @@ digraph "GroupsControl.h"
   Node2 [label="GroupsControl.C",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$GroupsControl_8C.html",tooltip="Application for creating and listing groups. "];
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
   Node3 [label="HueApp.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$HueApp_8h_source.html"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="HueApp.C",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$HueApp_8C.html",tooltip="the main application "];
+  Node3 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="Main.C",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$Main_8C.html",tooltip="The main to run the server. "];
 }

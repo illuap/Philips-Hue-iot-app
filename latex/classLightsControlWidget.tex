@@ -44,6 +44,10 @@ void \hyperlink{classLightsControlWidget_a4b17ac832e826eb5665a8f69fe73c5f4}{retu
 \begin{DoxyCompactList}\small\item\em returns user to the bridge page \end{DoxyCompactList}\item 
 void \hyperlink{classLightsControlWidget_aa34bd45ed4b9e07481634641bfa49736}{delete\+Bridge} ()
 \begin{DoxyCompactList}\small\item\em deletes a bridge \end{DoxyCompactList}\item 
+void \hyperlink{classLightsControlWidget_a0c39f8d5f113562f95cd80b1074ecc57}{custom\+Create} ()
+\begin{DoxyCompactList}\small\item\em creates a custom light mode \end{DoxyCompactList}\item 
+void \hyperlink{classLightsControlWidget_abb67e6addbaed2126b6afb21e9a262d2}{custom\+Mode} ()
+\begin{DoxyCompactList}\small\item\em implementss acustom light mode \end{DoxyCompactList}\item 
 void \hyperlink{classLightsControlWidget_a0fd696e3500ca64cfeddd08738e5b6cf}{handle\+Http\+Response} (boost\+::system\+::error\+\_\+code err, const Wt\+::\+Http\+::\+Message \&response)
 \begin{DoxyCompactList}\small\item\em handles response and displays light information \end{DoxyCompactList}\item 
 void \hyperlink{classLightsControlWidget_ace0f0ce6387f25f695ac83a46a765a74}{handle\+Http\+Response\+Name} (boost\+::system\+::error\+\_\+code err, const Wt\+::\+Http\+::\+Message \&response)
@@ -62,6 +66,12 @@ std\+::string \hyperlink{classLightsControlWidget_aa2855e24d3d1afbcf6fcd2992abc4
 std\+::string \hyperlink{classLightsControlWidget_aa26d4553e677dec57b64575a6d6d8558}{user\+ID} = \char`\"{}\char`\"{}
 \item 
 std\+::string \hyperlink{classLightsControlWidget_a5760f7ec7c3c36e8faf00ae6b2633ab5}{port} = \char`\"{}\char`\"{}
+\item 
+std\+::string \hyperlink{classLightsControlWidget_a2db5ec044ec1156bf73dc2ae0a997289}{custom\+Hue}
+\item 
+std\+::string \hyperlink{classLightsControlWidget_ac19d3dd4895b03ccfe686cffd51c27fd}{custom\+Sat}
+\item 
+std\+::string \hyperlink{classLightsControlWidget_a5d4fcb296c966e544f26269debbc0a85}{custom\+Bri}
 \item 
 Wt\+::\+W\+Line\+Edit $\ast$ \hyperlink{classLightsControlWidget_aff7b495c562df75a6006ad6bef43f96f}{name\+Edit\+\_\+}
 \item 
@@ -145,6 +155,38 @@ creates an H\+T\+TP client that will be used to send either a put request change
 \begin{DoxyReturn}{Returns}
 Http\+::\+Client 
 \end{DoxyReturn}
+\index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!custom\+Create@{custom\+Create}}
+\index{custom\+Create@{custom\+Create}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
+\subsubsection[{\texorpdfstring{custom\+Create()}{customCreate()}}]{\setlength{\rightskip}{0pt plus 5cm}void Lights\+Control\+Widget\+::custom\+Create (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLightsControlWidget_a0c39f8d5f113562f95cd80b1074ecc57}{}\label{classLightsControlWidget_a0c39f8d5f113562f95cd80b1074ecc57}
+
+
+creates a custom light mode 
+
+takes the chosen hue, saturation and brightness values from the sliders and creates a custom mode button. If custom moe already exits, new custom mode overrides the old one.
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
+\index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!custom\+Mode@{custom\+Mode}}
+\index{custom\+Mode@{custom\+Mode}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
+\subsubsection[{\texorpdfstring{custom\+Mode()}{customMode()}}]{\setlength{\rightskip}{0pt plus 5cm}void Lights\+Control\+Widget\+::custom\+Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLightsControlWidget_abb67e6addbaed2126b6afb21e9a262d2}{}\label{classLightsControlWidget_abb67e6addbaed2126b6afb21e9a262d2}
+
+
+implementss acustom light mode 
+
+changes a light to the hue, saturation and brightness in the custom mode
+
+\begin{DoxyReturn}{Returns}
+Void 
+\end{DoxyReturn}
 \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!delete\+Bridge@{delete\+Bridge}}
 \index{delete\+Bridge@{delete\+Bridge}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
 \subsubsection[{\texorpdfstring{delete\+Bridge()}{deleteBridge()}}]{\setlength{\rightskip}{0pt plus 5cm}void Lights\+Control\+Widget\+::delete\+Bridge (
@@ -185,7 +227,7 @@ gets the current state of a light and adjusts the slider values to reflect the l
 \begin{DoxyReturn}{Returns}
 Void 
 \end{DoxyReturn}
-$<$ show light\textquotesingle{}s values on the sliders \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!handle\+Http\+Response\+Name@{handle\+Http\+Response\+Name}}
+\index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!handle\+Http\+Response\+Name@{handle\+Http\+Response\+Name}}
 \index{handle\+Http\+Response\+Name@{handle\+Http\+Response\+Name}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
 \subsubsection[{\texorpdfstring{handle\+Http\+Response\+Name(boost\+::system\+::error\+\_\+code err, const Wt\+::\+Http\+::\+Message \&response)}{handleHttpResponseName(boost::system::error_code err, const Wt::Http::Message &response)}}]{\setlength{\rightskip}{0pt plus 5cm}void Lights\+Control\+Widget\+::handle\+Http\+Response\+Name (
 \begin{DoxyParamCaption}
@@ -419,7 +461,16 @@ light\textquotesingle{}s brightness selection \index{Lights\+Control\+Widget@{Li
 status of a light change \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!current\+Light@{current\+Light}}
 \index{current\+Light@{current\+Light}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
 \subsubsection[{\texorpdfstring{current\+Light}{currentLight}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Lights\+Control\+Widget\+::current\+Light = \char`\"{}0\char`\"{}\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLightsControlWidget_ace513933420460bc8fbb508d865491d4}{}\label{classLightsControlWidget_ace513933420460bc8fbb508d865491d4}
-the light that is currently being changed \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!hue\+Scale\+Slider\+\_\+@{hue\+Scale\+Slider\+\_\+}}
+the light that is currently being changed \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!custom\+Bri@{custom\+Bri}}
+\index{custom\+Bri@{custom\+Bri}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
+\subsubsection[{\texorpdfstring{custom\+Bri}{customBri}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Lights\+Control\+Widget\+::custom\+Bri\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLightsControlWidget_a5d4fcb296c966e544f26269debbc0a85}{}\label{classLightsControlWidget_a5d4fcb296c966e544f26269debbc0a85}
+custom brightness value \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!custom\+Hue@{custom\+Hue}}
+\index{custom\+Hue@{custom\+Hue}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
+\subsubsection[{\texorpdfstring{custom\+Hue}{customHue}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Lights\+Control\+Widget\+::custom\+Hue\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLightsControlWidget_a2db5ec044ec1156bf73dc2ae0a997289}{}\label{classLightsControlWidget_a2db5ec044ec1156bf73dc2ae0a997289}
+custom hue value \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!custom\+Sat@{custom\+Sat}}
+\index{custom\+Sat@{custom\+Sat}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
+\subsubsection[{\texorpdfstring{custom\+Sat}{customSat}}]{\setlength{\rightskip}{0pt plus 5cm}std\+::string Lights\+Control\+Widget\+::custom\+Sat\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLightsControlWidget_ac19d3dd4895b03ccfe686cffd51c27fd}{}\label{classLightsControlWidget_ac19d3dd4895b03ccfe686cffd51c27fd}
+custom saturation value \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!hue\+Scale\+Slider\+\_\+@{hue\+Scale\+Slider\+\_\+}}
 \index{hue\+Scale\+Slider\+\_\+@{hue\+Scale\+Slider\+\_\+}!Lights\+Control\+Widget@{Lights\+Control\+Widget}}
 \subsubsection[{\texorpdfstring{hue\+Scale\+Slider\+\_\+}{hueScaleSlider_}}]{\setlength{\rightskip}{0pt plus 5cm}Wt\+::\+W\+Slider$\ast$ Lights\+Control\+Widget\+::hue\+Scale\+Slider\+\_\+\hspace{0.3cm}{\ttfamily [private]}}\hypertarget{classLightsControlWidget_a71c03598de2481409316e7d1ca51fda0}{}\label{classLightsControlWidget_a71c03598de2481409316e7d1ca51fda0}
 light\textquotesingle{}s hue selection \index{Lights\+Control\+Widget@{Lights\+Control\+Widget}!ip@{ip}}

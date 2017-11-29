@@ -91,12 +91,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">User Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>The model of the user information.  
+ <a href="classUser.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="User_8h_source.html">User.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a626b516f8e54e0b98c4b20c488de01b8"><td class="memTemplParams" colspan="2"><a class="anchor" id="a626b516f8e54e0b98c4b20c488de01b8"></a>
-template&lt;class Action &gt; </td></tr>
-<tr class="memitem:a626b516f8e54e0b98c4b20c488de01b8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>persist</b> (Action &amp;a)</td></tr>
+<tr class="memitem:a4a0137053e591fbb79d9057dd7d2283d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classUser.html#a4a0137053e591fbb79d9057dd7d2283d">User</a> ()</td></tr>
+<tr class="memdesc:a4a0137053e591fbb79d9057dd7d2283d"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classUser.html" title="The model of the user information. ">User</a> constructor.  <a href="#a4a0137053e591fbb79d9057dd7d2283d">More...</a><br /></td></tr>
+<tr class="separator:a4a0137053e591fbb79d9057dd7d2283d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a626b516f8e54e0b98c4b20c488de01b8"><td class="memTemplParams" colspan="2">template&lt;class Action &gt; </td></tr>
+<tr class="memitem:a626b516f8e54e0b98c4b20c488de01b8"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classUser.html#a626b516f8e54e0b98c4b20c488de01b8">persist</a> (Action &amp;a)</td></tr>
+<tr class="memdesc:a626b516f8e54e0b98c4b20c488de01b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Used in dbo to represent the table in the database.  <a href="#a626b516f8e54e0b98c4b20c488de01b8">More...</a><br /></td></tr>
 <tr class="separator:a626b516f8e54e0b98c4b20c488de01b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
@@ -126,6 +134,65 @@ Wt::Dbo::collection&lt; Wt::Dbo::ptr&lt; <a class="el" href="classBridge.html">B
 Wt::Dbo::collection&lt; Wt::Dbo::ptr&lt; AuthInfo &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>authInfos</b></td></tr>
 <tr class="separator:ae3f58fe31642f514288705f4081031b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>The model of the user information. </p>
+<dl class="section author"><dt>Author</dt><dd>Paul Li </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>Nov 28, 2017 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a4a0137053e591fbb79d9057dd7d2283d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">User::User </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classUser.html" title="The model of the user information. ">User</a> constructor. </p>
+<p>Empty constructor </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a626b516f8e54e0b98c4b20c488de01b8"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class Action &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void User::persist </td>
+          <td>(</td>
+          <td class="paramtype">Action &amp;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Used in dbo to represent the table in the database. </p>
+<p>Add fields and the relation types of the user model for the dbo to store and organize.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>used by the dbo for creating the database. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="User_8h_source.html">User.h</a></li>
 <li>User.C</li>

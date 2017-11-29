@@ -54,7 +54,7 @@ digraph "LightsControl.C"
   Node20 -> Node25 [color="midnightblue",fontsize="10",style="solid"];
   Node25 [label="Wt/Dbo/backend/Sqlite3",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
   Node20 -> Node26 [color="midnightblue",fontsize="10",style="solid"];
-  Node26 [label="User.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$User_8h_source.html"];
+  Node26 [label="User.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$User_8h.html"];
   Node26 -> Node27 [color="midnightblue",fontsize="10",style="solid"];
   Node27 [label="Wt/WDateTime",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled"];
   Node26 -> Node28 [color="midnightblue",fontsize="10",style="solid"];

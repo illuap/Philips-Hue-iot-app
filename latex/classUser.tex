@@ -1,11 +1,21 @@
 \hypertarget{classUser}{}\section{User Class Reference}
 \label{classUser}\index{User@{User}}
+
+
+The model of the user information.  
+
+
+
+
+{\ttfamily \#include $<$User.\+h$>$}
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\footnotesize template$<$class Action $>$ }\\void {\bfseries persist} (Action \&a)\hypertarget{classUser_a626b516f8e54e0b98c4b20c488de01b8}{}\label{classUser_a626b516f8e54e0b98c4b20c488de01b8}
-
-\end{DoxyCompactItemize}
+\hyperlink{classUser_a4a0137053e591fbb79d9057dd7d2283d}{User} ()
+\begin{DoxyCompactList}\small\item\em \hyperlink{classUser}{User} constructor. \end{DoxyCompactList}\item 
+{\footnotesize template$<$class Action $>$ }\\void \hyperlink{classUser_a626b516f8e54e0b98c4b20c488de01b8}{persist} (Action \&a)
+\begin{DoxyCompactList}\small\item\em Used in dbo to represent the table in the database. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -35,7 +45,53 @@ Wt\+::\+Dbo\+::collection$<$ Wt\+::\+Dbo\+::ptr$<$ Auth\+Info $>$ $>$ {\bfseries
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+The model of the user information. 
+
+\begin{DoxyAuthor}{Author}
+Paul Li 
+\end{DoxyAuthor}
+\begin{DoxyDate}{Date}
+Nov 28, 2017 
+\end{DoxyDate}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{User@{User}!User@{User}}
+\index{User@{User}!User@{User}}
+\subsubsection[{\texorpdfstring{User()}{User()}}]{\setlength{\rightskip}{0pt plus 5cm}User\+::\+User (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classUser_a4a0137053e591fbb79d9057dd7d2283d}{}\label{classUser_a4a0137053e591fbb79d9057dd7d2283d}
+
+
+\hyperlink{classUser}{User} constructor. 
+
+Empty constructor 
+
+\subsection{Member Function Documentation}
+\index{User@{User}!persist@{persist}}
+\index{persist@{persist}!User@{User}}
+\subsubsection[{\texorpdfstring{persist(\+Action \&a)}{persist(Action &a)}}]{\setlength{\rightskip}{0pt plus 5cm}template$<$class Action $>$ void User\+::persist (
+\begin{DoxyParamCaption}
+\item[{Action \&}]{a}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}\hypertarget{classUser_a626b516f8e54e0b98c4b20c488de01b8}{}\label{classUser_a626b516f8e54e0b98c4b20c488de01b8}
+
+
+Used in dbo to represent the table in the database. 
+
+Add fields and the relation types of the user model for the dbo to store and organize.
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & used by the dbo for creating the database. \\
+\hline
+\end{DoxyParams}
+
+
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-User.\+h\item 
+\hyperlink{User_8h}{User.\+h}\item 
 User.\+C\end{DoxyCompactItemize}

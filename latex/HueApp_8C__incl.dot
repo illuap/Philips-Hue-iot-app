@@ -98,7 +98,7 @@ digraph "HueApp.C"
   Node32 -> Node13 [color="midnightblue",fontsize="10",style="solid"];
   Node32 -> Node23 [color="midnightblue",fontsize="10",style="solid"];
   Node9 -> Node33 [color="midnightblue",fontsize="10",style="solid"];
-  Node33 [label="SchedulerControl.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$SchedulerControl_8h_source.html"];
+  Node33 [label="SchedulerControl.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$SchedulerControl_8h.html",tooltip="Application for creating and listing schedules. "];
   Node33 -> Node13 [color="midnightblue",fontsize="10",style="solid"];
   Node33 -> Node26 [color="midnightblue",fontsize="10",style="solid"];
   Node33 -> Node27 [color="midnightblue",fontsize="10",style="solid"];

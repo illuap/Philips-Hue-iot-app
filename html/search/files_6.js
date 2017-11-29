@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['userdetailsmodel_2ec',['UserDetailsModel.C',['../UserDetailsModel_8C.html',1,'']]]
+  ['registrationview_2ec',['RegistrationView.C',['../RegistrationView_8C.html',1,'']]]
 ];

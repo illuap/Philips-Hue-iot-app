@@ -90,7 +90,7 @@ digraph "Main.C"
   Node28 -> Node9 [color="midnightblue",fontsize="10",style="solid"];
   Node28 -> Node19 [color="midnightblue",fontsize="10",style="solid"];
   Node5 -> Node29 [color="midnightblue",fontsize="10",style="solid"];
-  Node29 [label="SchedulerControl.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$SchedulerControl_8h_source.html"];
+  Node29 [label="SchedulerControl.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$SchedulerControl_8h.html",tooltip="Application for creating and listing schedules. "];
   Node29 -> Node9 [color="midnightblue",fontsize="10",style="solid"];
   Node29 -> Node22 [color="midnightblue",fontsize="10",style="solid"];
   Node29 -> Node23 [color="midnightblue",fontsize="10",style="solid"];
