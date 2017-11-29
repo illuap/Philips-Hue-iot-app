@@ -19,8 +19,7 @@ class LightsControlWidget: public Wt::WContainerWidget
 {
 public:
 
-  /** @fn LightsControlWidget(Session *session, Wt::WContainerWidget *parent = 0)
-  *  @brief creates a LightsControlWidget
+  /** @brief creates a LightsControlWidget
   *
   *  creates a LightsControlWidget that is tied to a database session. The Widget also has a parent Container Widget
   *
@@ -28,10 +27,9 @@ public:
   *  @param parent the parent Widget Container
   *  @return LightsControlWidget
   */
-  LightsControlWidget(Session *session /*!< database session */, Wt::WContainerWidget *parent = 0 /*!< parent Widget Container */);									
+  LightsControlWidget(Session *session, Wt::WContainerWidget *parent = 0);									
   
-  /** @fn void update()
-  *  @brief loads LightsControlWidget page
+  /** @brief loads LightsControlWidget page
   *
   *  loads the LightsControlWidget page which displays changes to a light's name, and options to change a light's state
   *
@@ -56,8 +54,7 @@ private:
 	Wt::WText *change_;									/*!< status of a light change */
 	Wt::WText *light_;									/*!< displays the light being changed */
 	
-	/** @fn Wt::Http::Client * connect()
-	*  @brief creates an HTTP client
+	/** @brief creates an HTTP client
 	*
 	*  creates an HTTP client that will be used to send either a put request change a light or a get request to retrive a light's state
 	*
@@ -65,8 +62,7 @@ private:
 	*/
 	Wt::Http::Client * connect();
 
-	/** @fn	void on()
-	*  @brief turns a light on
+	/** @brief turns a light on
 	*
 	*  turns a light on. A light must be selected first.
 	*
@@ -74,8 +70,7 @@ private:
 	*/
 	void on();
 
-	/** @fn void off()
-	*  @brief turns a light off
+	/** @brief turns a light off
 	*
 	*  turns a light off. A light must be selected first.
 	*
@@ -83,8 +78,7 @@ private:
 	*/
 	void off();	
 
-	/** @fn void hue()
-	*  @brief changes a light's hue
+	/** @brief changes a light's hue
 	*
 	*  changes a light's hue based on the hue value. A light must be selected first.
 	*
@@ -92,8 +86,7 @@ private:
 	*/
 	void hue();	
 
-	/** @fn void bright()	
-	*  @brief changes a light's brightness
+	/** @brief changes a light's brightness
 	*
 	*  changes a light's brightness based on the brightness slider value. A light must be selected first.
 	*
@@ -101,8 +94,7 @@ private:
 	*/
 	void bright();	
 
-	/** @fn void sat()	
-	*  @brief changes a light's saturation
+	/** @brief changes a light's saturation
 	*
 	*  changes a light's saturation based on the saturation slider value. A light must be selected first.
 	*
@@ -110,8 +102,7 @@ private:
 	*/
 	void sat();	
 
-	/** @fn void name()
-	*  @brief changes a light's name
+	/** @brief changes a light's name
 	*
 	*  changes a light's name. A light must be selected first.
 	*
@@ -119,8 +110,7 @@ private:
 	*/
 	void name();
 
-	/** @fn void transition() 
-	*  @brief changes a light's transition time
+	/** @brief changes a light's transition time
 	*
 	*  changes a light's transition time based on the transition slider value. A light must be selected first.
 	*
@@ -128,8 +118,7 @@ private:
 	*/
 	void transition();	
 
-	/** @fn void lightOne()
-	*  @brief selects light 1 to change
+	/** @brief selects light 1 to change
 	*
 	*  selects light 1 such that any changes in state will be applied to light 1
 	*
@@ -137,8 +126,7 @@ private:
 	*/
 	void lightOne();
 
-	/** @fn void lightTwo()
-	*  @brief selects light 2 to change
+	/** @brief selects light 2 to change
 	*
 	*  selects light 2 such that any changes in state will be applied to light 2
 	*
@@ -146,8 +134,7 @@ private:
 	*/
 	void lightTwo();
 
-	/** @fn void lightThree()
-	*  @brief selects light 3 to change
+	/** @brief selects light 3 to change
 	*
 	*  selects light 3 such that any changes in state will be applied to light 3
 	*
@@ -155,8 +142,7 @@ private:
 	*/
 	void lightThree();
 
-	/** @fn void returnBridge()
-	*  @brief returns user to the bridge page
+	/** @brief returns user to the bridge page
 	*
 	*  returns user the bridge page by setting the internal path
 	*
@@ -164,8 +150,7 @@ private:
 	*/
 	void returnBridge();
 
-	/** @fn void deleteBridge()
-	*  @brief deletes a bridge
+	/** @brief deletes a bridge
 	*
 	*  removes a bridge from session and returns user back to the bridge page
 	*
@@ -173,8 +158,7 @@ private:
 	*/
 	void deleteBridge();
 
-	/** @fn void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response)
-	*  @brief handles response and displays light information
+	/** @brief handles response and displays light information
 	*
 	*  gets the current state of a light and adjusts the slider values to reflect the light's state. Called when a user chooses a light to change
 	*
@@ -182,10 +166,9 @@ private:
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponse(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
+	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 	
-	/** @fn void handleHttpResponseName(boost::system::error_code err, const Wt::Http::Message& response)
-	*  @brief handles response for light name changes
+	/** @@brief handles response for light name changes
 	*
 	*  uses update() to refresh the page with changes to light names. Called whea user change the name of a light
 	*
@@ -193,10 +176,9 @@ private:
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponseName(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
+	void handleHttpResponseName(boost::system::error_code err, const Wt::Http::Message& response);
 	
-	/** @fn void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response)
-	*  @brief handles response and does nothing
+	/** @brief handles response and does nothing
 	*
 	*  does nothing. Used for functions where the page does not need to be refreshed nor does light information need to be fetched again.
 	*
@@ -204,7 +186,7 @@ private:
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponseVOID(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
+	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
 };
 
 #endif

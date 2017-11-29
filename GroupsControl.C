@@ -36,38 +36,39 @@ void GroupsControlWidget::update()
 {
 	clear();
 
-	///< get URL info
+	//get URL info
 	string address = WApplication::instance()->internalPath();
-	size_t pos = address.find("user=");								///< get userID
+	size_t pos = address.find("user=");								//get userID
 	string subString = address.substr(pos + 5);
 	size_t endPos = subString.find("&");
 	userID = subString.substr(0, endPos);
-	pos = address.find("ip=");										///< get ip
+	pos = address.find("ip=");										//get ip
 	subString = address.substr(pos + 3);
 	endPos = subString.find("&");
 	ip = subString.substr(0, endPos);
-	pos = address.find("port=");									///< get port
+	pos = address.find("port=");									//get port
 	subString = address.substr(pos + 5);
 	endPos = subString.find("&");
 	port = subString.substr(0, endPos);
 
+	//set all lights as not selected
 	one = false;
 	two = false;
 	three = false; 
 
-	///< return to lights page
+	//return to lights page
 	WPushButton *lightButton
 		= new WPushButton("Return to My Lights", this);
 	lightButton->setLink("/?_=/lights?user=" + userID + "%26ip=" + ip + "%26port=" + port);
 	lightButton->setMargin(10, Left);
 	
-	///< return to bridge page
+	//return to bridge page
 	WPushButton *returnButton						
 		= new WPushButton("Return To Bridge", this);
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< create a new group
+	//create a new group
 	this->addWidget(new WText("CREATE A GROUP: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WText("Group name: "));
@@ -75,20 +76,20 @@ void GroupsControlWidget::update()
 	nameEdit_->setFocus();
 	this->addWidget(new WBreak());
 
-	///< select the lights to be part of the group
+	//select the lights to be part of the group
 	this->addWidget(new WText("Choose your lights: "));
 	WPushButton *oneButton
-		= new WPushButton("Light 1", this);                   ///< 1st light button
+		= new WPushButton("Light 1", this);                   //1st light button
 	oneButton->setMargin(5, Left);
 	WPushButton *twoButton
-		= new WPushButton("Light 2", this);                   ///< 2nd light button
+		= new WPushButton("Light 2", this);                   //2nd light button
 	twoButton->setMargin(5, Left);
 	WPushButton *threeButton
-		= new WPushButton("Light 3", this);                   ///< 3rd light button
+		= new WPushButton("Light 3", this);                   //3rd light button
 	threeButton->setMargin(5, Left);
 	this->addWidget(new WBreak());
 	
-	///< displays which lights have been chosen
+	//displays which lights have been chosen
 	this->addWidget(new WText("Selected lights for your new group: "));
 	this->addWidget(new WBreak());
 	light1_ = new WText(this);                          
@@ -97,17 +98,17 @@ void GroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	light3_ = new WText(this);
 	
-	///< create group
+	//create group
 	this->addWidget(new WBreak());
 	WPushButton *createButton
 		= new WPushButton("Create Group", this);                  
 	this->addWidget(new WBreak());
 
-	status_ = new WText(this);                           ///< status of creating a group
+	status_ = new WText(this);                           //status of creating a group
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< list groups
+	//list groups
 	this->addWidget(new WText("Your Groups: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
@@ -146,7 +147,7 @@ void GroupsControlWidget::handleHttpResponseVOID(boost::system::error_code err, 
 void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
-		///< find number of groups
+		//find number of groups
 		size_t pos = response.body().find_last_of("{");
 		string subString = response.body().substr(pos - 3);
 		size_t endPos = subString.find("\"");
@@ -156,10 +157,10 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 			n = 1;
 		}
 
-		///< create a button for each group that leads to the ability to edit that specific group
+		//create a button for each group that leads to the ability to edit that specific group
 		for (int i = 0; i < n; i++) {
 			string groups = response.body();
-			///< find next group
+			//find next group
 			if (groups.find("\"" + to_string(i + 1) + "\":") != string::npos) {
 				size_t pos = groups.find("\"" + to_string(i + 1) + "\"");
 				string subString;
@@ -170,12 +171,12 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 				}
 				size_t endPos = subString.find("\"");
 
-				///< create button
+				//create button
 				string name = subString.substr(0, endPos);
 				WPushButton *currentButton = new WPushButton(to_string(i + 1) + " - " + name, this);
 				currentButton->setMargin(5, Left);
 
-				///< link the button to SingleGroupsWidget
+				//link the button to SingleGroupsWidget
 				currentButton->setLink("/?_=/singlegroup?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + to_string(i+1));
 			}
 		}
@@ -183,7 +184,7 @@ void GroupsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 }
 
 void GroupsControlWidget::lightOne() {
-	///< if light 1 is not selected, select it. Else, unselect it
+	//if light 1 is not selected, select it. Else, unselect it
 	if (!one) {
 		one = true;
 		light1_->setText("Light 1");
@@ -194,7 +195,7 @@ void GroupsControlWidget::lightOne() {
 }
 
 void GroupsControlWidget::lightTwo() {
-	///< if light 2 is not selected, select it. Else, unselect it
+	//if light 2 is not selected, select it. Else, unselect it
 	if (!two) {
 		two = true;
 		light2_->setText("Light 2");
@@ -206,7 +207,7 @@ void GroupsControlWidget::lightTwo() {
 
 
 void GroupsControlWidget::lightThree() {
-	///< if light 3 is not selected, select it. Else, unselect it
+	//if light 3 is not selected, select it. Else, unselect it
 	if (!three) {
 		three = true;
 		light3_->setText("Light 3");
@@ -217,7 +218,7 @@ void GroupsControlWidget::lightThree() {
 }
 
 void GroupsControlWidget::createGroup() {
-	///< determine which lights have been chosen
+	//determine which lights have been chosen
 	if (!one && !two && !three) {
 		status_->setText("Select as least 1 light to be in your group");
 	} else {
@@ -251,7 +252,7 @@ void GroupsControlWidget::createGroup() {
 				}
 			}
 
-			///< send a post request to create a new group
+			//send a post request to create a new group
 			status_->setText("Are you sure?");
 			Http::Message *msg = new Http::Message();
 			msg->addBodyText("{\"lights\" : " + selectedLights + ", \"name\" : \"" + nameEdit_->text().toUTF8() + "\", \"type\" : \"LightGroup\" }");
@@ -263,7 +264,7 @@ void GroupsControlWidget::createGroup() {
 }
 
 void GroupsControlWidget::returnBridge() {
-	///< go to /bridge for BridgeControlWidget
+	//go to /bridge for BridgeControlWidget
 	clear();
 	WApplication::instance()->setInternalPath("/Bridge", true);
 }

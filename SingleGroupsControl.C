@@ -40,21 +40,21 @@ void SingleGroupsControlWidget::update()
 {
 	clear();
 
-	///< get user info from URL
+	//get user info from URL
 	string address = WApplication::instance()->internalPath();
-	size_t pos = address.find("user=");								///< get userID
+	size_t pos = address.find("user=");								//get userID
 	string subString = address.substr(pos + 5);
 	size_t endPos = subString.find("&");
 	userID = subString.substr(0, endPos);
-	pos = address.find("ip=");										///< get ip
+	pos = address.find("ip=");										//get ip
 	subString = address.substr(pos + 3);
 	endPos = subString.find("&");
 	ip = subString.substr(0, endPos);
-	pos = address.find("port=");									///< get port
+	pos = address.find("port=");									//get port
 	subString = address.substr(pos + 5);
 	endPos = subString.find("&");
 	port = subString.substr(0, endPos);
-	pos = address.find("groupid=");									///< get groupID
+	pos = address.find("groupid=");									//get groupID
 	subString = address.substr(pos + 8);
 	endPos = subString.find("&");
 	groupID = subString.substr(0, endPos);
@@ -72,19 +72,19 @@ void SingleGroupsControlWidget::update()
 	*/
 
 
-	///< get group info to display 
+	//get group info to display 
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponse, this, _1, _2));
 	if (client->get("http://" + ip + ":" + port + "/api/" + userID + "/groups/" + groupID)) {
 		WApplication::instance()->deferRendering();
 	}
-	groupInfoEdit_ = new WText(this);								///< group name
+	groupInfoEdit_ = new WText(this);								//group name
 	this->addWidget(new WBreak());
-	groupLightsEdit_ = new WText(this);								///< lights in the group
+	groupLightsEdit_ = new WText(this);								//lights in the group
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< change group name
+	//change group name
 	this->addWidget(new WText("Set New Group Name: "));
 	nameEdit_ = new WLineEdit(this);												
 	nameEdit_->setFocus();
@@ -94,7 +94,7 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< preset light modes
+	//preset light modes
 	this->addWidget(new WText("Pre set light modes: "));
 	WPushButton *sunsetModeButton
 		= new WPushButton("Sunset Yellow", this);                     
@@ -123,20 +123,20 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< turn on
+	//turn on
 	this->addWidget(new WText("Light on/off: "));
 	WPushButton *onButton
 		= new WPushButton("ON", this);                     
 	onButton->setMargin(5, Left);
 
-	///<turn off
+	//turn off
 	WPushButton *offButton
 		= new WPushButton("OFF", this);                     
 	offButton->setMargin(5, Left);
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< change hue
+	//change hue
 	this->addWidget(new WText("Hue: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WText("0  "));
@@ -152,7 +152,7 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< change brightness
+	//change brightness
 	this->addWidget(new WText("Brightness: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WText("1  "));
@@ -168,7 +168,7 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< change saturation
+	//change saturation
 	this->addWidget(new WText("Saturation: "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WText("0  "));
@@ -184,7 +184,7 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< change transition time
+	//change transition time
 	this->addWidget(new WText("Transition Time: (multiple of 100ms) "));
 	this->addWidget(new WBreak());
 	this->addWidget(new WText("1  (100ms)"));
@@ -200,17 +200,17 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< add lights
+	//add lights
 	this->addWidget(new WText("Add Light: "));
 	addChoices_ = new WComboBox(this);											
 	WPushButton *addButton
-		= new WPushButton("Add", this);										///< submit button
+		= new WPushButton("Add", this);										//submit button
 	addButton->setMargin(5, Left);
 	addChoices_->clear();
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< remove lights
+	//remove lights
 	this->addWidget(new WText("Remove Light: "));
 	removeChoices_ = new WComboBox(this);												
 	WPushButton *removeButton
@@ -220,7 +220,7 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< copy group
+	//copy group
 	this->addWidget(new WText("Make a copy of  this group (same name and lights):"));
 	WPushButton *copyButton
 		= new WPushButton("Copy", this);
@@ -228,7 +228,7 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 	
-	///< delete group
+	//delete group
 	WPushButton *deleteButton							
 		= new WPushButton("Delete This Group", this);
 
@@ -236,19 +236,19 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
-	change_ = new WText(this);                          ///< status of a light change
+	change_ = new WText(this);                          //status of a light change
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
-	///< return to groups page
+	//return to groups page
 	WPushButton *groupButton
 		= new WPushButton("Return to My Groups", this);
 	groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
 	groupButton->setMargin(10, Left);
 	
-	///< return to lights page
+	//return to lights page
 	WPushButton *lightButton
 		= new WPushButton("Return to My Lights", this);
 	lightButton->setLink("/?_=/lights?user=" + userID + "%26ip=" + ip + "%26port=" + port);
@@ -318,7 +318,7 @@ void SingleGroupsControlWidget::handleHttpResponseVOID(boost::system::error_code
 void SingleGroupsControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
 	WApplication::instance()->resumeRendering();
 	if (!err && response.status() == 200) {
-		///< get group name and lights in the group
+		//get group name and lights in the group
 		Json::Object result;
 		Json::parse(response.body(), result);
 		string name = result.get("name");
@@ -329,13 +329,13 @@ void SingleGroupsControlWidget::handleHttpResponse(boost::system::error_code err
 		lights = subString.substr(0, endPos);
 		boost::erase_all(lights, "\"");
 
-		///< display group name and group lights
+		//display group name and group lights
 		groupInfoEdit_->setText("Group Name: " + groupName);
 		groupLightsEdit_->setText("Lights in your Group: " + lights);
 		removeChoices_->clear();
 		addChoices_->clear();
 
-		///< give user choices to add/remove lights
+		//give user choices to add/remove lights
 		if (lights.find("1") != string::npos) {
 			removeChoices_->addItem("1");
 		} else {
@@ -363,7 +363,7 @@ void SingleGroupsControlWidget::copy() {
 	bool two = false;
 	bool three = false;
 
-	///< get lights in the group
+	//get lights in the group
 	if (lights.find("1") != string::npos) {
 		one = true;
 	}
@@ -374,7 +374,7 @@ void SingleGroupsControlWidget::copy() {
 		three = true;
 	}
 	
-	///< create body message
+	//create body message
 	string selectedLights;
 	if (one && two && three) {
 		selectedLights = "[\"1\",\"2\",\"3\"]";
@@ -407,7 +407,7 @@ void SingleGroupsControlWidget::copy() {
 		}
 	}
 
-	///< send a post request to create a new group
+	//send a post request to create a new group
 	change_->setText("Copy made (note: you are now still editing the original group)");
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"lights\" : " + selectedLights + ", \"name\" : \"" + groupName + "\", \"type\" : \"LightGroup\" }");
@@ -417,12 +417,12 @@ void SingleGroupsControlWidget::copy() {
 }
 
 void SingleGroupsControlWidget::deleteGroup() {
-	///< confirm that user wants to delete the group
+	//confirm that user wants to delete the group
 	if (!deleteConfirm) {
 		change_->setText("You are about to delete this group. Are you sure?");
 		deleteConfirm = true;
 	} else {
-		///< delete the group and return to group page
+		//delete the group and return to group page
 		Http::Message *msg = new Http::Message();
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVOID, this, _1, _2));
@@ -436,9 +436,9 @@ void SingleGroupsControlWidget::addLights() {
 	bool two = false;
 	bool three = false;
 
-	///< if a light is selected, create a new list of lights in the group, else display an error message
+	//if a light is selected, create a new list of lights in the group, else display an error message
 	if (addChoices_->currentText() == "1" || addChoices_->currentText() == "2" || addChoices_->currentText() == "3") {
-		///< get lights already in the group
+		//get lights already in the group
 		if (lights.find("1") != string::npos) {
 			one = true;
 		}
@@ -449,7 +449,7 @@ void SingleGroupsControlWidget::addLights() {
 			three = true;
 		}
 
-		///< get light that needs to be added
+		//get light that needs to be added
 		if (addChoices_->currentText() == "1") {
 			one = true;
 		} else {
@@ -460,7 +460,7 @@ void SingleGroupsControlWidget::addLights() {
 			}
 		}
 
-		///< create body message (lights already in group + light that needs to be added)
+		//create body message (lights already in group + light that needs to be added)
 		string selectedLights;
 		if (one && two && three) {
 			selectedLights = "[\"1\",\"2\",\"3\"]";
@@ -504,9 +504,9 @@ void SingleGroupsControlWidget::removeLights() {
 	bool two = false;
 	bool three = false;
 	
-	///< if a light is selected, create the new list of lights in the groip, else dislay an error message
+	//if a light is selected, create the new list of lights in the groip, else dislay an error message
 	if (removeChoices_->currentText() == "1" || removeChoices_->currentText() == "2" || removeChoices_->currentText() == "3") {
-		///< get lights already in the group
+		//get lights already in the group
 		if (lights.find("1") != string::npos) {
 			one = true;
 		}
@@ -517,7 +517,7 @@ void SingleGroupsControlWidget::removeLights() {
 			three = true;
 		}
 
-		///< get light that needs to be removed
+		//get light that needs to be removed
 		if (removeChoices_->currentText() == "1") {
 			one = false;
 		} else {
@@ -528,11 +528,11 @@ void SingleGroupsControlWidget::removeLights() {
 			}
 		}
 
-		///< if there is only 1 light in the group, it can't be deleted
+		//if there is only 1 light in the group, it can't be deleted
 		if (!three && !two && !one) {
 			change_->setText("You must have at least 1 light in your group");
 		} else {
-			///< create body message (lights already in group - light that needs to be removed)
+			//create body message (lights already in group - light that needs to be removed)
 			string selectedLights;
 			if (one && two && three) {
 				selectedLights = "[\"1\",\"2\",\"3\"]";
@@ -573,7 +573,7 @@ void SingleGroupsControlWidget::removeLights() {
 }
 
 void SingleGroupsControlWidget::name() {
-	///< send a put request to change group's name based on name edit textbox
+	//send a put request to change group's name based on name edit textbox
 	string input = nameEdit_->text().toUTF8();
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
@@ -584,7 +584,7 @@ void SingleGroupsControlWidget::name() {
 }
 
 void SingleGroupsControlWidget::on() {
-	///< send a put request to turn groups' light on	
+	//send a put request to turn groups' light on	
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"on\" : true}");
@@ -594,7 +594,7 @@ void SingleGroupsControlWidget::on() {
 }
 
 void SingleGroupsControlWidget::off() {
-	///< send a put request to turn groups' light off
+	//send a put request to turn groups' light off
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
 	msg->addBodyText("{\"on\" : false}");
@@ -604,7 +604,7 @@ void SingleGroupsControlWidget::off() {
 }
 
 void SingleGroupsControlWidget::hue() {
-	///< send a put request to change the group's hue based on hue slider
+	//send a put request to change the group's hue based on hue slider
 	int input = hueScaleSlider_->value();
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
@@ -615,7 +615,7 @@ void SingleGroupsControlWidget::hue() {
 }
 
 void SingleGroupsControlWidget::bright() {
-	///< send a put request to change the group's brightness based on brightness slider
+	//send a put request to change the group's brightness based on brightness slider
 	int input = briScaleSlider_->value();
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
@@ -626,7 +626,7 @@ void SingleGroupsControlWidget::bright() {
 }
 
 void SingleGroupsControlWidget::sat(){
-	///< send a put request to change the group's saturation based on saturation slider
+	//send a put request to change the group's saturation based on saturation slider
 	int input = satScaleSlider_->value();
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
@@ -637,7 +637,7 @@ void SingleGroupsControlWidget::sat(){
 }
 
 void SingleGroupsControlWidget::transition() {
-	///< send a put request to change the group's transition time based on transition slider
+	//send a put request to change the group's transition time based on transition slider
 	int input = transitionScaleSlider_->value();
 	Http::Client *client = SingleGroupsControlWidget::connect();
 	Http::Message *msg = new Http::Message();
@@ -648,7 +648,7 @@ void SingleGroupsControlWidget::transition() {
 }
 
 void SingleGroupsControlWidget::sunsetMode() {
-	///< turn the lights that are part of the group into a different shde of yellow
+	//turn the lights that are part of the group into a different shde of yellow
 	if (lights.find("1") != string::npos) {
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -674,17 +674,17 @@ void SingleGroupsControlWidget::sunsetMode() {
 }
 
 void SingleGroupsControlWidget::partyMode() {
-	///< create child to play music in the background
+	//create child to play music in the background
 	pid_t pid = fork();
 	if (pid == 0) {
 		system("aplay party.wav");
 		exit(0);
 
-	///< parent loops the lights
+	//parent loops the lights
 	} else {
 		change_->setText("!PARTY MODE! Turn on sound for music. (Please wait until party mode completes to continue)");
 		
-		///< change the colors 40 times through a cycle of 5 different colors 
+		//change the colors 40 times through a cycle of 5 different colors 
 		for (int i = 0; i < 40; i++) {
 			if (i % 5 == 0) {
 				if (lights.find("1") != string::npos) {
@@ -808,7 +808,7 @@ void SingleGroupsControlWidget::partyMode() {
 					}
 				}
 			}
-			///< wait 0.25s before changing colors again
+			//wait 0.25s before changing colors again
 			usleep(250000);
 		}
 	}
@@ -816,7 +816,7 @@ void SingleGroupsControlWidget::partyMode() {
 }
 
 void SingleGroupsControlWidget::fiftyMode() {
-	///< turn the lights that are part of the group into a different shde of grey
+	//turn the lights that are part of the group into a different shde of grey
 	if (lights.find("1") != string::npos) {
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -842,7 +842,7 @@ void SingleGroupsControlWidget::fiftyMode() {
 }
 
 void SingleGroupsControlWidget::oceanMode() {
-	///< turn the lights that are part of the group into a different shde of blue
+	//turn the lights that are part of the group into a different shde of blue
 	if (lights.find("1") != string::npos) {
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -868,7 +868,7 @@ void SingleGroupsControlWidget::oceanMode() {
 }
 
 void SingleGroupsControlWidget::forestMode() {
-	///< turn the lights that are part of the group into a different shde of green
+	//turn the lights that are part of the group into a different shde of green
 	if (lights.find("1") != string::npos) {
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -894,7 +894,7 @@ void SingleGroupsControlWidget::forestMode() {
 }
 
 void SingleGroupsControlWidget::mustangMode() {
-	///< turn the lights that are part of the group into a different shde of purple
+	//turn the lights that are part of the group into a different shde of purple
 	if (lights.find("1") != string::npos) {
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -920,7 +920,7 @@ void SingleGroupsControlWidget::mustangMode() {
 }
 
 void SingleGroupsControlWidget::fireMode() {
-	///< turn the lights that are part of the group into a different shde of orange
+	//turn the lights that are part of the group into a different shde of orange
 	if (lights.find("1") != string::npos) {
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -946,7 +946,7 @@ void SingleGroupsControlWidget::fireMode() {
 }
 
 void SingleGroupsControlWidget::bloodMode() {
-	///< turn the lights that are part of the group into a different shde of red
+	//turn the lights that are part of the group into a different shde of red
 	if (lights.find("1") != string::npos) {
 		Http::Client *client = SingleGroupsControlWidget::connect();
 		Http::Message *msg = new Http::Message();
@@ -972,7 +972,7 @@ void SingleGroupsControlWidget::bloodMode() {
 }
 
 void SingleGroupsControlWidget::returnBridge(){
-	///< go to /bridge for BridgeControlWidget
+	//go to /bridge for BridgeControlWidget
 	clear();
 	WApplication::instance()->setInternalPath("/Bridge", true);
 }

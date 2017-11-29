@@ -19,8 +19,7 @@ class GroupsControlWidget: public Wt::WContainerWidget
 {
 public:
 
-	/** @fn GroupsControlWidget(Session *session, Wt::WContainerWidget *parent = 0)
-	*  @brief creates a GroupsControlWidget
+	/** @brief creates a GroupsControlWidget
 	*
 	*  creates a GroupsControlWidget that is tied to a database session. The Widget also has a parent Container Widget
 	*
@@ -28,10 +27,9 @@ public:
 	*  @param parent the parent Widget Container
 	*  @return GroupsControlWidget
 	*/
-	GroupsControlWidget(Session *session /*!< database session */, Wt::WContainerWidget *parent = 0 /*!< parent Widget Container */);
+	GroupsControlWidget(Session *session, Wt::WContainerWidget *parent = 0);
 	
-	/** @fn void update()
-	*  @brief loads SingleGroupsControlWidget page
+	/** @brief loads SingleGroupsControlWidget page
 	*
 	*  loads the GroupsControlWidget page which displays the list of current groups and the option to create a new group
 	*
@@ -53,8 +51,7 @@ private:
 	Wt::WText *light3_;										/*!< displays whether light 3 is part of the new group */
 	Wt::WText *status_;										/*!< status of creating a group */
 
-	/** @fn Wt::Http::Client * connect()
-	*  @brief creates an HTTP Client
+	/** @brief creates an HTTP Client
 	*
 	*  creates an HTTP client that will be used to send either a post request to create a new group or a get request to retrieve the currently existing groups
 	*
@@ -62,8 +59,7 @@ private:
 	*/
 	Wt::Http::Client * connect();
 
-	/** @fn void lightOne()
-	*  @brief selects light 1 to be added to the group
+	/** @brief selects light 1 to be added to the group
 	*
 	*  includes light 1 to be a part of the new group. If clicked again, light 1 will not be part of the new group.
 	*
@@ -71,8 +67,7 @@ private:
 	*/
 	void lightOne();
 
-	/** @fn void lightTwo()
-	*  @brief selects light 2 to be added to the group
+	/** @brief selects light 2 to be added to the group
 	*
 	*  includes light 2 to be a part of the new group. If clicked again, light 2 will not be part of the new group.
 	*
@@ -80,8 +75,7 @@ private:
 	*/
 	void lightTwo();
 
-	/** @fn void lightThree()
-	*  @brief selects light 3 to be added to the group
+	/** @brief selects light 3 to be added to the group
 	*
 	*  includes light 3 to be a part of the new group. If clicked again, light 3 will not be part of the new group.
 	*
@@ -89,8 +83,7 @@ private:
 	*/
 	void lightThree();
 
-	/** @fn void createGroup() 
-	*  @brief creates a new group
+	/** @brief creates a new group
 	*
 	*  gets user information about the name and lights of the new group and sends a post request to create the group. Then update() is called to refresh the list of groups
 	*
@@ -98,8 +91,7 @@ private:
 	*/
 	void createGroup();
 
-	/** @fn void returnBridge()
-	*  @brief returns user to bridge page
+	/** @brief returns user to bridge page
 	*
 	*  returns user the bridge page by setting the internal path
 	*
@@ -107,8 +99,7 @@ private:
 	*/
 	void returnBridge();
 
-	/** @fn handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response)
-	*  @brief handles response and displays group information
+	/** @brief handles response and displays group information
 	*
 	*  gets the list of groups and displays each one as button that leads to the SingleGroupsControlWidget where user can edit a specific group
 	*
@@ -116,10 +107,9 @@ private:
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponse(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
+	void handleHttpResponse(boost::system::error_code err, const Wt::Http::Message& response);
 
-	/** @fn void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response)
-	*  @brief handles response and refreshes the page
+	/** @brief handles response and refreshes the page
 	*
 	*  uses update() to refresh the page with changes to the group list. Used when a new group is created
 	*
@@ -127,7 +117,7 @@ private:
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponseVOID(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
+	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
 };
 
 #endif
