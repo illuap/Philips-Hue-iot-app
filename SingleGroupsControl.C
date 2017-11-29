@@ -22,6 +22,9 @@
 #include <Wt/Json/Object>
 #include <Wt/Json/Parser>
 #include <Wt/Http/Client>
+#include <Wt/WFileUpload>
+#include <Wt/WLogger>
+#include <Wt/Utils>
 #include "SingleGroupsControl.h"
 #include "Session.h"
 
@@ -33,7 +36,6 @@ SingleGroupsControlWidget::SingleGroupsControlWidget(Session *session, WContaine
 	session_(session)
 {
 	setContentAlignment(AlignCenter);
-	setStyleClass("highscores");
 }
 
 void SingleGroupsControlWidget::update()
@@ -242,6 +244,14 @@ void SingleGroupsControlWidget::update()
 	this->addWidget(new WBreak());
 	this->addWidget(new WBreak());
 
+	upload = new Wt::WFileUpload(this);
+	upload->setFileTextSize(40000);
+	this->addWidget(new WBreak());
+	Wt::WPushButton *uploadButton = new Wt::WPushButton("Send", this);
+
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
 	//return to groups page
 	WPushButton *groupButton
 		= new WPushButton("Return to My Groups", this);
@@ -256,6 +266,19 @@ void SingleGroupsControlWidget::update()
 	WPushButton *returnButton							
 		= new WPushButton("Return To Bridge", this);
 
+
+	// Upload when the button is clicked.
+	uploadButton->clicked().connect(upload, &Wt::WFileUpload::upload);
+	uploadButton->clicked().connect(uploadButton, &Wt::WPushButton::disable);
+	// Upload automatically when the user entered a file.
+	//upload->changed().connect(upload, &WFileUpload::upload);
+	//upload->changed().connect(uploadButton, &Wt::WPushButton::disable);
+	// React to a succesfull upload.
+	upload->uploaded().connect(this, &SingleGroupsControlWidget::fileUploaded);
+	// React to a fileupload problem.
+	upload->fileTooLarge().connect(this, &SingleGroupsControlWidget::fileTooLarge);
+
+	onButton->clicked().connect(this, &SingleGroupsControlWidget::on);
 	copyButton->clicked().connect(this, &SingleGroupsControlWidget::copy);
 	partyModeButton->clicked().connect(this, &SingleGroupsControlWidget::partyMode);
 	mustangModeButton->clicked().connect(this, &SingleGroupsControlWidget::mustangMode);
@@ -302,6 +325,59 @@ void SingleGroupsControlWidget::update()
 	(boost::bind(&SingleGroupsControlWidget::mustangMode, this));
 }
 
+void SingleGroupsControlWidget::fileTooLarge() {
+}
+void SingleGroupsControlWidget::fileUploaded() {
+
+    //The uploaded filename
+    std::string mFilename = upload->spoolFileName(); 
+
+    //The file contents
+    std::vector<Wt::Http::UploadedFile> mFileContents = upload->uploadedFiles();
+
+    //The file is temporarily stored in a file with location here
+    std::string mContents;
+    mContents=mFileContents.data()->spoolFileName();
+
+    Wt::log("info") << "File uploaded to server " << mContents;
+
+    //convert file into binary
+	std::ifstream in(mContents, std::ios::in | std::ios::binary);
+	std::ostringstream contents;
+	contents << in.rdbuf();
+	in.close();
+	std::string data = (contents.str());
+	//Wt::log("info") << "binary data " << data;
+	//convert binary file to base64 for our api
+    std::string encoding = Wt::Utils::base64Encode(data);
+    //Wt::log("info") << "base64 data " << encoding;
+    std::string body = "{\"requests\":[{\"image\":{\"content\": \"" + encoding + "\"},\"features\":[{\"type\":\"IMAGE_PROPERTIES\"}]}]}";
+
+	Http::Client *client = SingleGroupsControlWidget::connect();
+	Http::Message *msg = new Http::Message();
+	msg->addBodyText(body);
+	client->done().connect(boost::bind(&SingleGroupsControlWidget::handleHttpResponseVision, this, _1, _2));
+	client->post("https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBEC5ipSoaLDU40JqUtdeDIcIgFfy3FChA", *msg);
+
+	
+    //Do something with the contents here
+    //Either read in the file or copy it to use it
+    //https://www.webtoolkit.eu/wt/doc/reference/html/namespaceWt_1_1Utils.html
+
+    //return
+    return;
+}
+void SingleGroupsControlWidget::handleHttpResponseVision(boost::system::error_code err, const Http::Message& response) {
+	Wt::log("info") << "WWOWOWOOWOWOWW" << response.body();
+}
+
+
+
+
+// Function Name: connect() 
+// Parameters: none
+// Return: none
+// Description: creates an Http client
 Http::Client * SingleGroupsControlWidget::connect() {
 	Http::Client *client = new Http::Client(this);
 	client->setTimeout(15);
@@ -976,3 +1052,14 @@ void SingleGroupsControlWidget::returnBridge(){
 	clear();
 	WApplication::instance()->setInternalPath("/Bridge", true);
 }
+
+
+/*
+
+https://vision.googleapis.com/v1/images:annotate
+https://vision.googleapis.com/v1/images:annotate?key=AIzaSyBEC5ipSoaLDU40JqUtdeDIcIgFfy3FChA
+
+AIzaSyD9vkifoS9ag2w0z1NPiZIlo3IF5FWzWww
+
+
+*/

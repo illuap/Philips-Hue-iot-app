@@ -59,6 +59,7 @@ private:
 	Wt::WText *change_;												/*!< status of a group change */
 	Wt::WComboBox *addChoices_;										/*!< selected light to add to group */
 	Wt::WComboBox *removeChoices_;									/*!< selected light to remove from group */
+	Wt::WFileUpload *upload;
 	
 	/** @brief creates an HTTP client
 	*
@@ -272,7 +273,11 @@ private:
 	*  @param response the response
 	*  @return Void
 	*/
-	void handleHttpResponseVOID(boost::system::error_code err, const Wt::Http::Message& response);
+	void handleHttpResponseVOID(boost::system::error_code err /*!< error code */, const Wt::Http::Message& response /*!< response */);
+
+	void handleHttpResponseVision(boost::system::error_code err, const Wt::Http::Message& response);
+	void fileTooLarge();
+	void fileUploaded();
 };
 
 #endif

@@ -1,9 +1,15 @@
-// This may look like C code, but it's really -*- C++ -*-
-/*
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium.
- *
- * See the LICENSE file for terms of use.
- */
+/** @file Session.h
+*  @brief Session handling for the application
+*
+*   Handles the Users who are able to access the database and create a
+*   persistent environment for our application using sqlite3. It hashes
+*   user passwords and stores tokens. The is also a multitude of functions
+*   to help access and store information into the applications database. 
+*   Through out the app session is used to authorize each user to a page.
+*
+*  @author Paul Li
+*  @date Nov 28, 2017
+*/
 
 #ifndef SESSION_H_
 #define SESSION_H_
@@ -18,7 +24,6 @@
 #include <Wt/Dbo/backend/Sqlite3>
 
 #include "User.h"
-#include "Light.h"
 #include "Bridge.h"
 #include "BridgeUserIds.h"
 
@@ -66,9 +71,11 @@ public:
   BridgeUserIds* getBridgeUserId(std::string ip, std::string port); //get from specific bridge of currently logged in user
   BridgeUserIds* getBridgeUserId(Bridge *bridgeObj);                //get from specific bridge of currently logged in user
 
-  std::vector<BridgeUserIds> getAllBridgeUserId();                                //NOT IMPLEMENTEDDDDDDD
-  std::vector<BridgeUserIds> getAllBridgeUserId(std::string ip, std::string port);//NOT IMPLEMENTEDDDDDDD
-  std::vector<BridgeUserIds> getAllBridgeUserId(Bridge *bridgeObj);               //NOT IMPLEMENTEDDDDDDD
+  std::vector<BridgeUserIds> getAllBridgeUserId();                                
+  std::vector<BridgeUserIds> getAllBridgeUserId(std::string ip, std::string port);
+  std::vector<BridgeUserIds> getAllBridgeUserId(Bridge *bridgeObj);
+  // UPDATE
+  void updateBridgeUserId(std::string ip, std::string port, std::string newBridgeUserId);
   // DELETE
   void deleteBridgeUserId();
   void deleteBridgeUserId(std::string ip, std::string port);
@@ -77,8 +84,9 @@ public:
   void deleteAllBridgeUserId(std::string ip, std::string port); 
   void deleteAllBridgeUserId(Bridge *bridgeObj); 
 
-  //-------------------------
+  //--------------------------
   //---------Bridge DB--------
+  //--------------------------
   std::vector<Bridge> getBridges();     //currently logged in user
   std::vector<Bridge> getAllBridges();  // all user's bridges
 
@@ -86,17 +94,6 @@ public:
   void updateBridge(Bridge* oldBridge, Bridge* newBridge);
   bool addBridge(Bridge* newBridge);
   bool deleteBridge(std::string ip, std::string port);
-
-  //-------------------------
-  //---------LIGHT DB--------
-  bool setLightBelongsTo(std::string lightName,std::string bridgeIP);
-  
-  Light* getLight(std::string name);
-  void updateLight(Light* newLight);
-  bool addLight(Light* newLight);
-
-  //-------------------------
-  //-------------------------
 
   static const Wt::Auth::AuthService& auth();
   static const Wt::Auth::AbstractPasswordService& passwordAuth();
