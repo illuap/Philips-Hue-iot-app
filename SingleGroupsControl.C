@@ -258,6 +258,12 @@ void SingleGroupsControlWidget::update()
 	groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
 	groupButton->setMargin(10, Left);
 	
+	///< Goes to Schedule page
+	WPushButton *scheduleButton
+		= new WPushButton("Make Scheduler", this);
+	scheduleButton->setLink("/?_=/groupscheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + groupID);
+	scheduleButton->setMargin(10, Left);
+	
 	//return to lights page
 	WPushButton *lightButton
 		= new WPushButton("Return to My Lights", this);
