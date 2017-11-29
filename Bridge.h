@@ -11,7 +11,6 @@
 #include "User.h"
 
 class User;
-//typedef Wt::Dbo::collection< Wt::Dbo::ptr<Light> > Lights;
 
 class Bridge {
 private:
@@ -22,9 +21,6 @@ private:
 	std::string userId;
 	bool registered;
 	int portNumber;
-//	std::vector<Group> groupList;
-//	std::vector<Light> lightList;
-	
 
 public:
 	Bridge() {
@@ -37,9 +33,6 @@ public:
 		portNumber= 0;
 	}
 	~Bridge() {}
-
-	Wt::Dbo::collection<Wt::Dbo::ptr<User> > users;
-
 
 	std::string getBridgeName() {
 		return bridgeName;
@@ -67,15 +60,7 @@ public:
 	int getPortNumber() {
 		return portNumber;
 	}
-	/*
-	Light* getLight(std::string lightName){
-		Light *x;
-		return x;		
-	}
-	void addLight(Light* newLight){
-		lights
-	}
-	*/
+
 	void setBridgeName(std::string newName) {
 		bridgeName = newName;
 	}
@@ -103,21 +88,6 @@ public:
 		portNumber = newPortNumber;
 	}
 
-
-
-/*
-	void addGroup(Group newGroup) {
-		groupList.push_back(newGroup);
-	}
-
-	std::vector getGroups() {
-		return groupList;
-	}
-
-	void removeGroup(Group group) {
-
-	}
-*/
 	template<class Action>
 	void persist(Action& a)
 	{
@@ -128,7 +98,6 @@ public:
 		Wt::Dbo::field(a, userId, "userId");
 		Wt::Dbo::field(a, registered, "registered");
 		Wt::Dbo::field(a, portNumber, "portNumber");
-		Wt::Dbo::hasMany(a, users, Wt::Dbo::ManyToMany, "bridge_user");
 	}
 };
 #endif	/* BRIDGE_H */

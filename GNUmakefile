@@ -91,12 +91,6 @@ $(builddir)/test_RegistrationView.o: RegistrationView.C
 $(builddir)/test_UserDetailsModel.o: UserDetailsModel.C
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread UserDetailsModel.C 
 
-#$(builddir)/test_CustomAuthWidget.o: CustomAuthWidget.C
-#	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread CustomAuthWidget.C 
-
-#$(builddir)/test_CustomRegistrationWidget.o: CustomRegistrationWidget.C
-#	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread CustomRegistrationWidget.C 
-
 $(builddir)/test_BridgeEditControl.o: BridgeEditControl.C
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread BridgeEditControl.C 
 
