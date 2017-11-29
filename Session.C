@@ -419,7 +419,7 @@ void Session::updateUser(User* newUser){
  */
 User* Session::getUser(){
   dbo::Transaction transaction(session_);
-  dbo::ptr<User> user = session_.find<User>().where("name = ?").bind(userName());
+  dbo::ptr<User> user = this->user();
   transaction.commit();
   return user.modify();
 }
