@@ -219,17 +219,10 @@ std::string Session::userName() const
  *  
  *  @return the string of the first name of the currently logged in user.
  */
-std::string Session::firstName() const
+std::string Session::firstName()
 {
-  dbo::Transaction transaction(session_);
-  if (login_.loggedIn()) {
-    dbo::ptr<AuthInfo> authInfo = users_->find(login_.user());
-    dbo::ptr<User> user = authInfo->user();
-    transaction.commit();
-    return user->firstName;
-  } else
-    transaction.commit();
-    return std::string();
+  User* user = this->getUser();
+  return user->firstName;
 }
 
 /** @brief Get the last name of the currently logged in user.
@@ -238,15 +231,10 @@ std::string Session::firstName() const
  *  
  *  @return the string of the last name of the currently logged in user.
  */
-std::string Session::lastName() const
+std::string Session::lastName()
 {
-  if (login_.loggedIn()) {
-    dbo::ptr<AuthInfo> authInfo = users_->find(login_.user());
-    dbo::ptr<User> user = authInfo->user();
-
-    return user->lastName;
-  } else
-    return std::string();
+  User* user = this->getUser();
+  return user->lastName;
 }
 
 /** @brief Get a bridge from the database.
@@ -419,7 +407,8 @@ void Session::updateUser(User* newUser){
  */
 User* Session::getUser(){
   dbo::Transaction transaction(session_);
-  dbo::ptr<User> user = this->user();
+  dbo::ptr<User> user = session_.find<User>()
+            .where("id = ?").bind(this->user().id());
   transaction.commit();
   return user.modify();
 }
