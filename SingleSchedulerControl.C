@@ -49,15 +49,15 @@ void SingleSchedulerControlWidget::update()
   //get URL info
   string address = WApplication::instance()->internalPath();
 
-  size_t pos = address.find("user=");						//get userID
+  size_t pos = address.find("user=");           //get userID
   string subString = address.substr(pos + 5);
   size_t endPos = subString.find("&");
   userID = subString.substr(0, endPos);
-  pos = address.find("ip=");								//get ip
+  pos = address.find("ip=");                //get ip
   subString = address.substr(pos + 3);
   endPos = subString.find("&");
   ip = subString.substr(0, endPos);
-  pos = address.find("port=");								//get port
+  pos = address.find("port=");                //get port
   subString = address.substr(pos + 5);
   endPos = subString.find("&");
   port = subString.substr(0, endPos);
@@ -94,7 +94,7 @@ void SingleSchedulerControlWidget::update()
   oneButton->setMargin(10, Left);
   oneLight_ = new WText(this);
   this->addWidget(new WBreak());
-  WPushButton *twoButton = new WPushButton("Light 2", this);					//2nd light button
+  WPushButton *twoButton = new WPushButton("Light 2", this);          //2nd light button
   twoButton->setMargin(10, Left);
   twoLight_ = new WText(this);
   this->addWidget(new WBreak());
@@ -104,7 +104,7 @@ void SingleSchedulerControlWidget::update()
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
   this->addWidget(new WBreak());
-  this->addWidget(new WBreak());												
+  this->addWidget(new WBreak());                        
   this->addWidget(new WBreak());
 
   //turn on
@@ -123,7 +123,7 @@ void SingleSchedulerControlWidget::update()
   this->addWidget(new WText("Hue: "));
   this->addWidget(new WBreak());
   this->addWidget(new WText("0  "));
-  hueScaleSlider_ = new WSlider(this);					 //slider bar
+  hueScaleSlider_ = new WSlider(this);           //slider bar
   hueScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   hueScaleSlider_->setMinimum(0);
   hueScaleSlider_->setMaximum(65535);
@@ -139,7 +139,7 @@ void SingleSchedulerControlWidget::update()
   this->addWidget(new WText("Brightness: "));
   this->addWidget(new WBreak());
   this->addWidget(new WText("1  ")); 
-  briScaleSlider_ = new WSlider(this);					 //slider bar
+  briScaleSlider_ = new WSlider(this);           //slider bar
   briScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   briScaleSlider_->setMinimum(1);
   briScaleSlider_->setMaximum(254);
@@ -155,7 +155,7 @@ void SingleSchedulerControlWidget::update()
   this->addWidget(new WText("Saturation: "));
   this->addWidget(new WBreak());
   this->addWidget(new WText("0  "));
-  satScaleSlider_ = new WSlider(this);					//slider bar
+  satScaleSlider_ = new WSlider(this);          //slider bar
   satScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   satScaleSlider_->setMinimum(0);
   satScaleSlider_->setMaximum(254);
@@ -171,7 +171,7 @@ void SingleSchedulerControlWidget::update()
   this->addWidget(new WText("Transition Time: (multiple of 100ms) "));
   this->addWidget(new WBreak());
   this->addWidget(new WText("1  (100ms)"));
-  transitionScaleSlider_ = new WSlider(this);					 //slider bar
+  transitionScaleSlider_ = new WSlider(this);          //slider bar
   transitionScaleSlider_->setOrientation(Wt::Orientation::Horizontal);
   transitionScaleSlider_->setMinimum(1);
   transitionScaleSlider_->setMaximum(20);
@@ -187,7 +187,7 @@ void SingleSchedulerControlWidget::update()
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
   this->addWidget(new WBreak());
-	
+  
   this->addWidget(new WText("Scheduler")); 
 
   this->addWidget(new WBreak());
@@ -247,14 +247,14 @@ else{
 
       Wt::log("info") << "Check 32.7";
 
-  WPushButton *groupButton						
-	  = new WPushButton("Go to My Schedules", this);
+  WPushButton *groupButton            
+    = new WPushButton("Go to My Schedules", this);
   groupButton->setLink("/?_=/scheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port);
   groupButton->setMargin(10, Left);
 
 
-  WPushButton *returnButton							//go back to bridge
-	  = new WPushButton("Return To Bridge", this);
+  WPushButton *returnButton             //go back to bridge
+    = new WPushButton("Return To Bridge", this);
 
   onButton->clicked().connect(this, &SingleSchedulerControlWidget::on);
   offButton->clicked().connect(this, &SingleSchedulerControlWidget::off);
@@ -310,15 +310,15 @@ else{
 
 //creates a client
 Http::Client * SingleSchedulerControlWidget::connect() {
-	Http::Client *client = new Http::Client(this);
-	client->setTimeout(15);
-	client->setMaximumResponseSize(10 * 1024);
+  Http::Client *client = new Http::Client(this);
+  client->setTimeout(15);
+  client->setMaximumResponseSize(10 * 1024);
 }
 
 //handle request (does nothing withthe response) - for changing the light state
 void SingleSchedulerControlWidget::handleHttpResponseName(boost::system::error_code err, const Http::Message& response) {
-	WApplication::instance()->resumeRendering();
-	if (!err && response.status() == 200) {
+  WApplication::instance()->resumeRendering();
+  if (!err && response.status() == 200) {
     //get group name and lights in the group
     Json::Object result;
     Json::parse(response.body(), result);
@@ -337,45 +337,45 @@ void SingleSchedulerControlWidget::handleHttpResponseVOID(boost::system::error_c
 
 //handles get lights request
 void SingleSchedulerControlWidget::handleHttpResponse(boost::system::error_code err, const Http::Message& response) {
-	WApplication::instance()->resumeRendering();
-	if (!err && response.status() == 200) {
-		Json::Object result;
-		Json::parse(response.body(), result);
+  WApplication::instance()->resumeRendering();
+  if (!err && response.status() == 200) {
+    Json::Object result;
+    Json::parse(response.body(), result);
 
-		//get sat
-		size_t pos = response.body().find("sat");
-		string subString = response.body().substr(pos + 5);
-		size_t endPos = subString.find(",");
-		string sat = subString.substr(0, endPos);
+    //get sat
+    size_t pos = response.body().find("sat");
+    string subString = response.body().substr(pos + 5);
+    size_t endPos = subString.find(",");
+    string sat = subString.substr(0, endPos);
 
-		//get bri
-		pos = response.body().find("bri");
-		subString = response.body().substr(pos + 5);
-		endPos = subString.find(",");
-		string bri = subString.substr(0, endPos);
+    //get bri
+    pos = response.body().find("bri");
+    subString = response.body().substr(pos + 5);
+    endPos = subString.find(",");
+    string bri = subString.substr(0, endPos);
 
-		//get hue
-		pos = response.body().find("hue");
-		subString = response.body().substr(pos + 5);
-		endPos = subString.find(",");
-		string hue = subString.substr(0, endPos);
+    //get hue
+    pos = response.body().find("hue");
+    subString = response.body().substr(pos + 5);
+    endPos = subString.find(",");
+    string hue = subString.substr(0, endPos);
 
-		hueScaleSlider_->setValue(stoi(hue));
-		satScaleSlider_->setValue(stoi(sat));
-		briScaleSlider_->setValue(stoi(bri));
-	}
+    hueScaleSlider_->setValue(stoi(hue));
+    satScaleSlider_->setValue(stoi(sat));
+    briScaleSlider_->setValue(stoi(bri));
+  }
 }
 
 void SingleSchedulerControlWidget::changeDate() {
-	std::set<Wt::WDate> selection = (calendar_->selection());
-	WDate date = (*selection.begin());
-	
+  std::set<Wt::WDate> selection = (calendar_->selection());
+  WDate date = (*selection.begin());
+  
   Datayear = date.year(); 
   Datamonth = date.month(); 
   Dataday = date.day(); 
-	std::string selectYear = to_string(Datayear);
-	std::string selectMonth = to_string(Datamonth); 
-	std::string selectDay = to_string(Dataday); 
+  std::string selectYear = to_string(Datayear);
+  std::string selectMonth = to_string(Datamonth); 
+  std::string selectDay = to_string(Dataday); 
   std::string output = "Selected Date:" + selectYear; 
   //Formats output string
   if (Datamonth<10){
@@ -391,30 +391,30 @@ void SingleSchedulerControlWidget::changeDate() {
     output +="/"+selectDay;
   }
   dateSelect_->setText(output); 
-	
+  
 
 }
 //selects light 1 to change
 void SingleSchedulerControlWidget::lightOne() {
-	Datalight = '1';
-	light_->setText("You are changing Light 1     " + oneLight_->text());
-	change_->setText("");
-	
+  Datalight = '1';
+  light_->setText("You are changing Light 1     " + oneLight_->text());
+  change_->setText("");
+  
 }
 
 //selects light 2 to change
 void SingleSchedulerControlWidget::lightTwo() {
-	Datalight = '2';
-	light_->setText("You are changing Light 2     " + twoLight_->text());
-	change_->setText("");
-	
+  Datalight = '2';
+  light_->setText("You are changing Light 2     " + twoLight_->text());
+  change_->setText("");
+  
 }
 
 //selects light 3 to change
 void SingleSchedulerControlWidget::lightThree() {
-	Datalight = '3';
-	light_->setText("You are changing Light 3     " + threeLight_->text());
-	change_->setText("");
+  Datalight = '3';
+  light_->setText("You are changing Light 3     " + threeLight_->text());
+  change_->setText("");
 }
 
 //turns light on
@@ -584,6 +584,6 @@ void SingleSchedulerControlWidget::deleteSchedule() {
 
 void SingleSchedulerControlWidget::returnBridge()
 {
-	clear();
-	WApplication::instance()->setInternalPath("/light?user=" + userID + "%26ip=" + ip + "%26port=" + port, true);
+  clear();
+  WApplication::instance()->setInternalPath("/light?user=" + userID + "%26ip=" + ip + "%26port=" + port, true);
 }
