@@ -47,8 +47,15 @@ BridgeControlWidget::BridgeControlWidget(Session *session, WContainerWidget *par
 void BridgeControlWidget::update()
 {
 	clear();
-	
-	this ->addWidget(new WBreak());
+
+	//display user info in top left corner
+	string firstName = session_->firstName();
+	string lastName = session_->lastName();
+	WText *userInfo_ = new WText(this);
+	userInfo_->setTextAlignment(AlignmentFlag::AlignLeft);
+	userInfo_->setText("Hello, " + firstName + " " + lastName);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
 
 	//Database function to get the list of bridge ip addresses
 

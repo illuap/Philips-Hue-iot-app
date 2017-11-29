@@ -1519,7 +1519,7 @@ test_Main.o: Main.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/WSound /usr/local/include/Wt/WMediaPlayer \
  /usr/local/include/Wt/WCompositeWidget GroupsControl.h \
  SingleGroupsControl.h BridgeEditControl.h SchedulerControl.h \
- SingleSchedulerControl.h
+ SingleSchedulerControl.h GroupsSchedulerControl.h
 
 /usr/include/stdc-predef.h:
 
@@ -4788,3 +4788,5 @@ BridgeEditControl.h:
 SchedulerControl.h:
 
 SingleSchedulerControl.h:
+
+GroupsSchedulerControl.h:

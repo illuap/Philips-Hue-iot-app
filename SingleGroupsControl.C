@@ -63,15 +63,15 @@ void SingleGroupsControlWidget::update()
 
 	deleteConfirm = false;
 
-
-	/*
-	///< display user info in top left corner
+	//display user info in top left corner
 	string firstName = session_->firstName();
 	string lastName = session_->lastName();
 	WText *userInfo_ = new WText(this);
 	userInfo_->setTextAlignment(AlignmentFlag::AlignLeft);
-	userInfo_->setText(firstName + " " + lastName);
-	*/
+	userInfo_->setText("Hello, " + firstName + " " + lastName);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
 
 
 	//get group info to display 
@@ -258,7 +258,7 @@ void SingleGroupsControlWidget::update()
 	groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
 	groupButton->setMargin(10, Left);
 	
-	///< Goes to Schedule page
+	//Goes to Schedule page
 	WPushButton *scheduleButton
 		= new WPushButton("Make Scheduler", this);
 	scheduleButton->setLink("/?_=/groupscheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port + "%26groupid=" + groupID);
@@ -377,13 +377,6 @@ void SingleGroupsControlWidget::handleHttpResponseVision(boost::system::error_co
 	Wt::log("info") << "WWOWOWOOWOWOWW" << response.body();
 }
 
-
-
-
-// Function Name: connect() 
-// Parameters: none
-// Return: none
-// Description: creates an Http client
 Http::Client * SingleGroupsControlWidget::connect() {
 	Http::Client *client = new Http::Client(this);
 	client->setTimeout(15);

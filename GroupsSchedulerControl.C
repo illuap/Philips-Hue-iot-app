@@ -64,6 +64,17 @@ void GroupsSchedulerControlWidget::update()
 
 	deleteConfirm = false;
 
+	//display user info in top left corner
+	string firstName = session_->firstName();
+	string lastName = session_->lastName();
+	WText *userInfo_ = new WText(this);
+	userInfo_->setTextAlignment(AlignmentFlag::AlignLeft);
+	userInfo_->setText("Hello, " + firstName + " " + lastName);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
+
 	//get group info to display 
 	Http::Client *client = GroupsSchedulerControlWidget::connect();
 	client->done().connect(boost::bind(&GroupsSchedulerControlWidget::handleHttpResponse, this, _1, _2));

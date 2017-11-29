@@ -36,7 +36,8 @@ LightsControlWidget::LightsControlWidget(Session *session, WContainerWidget *par
 void LightsControlWidget::update()
 {
   clear();
-  
+  currentLight = "0";
+
   //get user info from URL
   string address = WApplication::instance()->internalPath();
   size_t pos = address.find("user=");						//get userID
@@ -51,6 +52,16 @@ void LightsControlWidget::update()
   subString = address.substr(pos + 5);
   endPos = subString.find("&");
   port = subString.substr(0, endPos);
+  
+  //display user info in top left corner
+  string firstName = session_->firstName();
+  string lastName = session_->lastName();
+  WText *userInfo_ = new WText(this);
+  userInfo_->setTextAlignment(AlignmentFlag::AlignLeft);
+  userInfo_->setText("Hello, " + firstName + " " + lastName);
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());
 
   //go back to bridge page
   WPushButton *returnButton
@@ -194,7 +205,7 @@ void LightsControlWidget::update()
   this->addWidget(new WBreak());
 
   //create custom mode
-  this->addWidget(new WText("Create custom mode with above slider values (Max 1 custom mode can exist at a time,): "));
+  this->addWidget(new WText("Create custom mode with above slider values (Max 1 custom mode exists at a time): "));
   this->addWidget(new WBreak());
   WPushButton *customButton
 	  = new WPushButton("Create", this);
@@ -413,9 +424,9 @@ void LightsControlWidget::customCreate() {
 	User *temp = session_->getUser();
 	temp->customMode = newMode;
 	session_->updateUser(temp);
-	change_->setText("Custom mode created");
 	clear();
 	update();
+	change_->setText("Custom mode created");
 }
 
 void LightsControlWidget::customMode() {
