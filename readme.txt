@@ -14,6 +14,8 @@ If the emulator is running on the same IP as the application, use loopback addre
 The port chosen on the emulator must match the port entered when registering the bridge
 
 
-
-The additional feature with Google Vision API was not able to be completed because it uses https and we could not figure out how to work with SSL.
-Instead we have created a replacement additional feature: user can create a copy of a group with the same name and lights
+The additional feature with Google Vision API was not completed because of SSL issues in https requests
+The additional feature of color looping was not implemented because of emulator limitations
+Thus we have created replacement additional features: 
+	user can create a copy of a group with the same name and lights
+	user can create a custom saved mode for their lights

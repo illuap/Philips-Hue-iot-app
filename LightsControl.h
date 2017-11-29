@@ -43,6 +43,9 @@ private:
 	std::string ip = "";								/*!< bridge's IP address */
 	std::string userID = "";							/*!< user's bridge ID */
 	std::string port = "";								/*!< bridge's port number */
+	std::string customHue;								/*!< custom hue value */
+	std::string customSat;								/*!< custom saturation value */
+	std::string customBri;								/*!< custom brightness value */
 	Wt::WLineEdit *nameEdit_;							/*!< light's name to be changed */
 	Wt::WSlider *satScaleSlider_;						/*!< light's saturation selection */
 	Wt::WSlider *briScaleSlider_;						/*!< light's brightness selection */
@@ -157,6 +160,22 @@ private:
 	*  @return Void
 	*/
 	void deleteBridge();
+
+	/** @brief creates a custom light mode
+	*
+	*  takes the chosen hue, saturation and brightness values from the sliders and creates a custom mode button. If custom moe already exits, new custom mode overrides the old one.
+	*
+	*  @return Void
+	*/
+	void customCreate();
+
+	/** @brief implementss acustom light mode
+	*
+	*  changes a light to the hue, saturation and brightness in the custom mode
+	*
+	*  @return Void
+	*/
+	void customMode();
 
 	/** @brief handles response and displays light information
 	*

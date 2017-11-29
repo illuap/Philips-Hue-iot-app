@@ -1,7 +1,8 @@
-// SingleGroupsControl.C : Defines the GroupsSchedulerControlWidget Application for deleting and altering states of individual groups
-// Authors: Nicole Chow, Weija Zhou, Paul Li, Daniel Le
-// Date: Nov 28, 2017
-
+/** @file groupsScheduleControl.C
+*  @brief Application for creating and listing schedules of Groups
+*  @author Weija Zhou
+*  @date Nov 28, 2017
+*/
 #include <unistd.h>
 #include <iostream>
 #include <boost/lexical_cast.hpp>
@@ -63,6 +64,17 @@ void GroupsSchedulerControlWidget::update()
 	groupID = subString.substr(0, endPos);
 
 	deleteConfirm = false;
+
+	//display user info in top left corner
+	string firstName = session_->firstName();
+	string lastName = session_->lastName();
+	WText *userInfo_ = new WText(this);
+	userInfo_->setTextAlignment(AlignmentFlag::AlignLeft);
+	userInfo_->setText("Hello, " + firstName + " " + lastName);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+
 
 	//get group info to display 
 	Http::Client *client = GroupsSchedulerControlWidget::connect();

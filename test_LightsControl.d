@@ -1543,7 +1543,7 @@ test_LightsControl.o: LightsControl.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/Dbo/WtSqlTraits /usr/local/include/Wt/WDate \
  /usr/local/include/Wt/WTime /usr/local/include/Wt/Json/Array \
  /usr/local/include/Wt/Json/Serializer \
- /usr/local/include/Wt/Auth/Dbo/AuthInfo Bridge.h Light.h BridgeUserIds.h
+ /usr/local/include/Wt/Auth/Dbo/AuthInfo Bridge.h BridgeUserIds.h
 
 /usr/include/stdc-predef.h:
 
@@ -4848,7 +4848,5 @@ User.h:
 /usr/local/include/Wt/Auth/Dbo/AuthInfo:
 
 Bridge.h:
-
-Light.h:
 
 BridgeUserIds.h:

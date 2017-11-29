@@ -70,7 +70,15 @@ void BridgeEditControlWidget::update()
 	thisBridge = new Bridge();
 	thisBridge = session_->getBridge(ip,port);
 
-	
+	//display user info in top left corner
+	string firstName = session_->firstName();
+	string lastName = session_->lastName();
+	WText *userInfo_ = new WText(this);
+	userInfo_->setTextAlignment(AlignmentFlag::AlignLeft);
+	userInfo_->setText("Hello, " + firstName + " " + lastName);
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
+	this->addWidget(new WBreak());
 
 	this->addWidget(new WText("Bridge Name: "));
 	nameEdit_ = new WLineEdit(this);

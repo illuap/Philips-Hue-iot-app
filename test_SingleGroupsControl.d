@@ -1538,7 +1538,8 @@ test_SingleGroupsControl.o: SingleGroupsControl.C \
  /usr/local/include/boost/system/error_code.hpp \
  /usr/local/include/boost/system/config.hpp \
  /usr/local/include/boost/system/api_config.hpp \
- /usr/local/include/boost/cerrno.hpp SingleGroupsControl.h \
+ /usr/local/include/boost/cerrno.hpp /usr/local/include/Wt/WFileUpload \
+ /usr/local/include/Wt/Utils SingleGroupsControl.h \
  /usr/local/include/boost/system/system_error.hpp Session.h \
  /usr/local/include/Wt/Auth/Login /usr/local/include/Wt/Auth/User \
  /usr/local/include/Wt/WDateTime /usr/local/include/Wt/Auth/Token \
@@ -1548,7 +1549,7 @@ test_SingleGroupsControl.o: SingleGroupsControl.C \
  /usr/local/include/Wt/Dbo/WtSqlTraits /usr/local/include/Wt/WDate \
  /usr/local/include/Wt/WTime /usr/local/include/Wt/Json/Array \
  /usr/local/include/Wt/Json/Serializer \
- /usr/local/include/Wt/Auth/Dbo/AuthInfo Bridge.h Light.h BridgeUserIds.h
+ /usr/local/include/Wt/Auth/Dbo/AuthInfo Bridge.h BridgeUserIds.h
 
 /usr/include/stdc-predef.h:
 
@@ -4832,6 +4833,10 @@ test_SingleGroupsControl.o: SingleGroupsControl.C \
 
 /usr/local/include/boost/cerrno.hpp:
 
+/usr/local/include/Wt/WFileUpload:
+
+/usr/local/include/Wt/Utils:
+
 SingleGroupsControl.h:
 
 /usr/local/include/boost/system/system_error.hpp:
@@ -4867,7 +4872,5 @@ User.h:
 /usr/local/include/Wt/Auth/Dbo/AuthInfo:
 
 Bridge.h:
-
-Light.h:
 
 BridgeUserIds.h:

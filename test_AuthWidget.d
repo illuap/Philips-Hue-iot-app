@@ -1518,8 +1518,7 @@ test_AuthWidget.o: AuthWidget.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/Dbo/Field_impl.h \
  /usr/local/include/Wt/Dbo/SqlTraits_impl.h \
  /usr/local/include/boost/algorithm/string/find.hpp \
- /usr/local/include/Wt/Dbo/Session_impl.h Bridge.h Light.h \
- BridgeUserIds.h
+ /usr/local/include/Wt/Dbo/Session_impl.h Bridge.h BridgeUserIds.h
 
 /usr/include/stdc-predef.h:
 
@@ -4778,7 +4777,5 @@ User.h:
 /usr/local/include/Wt/Dbo/Session_impl.h:
 
 Bridge.h:
-
-Light.h:
 
 BridgeUserIds.h:

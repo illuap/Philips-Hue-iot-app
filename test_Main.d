@@ -1510,9 +1510,8 @@ test_Main.o: Main.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/Dbo/Field_impl.h \
  /usr/local/include/Wt/Dbo/SqlTraits_impl.h \
  /usr/local/include/boost/algorithm/string/find.hpp \
- /usr/local/include/Wt/Dbo/Session_impl.h Bridge.h Light.h \
- BridgeUserIds.h LightsControl.h \
- /usr/local/include/boost/system/system_error.hpp \
+ /usr/local/include/Wt/Dbo/Session_impl.h Bridge.h BridgeUserIds.h \
+ LightsControl.h /usr/local/include/boost/system/system_error.hpp \
  /usr/local/include/boost/system/error_code.hpp \
  /usr/local/include/boost/system/config.hpp \
  /usr/local/include/boost/system/api_config.hpp \
@@ -1520,7 +1519,7 @@ test_Main.o: Main.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/WSound /usr/local/include/Wt/WMediaPlayer \
  /usr/local/include/Wt/WCompositeWidget GroupsControl.h \
  SingleGroupsControl.h BridgeEditControl.h SchedulerControl.h \
- SingleSchedulerControl.h
+ SingleSchedulerControl.h GroupsSchedulerControl.h
 
 /usr/include/stdc-predef.h:
 
@@ -4758,8 +4757,6 @@ User.h:
 
 Bridge.h:
 
-Light.h:
-
 BridgeUserIds.h:
 
 LightsControl.h:
@@ -4791,3 +4788,5 @@ BridgeEditControl.h:
 SchedulerControl.h:
 
 SingleSchedulerControl.h:
+
+GroupsSchedulerControl.h:
