@@ -1,8 +1,15 @@
-/*
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium
- *
- * See the LICENSE file for terms of use.
- */
+/** @file HueApp.C
+*  @brief the main application
+*
+*   Handles the main web application when it comes down to handling the routing, 
+*   main view, authorization, login and loading other content of our web application.
+*
+*  @author Paul Li
+*  @author Weija Zhou
+*  @author Daniel Le
+*  @author Nicole Chow
+*  @date Nov 28, 2017
+*/
 
 #include <Wt/WAnchor>
 #include <Wt/WText>
@@ -17,6 +24,13 @@
 
 using namespace Wt;
 
+/** @brief Constructor for HueApp.
+ *
+ *  The initialization of variables throughout our application. Also adding
+ *  the overall layout for all the pages (the title). 
+ *  
+ *  @param parent takes in the parrent widget for the Hue App.
+ */
 HueApp::HueApp(WContainerWidget *parent):
   WContainerWidget(parent),
   the_Lights(0),
@@ -27,8 +41,6 @@ HueApp::HueApp(WContainerWidget *parent):
   the_Schedulers(0),
   the_SingleSchedulers(0),
   the_GroupSchedulers(0)
-
-
 
 {
   session_.login().changed().connect(this, &HueApp::onAuthEvent);
@@ -51,46 +63,41 @@ HueApp::HueApp(WContainerWidget *parent):
   mainStack_->setStyleClass("gamestack");
   addWidget(mainStack_);
 
-  // links_ = new WContainerWidget();
-  // links_->setStyleClass("links");
-  // links_->hide();
-  // addWidget(links_);
-
-/*
-  backToGameAnchor_ = new WAnchor("/lights", "Lights1", links_);
-  backToGameAnchor_->setLink(WLink(WLink::InternalPath, "/lights"));
-*/
- 
-
   WApplication::instance()->internalPathChanged()
     .connect(this, &HueApp::handleInternalPath);
 
   authWidget->processEnvironment();
-  
 }
 
+/** @brief Checks if the user is logged in and will redirect you accordingly
+ *
+ *  Checks the session to see if anyone is logged in. If not it will clear all the widgets that
+ *  might have been made before and bring you back to the login page. 
+ */
 void HueApp::onAuthEvent()
 {
   if (session_.login().loggedIn()) {  
-    // links_->show();
     handleInternalPath(WApplication::instance()->internalPath());
   } else {
     mainStack_->clear();
     the_Lights = 0;
     the_Bridge = 0;
-	the_Groups = 0;
-	the_SingleGroups = 0;
-	the_BridgeEdit = 0;
-     the_Schedulers = 0;
-  the_SingleSchedulers = 0;
+    the_Groups = 0;
+    the_SingleGroups = 0;
+    the_BridgeEdit = 0;
+    the_Schedulers = 0;
+    the_SingleSchedulers = 0;
     the_GroupSchedulers = 0; 
- 
 
-
-    // links_->hide();
   }
 }
 
+/** @brief Checks the url to redirect you to the correct page.
+ *
+ *  Checks the path in the url and wil create and load the widget accordingly if you are logged in.
+ *  
+ *  @param internalPath the url path.
+ */
 void HueApp::handleInternalPath(const std::string &internalPath)
 {
   if (session_.login().loggedIn()) {
@@ -115,6 +122,10 @@ void HueApp::handleInternalPath(const std::string &internalPath)
   }
 }
 
+/** @brief Load Lights page.
+ *
+ *  Will redirect the user and create the widget for the lights page to display the content.
+ */
 void HueApp::showLights()
 {
   if (!the_Lights)
@@ -122,20 +133,24 @@ void HueApp::showLights()
 
   mainStack_->setCurrentWidget(the_Lights);
   the_Lights->update();
-
-  // hueLights_->addStyleClass("selected-link");
 }
 
+/** @brief Load Brige page.
+ *
+ *  Will redirect the user and create the widget for the bridge page to display the content.
+ */
 void HueApp::showBridge(){
   if (!the_Bridge)
     the_Bridge = new BridgeControlWidget(&session_, mainStack_);
 
   mainStack_->setCurrentWidget(the_Bridge);
   the_Bridge->update();
-
-  // hueLights_->removeStyleClass("selected-link");
 }
 
+/** @brief Load groups page.
+ *
+ *  Will redirect the user and create the widget for the groups page to display the content.
+ */
 void HueApp::showGroups()
 {
 	if (!the_Groups)
@@ -143,10 +158,12 @@ void HueApp::showGroups()
 
 	mainStack_->setCurrentWidget(the_Groups);
 	the_Groups->update();
-
-	// hueLights_->addStyleClass("selected-link");
 }
 
+/** @brief Load Single Groups page.
+ *
+ *  Will redirect the user and create the widget for the Single Groups page to display the content.
+ */
 void HueApp::showSingleGroups()
 {
 	if (!the_SingleGroups)
@@ -154,10 +171,12 @@ void HueApp::showSingleGroups()
 
 	mainStack_->setCurrentWidget(the_SingleGroups);
 	the_SingleGroups->update();
-
-	// hueLights_->addStyleClass("selected-link");
 }
 
+/** @brief Load edit bridge page.
+ *
+ *  Will redirect the user and create the widget for the edit bridge page to display the content.
+ */
 void HueApp::showBridgeEdit()
 {
 	if (!the_BridgeEdit)
@@ -165,18 +184,22 @@ void HueApp::showBridgeEdit()
 
 	mainStack_->setCurrentWidget(the_BridgeEdit);
 	the_BridgeEdit->update();
-
-	// hueLights_->addStyleClass("selected-link");
 }
+/** @brief Load scheduler page.
+ *
+ *  Will redirect the user and create the widget for the scheduler page to display the content.
+ */
 void HueApp::showSchedulers(){
   if (!the_Schedulers)
     the_Schedulers = new SchedulerControlWidget(&session_, mainStack_);
 
   mainStack_->setCurrentWidget(the_Schedulers);
   the_Schedulers->update();
-
-  // hueLights_->addStyleClass("selected-link");
 }
+/** @brief Load single scheduler page.
+ *
+ *  Will redirect the user and create the widget for the single scheduler page to display the content.
+ */
 void HueApp::showSingleSchedulers(){
   if (!the_Schedulers)
     the_SingleSchedulers = new SingleSchedulerControlWidget(&session_, mainStack_);
@@ -184,16 +207,16 @@ void HueApp::showSingleSchedulers(){
   mainStack_->setCurrentWidget(the_SingleSchedulers);
   the_SingleSchedulers->update();
 
-  // hueLights_->addStyleClass("selected-link");
-
 }
+/** @brief Load group scheduler page.
+ *
+ *  Will redirect the user and create the widget for the group scheduler page to display the content.
+ */
 void HueApp::showGroupScheduler(){
   if (!the_Schedulers)
     the_GroupSchedulers = new GroupsSchedulerControlWidget(&session_, mainStack_);
 
   mainStack_->setCurrentWidget(the_GroupSchedulers);
   the_GroupSchedulers->update();
-
-  // hueLights_->addStyleClass("selected-link");
 
 }

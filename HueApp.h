@@ -1,10 +1,3 @@
-// This may look like C code, but it's really -*- C++ -*-
-/* 
- * Copyright (C) 2011 Emweb bvba, Heverlee, Belgium
- *
- * See the LICENSE file for terms of use.
- */
-
 #include <Wt/WContainerWidget>
 
 #include "Session.h"
@@ -59,10 +52,7 @@ private:
   SingleSchedulerControlWidget * the_SingleSchedulers; 
   GroupsSchedulerControlWidget * the_GroupSchedulers; 
 
-  // Wt::WContainerWidget *links_;
   Wt::WAnchor *backToGameAnchor_;
-
-
 
   Session session_;
 
