@@ -36,7 +36,7 @@ class GroupsControlWidget;
 class SingleGroupsControlWidget;
 class BridgeEditControlWidget;
 class SchedulerControlWidget;
-class SingleSchedulerContrlWidget;
+class SingleSchedulerControllWidget;
 
 
 class HueApp : public Wt::WContainerWidget
