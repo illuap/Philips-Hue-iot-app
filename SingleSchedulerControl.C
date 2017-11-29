@@ -1,3 +1,9 @@
+/** @file SchedulerControl.C
+*  @brief Application for creating and listing schedules
+*  @author Weija Zhou
+*  @date Nov 28, 2017
+*/
+
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string.hpp>
 #include <Wt/WText>
