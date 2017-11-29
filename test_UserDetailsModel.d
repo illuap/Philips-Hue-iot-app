@@ -1372,7 +1372,7 @@ test_UserDetailsModel.o: UserDetailsModel.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/Dbo/Field_impl.h \
  /usr/local/include/Wt/Dbo/SqlTraits_impl.h \
  /usr/local/include/boost/algorithm/string/find.hpp \
- /usr/local/include/Wt/Dbo/Session_impl.h Bridge.h Light.h Session.h \
+ /usr/local/include/Wt/Dbo/Session_impl.h Bridge.h Session.h \
  /usr/local/include/Wt/Auth/Login /usr/local/include/Wt/WSignal \
  /usr/local/include/boost/intrusive/list.hpp \
  /usr/local/include/boost/intrusive/detail/config_begin.hpp \
@@ -4423,8 +4423,6 @@ User.h:
 /usr/local/include/Wt/Dbo/Session_impl.h:
 
 Bridge.h:
-
-Light.h:
 
 Session.h:
 

@@ -1507,7 +1507,7 @@ test_BridgeEditControl.o: BridgeEditControl.C /usr/include/stdc-predef.h \
  /usr/local/include/Wt/Dbo/WtSqlTraits /usr/local/include/Wt/WDate \
  /usr/local/include/Wt/WDateTime /usr/local/include/Wt/WTime \
  /usr/local/include/Wt/Json/Array /usr/local/include/Wt/Json/Serializer \
- Light.h User.h /usr/local/include/Wt/Auth/Dbo/AuthInfo \
+ User.h /usr/local/include/Wt/Auth/Dbo/AuthInfo \
  /usr/local/include/Wt/Auth/User /usr/local/include/Wt/Auth/Token \
  /usr/local/include/Wt/Auth/PasswordHash /usr/local/include/Wt/Dbo/Dbo \
  /usr/local/include/Wt/Dbo/Impl \
@@ -4740,8 +4740,6 @@ Bridge.h:
 /usr/local/include/Wt/Json/Array:
 
 /usr/local/include/Wt/Json/Serializer:
-
-Light.h:
 
 User.h:
 

@@ -52,6 +52,35 @@ void LightsControlWidget::update()
   endPos = subString.find("&");
   port = subString.substr(0, endPos);
 
+  //go back to bridge page
+  WPushButton *returnButton
+	  = new WPushButton("Return To Bridge", this);
+
+  //edit bridge
+  WPushButton *editButton
+	  = new WPushButton("Edit This Bridge", this);
+  editButton->setLink("/?_=/editbridge?ip=" + ip + "%26port=" + port);
+  
+  //delete bridge
+  WPushButton *deleteButton
+	  = new WPushButton("Delete This Bridge", this);
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());
+
+  //go to the groups page
+  WPushButton *groupButton
+	  = new WPushButton("Go to My Groups", this);
+  groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+  groupButton->setMargin(10, Left);
+
+  //go to the Schedule page
+  WPushButton *schedulerButton
+	  = new WPushButton("Scheduler", this);
+  schedulerButton->setLink("/?_=/scheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port);
+  schedulerButton->setMargin(10, Left);
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());
+
   //get lights information to display 
   Http::Client *client = LightsControlWidget::connect();
   client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseName, this, _1, _2));
@@ -161,37 +190,47 @@ void LightsControlWidget::update()
   transitionScaleSlider_->setTickPosition(Wt::WSlider::TicksBothSides);
   transitionScaleSlider_->resize(300, 50);
   this->addWidget(new WText("  20 (2 seconds)"));
-
   this->addWidget(new WBreak());                       
   this->addWidget(new WBreak());
+
+  //create custom mode
+  this->addWidget(new WText("Create custom mode with above slider values (Max 1 custom mode can exist at a time,): "));
+  this->addWidget(new WBreak());
+  WPushButton *customButton
+	  = new WPushButton("Create", this);
+  customButton->setMargin(10, Left);
+  this->addWidget(new WBreak());
+  this->addWidget(new WBreak());
+
+  //check if there is a custom mode
+  User *temp = session_->getUser();
+  string mode = temp->customMode;
+  if (mode.find(".") != string::npos) {
+	  //get custom values
+	  endPos = mode.find(".");									//get hue
+	  customHue = mode.substr(0, endPos);
+	  pos = mode.find(".");										//get saturation							
+	  subString = mode.substr(pos + 1);
+	  endPos = subString.find("+");
+	  customSat = subString.substr(0, endPos);
+	  pos = mode.find("+");										//get brightness
+	  customBri = mode.substr(pos + 1);
+
+	  //create button for the custom mode
+	  this->addWidget(new WText("Custom Mode: "));
+	  WPushButton *modeButton
+		  = new WPushButton("My Custom Mode", this);
+	  modeButton->clicked().connect(this, &LightsControlWidget::customMode);
+	  (boost::bind(&LightsControlWidget::customMode, this));
+	  this->addWidget(new WBreak());
+	  this->addWidget(new WBreak());
+  }
+
   light_ = new WText(this);                           //displays which light is being changed
   this->addWidget(new WBreak());
   change_ = new WText(this);                          //displays the status of a light change
-  this->addWidget(new WBreak());
 
-  //go to the groups page
-  WPushButton *groupButton						
-	  = new WPushButton("Go to My Groups", this);
-  groupButton->setLink("/?_=/group?user=" + userID + "%26ip=" + ip + "%26port=" + port);
-  groupButton->setMargin(10, Left);
-
-  //go to the Schedule page
-  WPushButton *schedulerButton            
-    = new WPushButton("Scheduler", this);
-  schedulerButton->setLink("/?_=/scheduler?user=" + userID + "%26ip=" + ip + "%26port=" + port);
-  schedulerButton->setMargin(10, Left);
-
-  //go back to bridge page
-  WPushButton *returnButton							
-	  = new WPushButton("Return To Bridge", this);
-  this->addWidget(new WBreak());
-  this->addWidget(new WBreak());
-  WPushButton *editButton
-	  = new WPushButton("Edit This Bridge", this);
-  editButton->setLink("/?_=/editbridge?ip=" + ip + "%26port=" + port);
-  WPushButton *deleteButton
-	  = new WPushButton("Delete This Bridge",this);
-
+  customButton->clicked().connect(this, &LightsControlWidget::customCreate);
   onButton->clicked().connect(this, &LightsControlWidget::on);
   nameButton->clicked().connect(this, &LightsControlWidget::name);
   offButton->clicked().connect(this, &LightsControlWidget::off);
@@ -205,6 +244,8 @@ void LightsControlWidget::update()
   transitionScaleSlider_->valueChanged().connect(this, &LightsControlWidget::transition);
   deleteButton->clicked().connect(this, &LightsControlWidget::deleteBridge);
 
+  (boost::bind(&LightsControlWidget::customCreate, this));
+  (boost::bind(&LightsControlWidget::customMode, this));
   (boost::bind(&LightsControlWidget::transition, this));
   (boost::bind(&LightsControlWidget::hue, this));
   (boost::bind(&LightsControlWidget::name, this));
@@ -288,7 +329,7 @@ void LightsControlWidget::handleHttpResponse(boost::system::error_code err, cons
 		endPos = subString.find(",");
 		string hue = subString.substr(0, endPos);
 
-		///< show light's values on the sliders
+		//show light's values on the sliders
 		hueScaleSlider_->setValue(stoi(hue));
 		satScaleSlider_->setValue(stoi(sat));
 		briScaleSlider_->setValue(stoi(bri));
@@ -363,6 +404,37 @@ void LightsControlWidget::name() {
 		}
 	}
 }
+
+void LightsControlWidget::customCreate() {
+	int hueInput = hueScaleSlider_->value();
+	int satInput = satScaleSlider_->value();
+	int briInput = briScaleSlider_->value();
+	string newMode = to_string(hueInput) + "." + to_string(satInput) + "+" + to_string(briInput);
+	User *temp = session_->getUser();
+	temp->customMode = newMode;
+	session_->updateUser(temp);
+	change_->setText("Custom mode created");
+	clear();
+	update();
+}
+
+void LightsControlWidget::customMode() {
+	//if a light is not selected, display an error message 
+	change_->setText("");
+	if (currentLight.compare("0") == 0) {
+		light_->setText("Please select a light to change");
+	}
+	else {
+		//send a put request to change light to the custom mode
+		Http::Client *client = LightsControlWidget::connect();
+		Http::Message *msg = new Http::Message();
+		msg->addBodyText("{\"on\" : true , \"sat\" : \"" + customSat + "\" , \"hue\" : \"" + customHue + "\" , \"bri\" : \"" + customBri + "\"}");
+		client->done().connect(boost::bind(&LightsControlWidget::handleHttpResponseVOID, this, _1, _2));
+		client->put("http://" + ip + ":" + port + "/api/" + userID + "/lights/" + currentLight + "/state", *msg);
+		change_->setText("Custom Mode ON");
+	}
+}
+
 
 void LightsControlWidget::on() {
 	//if a light is not selected, display an error message 
