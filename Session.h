@@ -53,8 +53,8 @@ public:
    * These methods deal with the currently logged in user
    */
   std::string userName() const;
-  std::string firstName() const;
-  std::string lastName() const;
+  std::string firstName();
+  std::string lastName();
 
   //-------------------------
   //---------User DB--------

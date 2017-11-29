@@ -46,10 +46,10 @@ builddir = .
 
 all: $(builddir)/test
 
-$(builddir)/test: $(builddir)/test_AuthWidget.o $(builddir)/test_RegistrationView.o $(builddir)/test_UserDetailsModel.o $(builddir)/test_SingleSchedulerControl.o $(builddir)/test_SchedulerControl.o $(builddir)/test_BridgeEditControl.o $(builddir)/test_SingleGroupsControl.o $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o
-	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_UserDetailsModel.o $(builddir)/test_RegistrationView.o $(builddir)/test_AuthWidget.o $(builddir)/test_SingleSchedulerControl.o $(builddir)/test_SchedulerControl.o $(builddir)/test_BridgeEditControl.o $(builddir)/test_SingleGroupsControl.o $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
+$(builddir)/test: $(builddir)/test_AuthWidget.o $(builddir)/test_RegistrationView.o $(builddir)/test_UserDetailsModel.o $(builddir)/test_GroupsSchedulerControl.o $(builddir)/test_SingleSchedulerControl.o $(builddir)/test_SchedulerControl.o $(builddir)/test_BridgeEditControl.o $(builddir)/test_SingleGroupsControl.o $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o
+	$(CXX) -o $@ $(LDFLAGS) $(builddir)/test_UserDetailsModel.o $(builddir)/test_RegistrationView.o $(builddir)/test_AuthWidget.o $(builddir)/test_GroupsSchedulerControl.o $(builddir)/test_SingleSchedulerControl.o $(builddir)/test_SchedulerControl.o $(builddir)/test_BridgeEditControl.o $(builddir)/test_SingleGroupsControl.o $(builddir)/test_GroupsControl.o $(builddir)/test_BridgeControl.o $(builddir)/test_LightsControl.o $(builddir)/test_HueApp.o $(builddir)/test_Main.o $(builddir)/test_Session.o $(builddir)/test_User.o -lwt -lwthttp -lboost_system -lwtdbo -lwtdbosqlite3 -lcrypt -pthread
 
-$(builddir)/test_HueApp.o: HueApp.C
+$(builddir)/test_HueApp.o: HueApp.C 
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread HueApp.C
 
 $(builddir)/test_Main.o: Main.C
@@ -78,6 +78,9 @@ $(builddir)/test_SingleSchedulerControl.o: SingleSchedulerControl.C
 
 $(builddir)/test_SchedulerControl.o: SchedulerControl.C
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread SchedulerControl.C 
+
+$(builddir)/test_GroupsSchedulerControl.o: GroupsSchedulerControl.C
+	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread GroupsSchedulerControl.C 
 
 $(builddir)/test_AuthWidget.o: AuthWidget.C
 	$(CXX) -c -o $@ $(CPPFLAGS) $(CFLAGS) -MD -MP -pthread AuthWidget.C 
