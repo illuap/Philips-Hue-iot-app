@@ -98,6 +98,9 @@ void Session::configureAuth()
 #endif
 
   myPasswordService.setVerifier(verifier);
+  Auth::PasswordStrengthValidator *strengthValid = new Auth::PasswordStrengthValidator();
+  strengthValid->setMinimumLength(Wt::Auth::PasswordStrengthValidator::PasswordType::TwoCharClass, 8);
+  myPasswordService.setStrengthValidator(strengthValid);
   myPasswordService.setAttemptThrottlingEnabled(true);
 
   if (Auth::GoogleService::configured())
